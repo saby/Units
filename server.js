@@ -4,7 +4,6 @@ var path = require('path'),
    connect = require('connect'),
    http = require('http'),
    serveStatic = require('serve-static'),
-   config = require('./etc/config'),
    testList = require('./lib/unit').test;
 
 /**
