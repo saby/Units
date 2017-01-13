@@ -1,0 +1,7 @@
+{
+  "root": "",
+  "tests": "./test",
+  "ws": "./ws",
+  "resources": "./resources",
+  "saveToFile": true
+}

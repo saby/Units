@@ -1,0 +1,30 @@
+{
+  "name": "ws-unit-testing",
+  "version": "3.7.5",
+  "repository": {
+    "type": "git",
+    "url": "git@git.sbis.ru:ws/unit-testing.git"
+  },
+  "scripts": {
+    "postinstall": "node node_modules/selenium-standalone/bin/selenium-standalone install",
+    "build": "node scripts/build",
+    "isolated": "node scripts/mocha -t 10000 isolated.run",
+    "browser": "node scripts/mocha -t 10000 isolated.run",
+    "coverage": "node scripts/coverage coverage.run"
+  },
+  "config": {
+    "port": 1024
+  },
+  "dependencies": {
+    "requirejs": "2.2.0",
+    "connect": "3.4.1",
+    "serve-static": "1.11.1",
+    "mocha": "2.2.5",
+    "chai": "3.5.0",
+    "istanbul": "0.4.3",
+    "selenium-standalone": "4.4.2",
+    "webdriverio": "2.4.5"
+  },
+  "devDependencies": {
+  }
+}

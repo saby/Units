@@ -1,0 +1,10 @@
+#!/bin/sh
+basedir=$(dirname "$(echo "$0" | sed -e 's,\\,/,g')")
+
+case `uname` in
+    *CYGWIN*) basedir=`cygpath -w "$basedir"`;;
+esac
+
+node -v
+node "$basedir/../list.build"
+node "$basedir/../scripts/queue" "$basedir/../scripts/app" "$basedir/../browser.run"
