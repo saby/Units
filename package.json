@@ -13,7 +13,6 @@
     "coverage": "node scripts/coverage coverage.run"
   },
   "config": {
-    "port": 1024
   },
   "dependencies": {
     "requirejs": "2.2.0",

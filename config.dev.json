@@ -1,7 +1,0 @@
-{
-  "root": "./",
-  "tests": "test",
-  "ws": "WS.Core/ws",
-  "resources": "WS.Data",
-  "saveToFile": false
-}

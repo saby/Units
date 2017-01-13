@@ -1,4 +1,4 @@
-var fromEnv = require('./lib/util').config.fromEnv,
+var fromEnv = require('./../lib/util').config.fromEnv,
    envType = process.env.TEST_ENV === undefined ? 'dev' : process.env.TEST_ENV,
    config = require('./config.' + envType);
 
