@@ -11,8 +11,7 @@
     "host": "localhost",
     "port": 4444,
     "desiredCapabilities": {
-      "browserName": "chrome",
-      "version": ""
+      "browserName": "chrome"
     }
   }
 }
