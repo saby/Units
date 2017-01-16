@@ -1,6 +1,6 @@
 verbose: false
 instrumentation:
-    root: ../../WS.Data
+    root: ./
     extensions:
         - .js
     default-excludes: true
@@ -19,7 +19,7 @@ reporting:
     print: summary
     reports:
         - lcov
-    dir: ./artifacts/coverage
+    dir: ./report
     watermarks:
         statements: [50, 80]
         lines: [50, 80]

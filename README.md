@@ -1,4 +1,4 @@
-# UNIT-тесты системы типов
+# UNIT-тесты в окружении WS
 
 ## [Запуск через браузер](http://localhost:1024/util/tests/unit/browser.html)
 

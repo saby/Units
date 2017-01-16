@@ -1,17 +1,15 @@
 #!/usr/bin/env node
 
 /**
- * This wrapper runs coverage in valid environment
+ * This wrapper runs mocha in valid environment.
+ * Usage:
+ * node node_modules/ws-unit-testing/mocha -t 10000 -R path/to/your/test/runner.js
  */
 
 var spawn = require('child_process').spawn,
    path = require('path'),
    fs = require('fs'),
-   args = [
-      path.join(__dirname, '../node_modules/istanbul/lib/cli'),
-      'cover',
-      path.join(__dirname, '../node_modules/mocha/bin/_mocha')
-   ];
+   args = [path.join(__dirname, 'node_modules/mocha/bin/mocha')];
 
 args.push.apply(args, process.argv.slice(2));
 

@@ -6,11 +6,7 @@
     "url": "git@git.sbis.ru:ws/unit-testing.git"
   },
   "scripts": {
-    "postinstall": "node node_modules/selenium-standalone/bin/selenium-standalone install",
-    "build": "node scripts/build",
-    "isolated": "node scripts/mocha -t 10000 isolated.run",
-    "browser": "node scripts/mocha -t 10000 isolated.run",
-    "coverage": "node scripts/coverage coverage.run"
+    "postinstall": "node node_modules/selenium-standalone/bin/selenium-standalone install"
   },
   "config": {
   },
