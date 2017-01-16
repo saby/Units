@@ -22,7 +22,7 @@
     "chai": "3.5.0",
     "istanbul": "0.4.5",
     "selenium-standalone": "5.10.0",
-    "webdriverio": "2.5.x"
+    "webdriverio": "4.5.x"
   },
   "devDependencies": {
   }
