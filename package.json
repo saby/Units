@@ -1,5 +1,11 @@
 {
   "name": "ws-unit-testing",
+  "description": "Unit testing library for WS",
+  "keywords": [
+    "test",
+    "testing",
+    "ws"
+  ],
   "version": "3.7.5",
   "repository": {
     "type": "git",
