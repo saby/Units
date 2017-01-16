@@ -33,6 +33,10 @@ proc.on('exit', function (code, signal) {
    });
 });
 
+process.on('exit', function(code) {
+   code = process.exitCode = 0;
+});
+
 // terminate children.
 process.on('SIGINT', function () {
    proc.kill('SIGINT');
