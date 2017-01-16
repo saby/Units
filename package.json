@@ -8,8 +8,6 @@
   "scripts": {
     "postinstall": "node node_modules/selenium-standalone/bin/selenium-standalone install"
   },
-  "config": {
-  },
   "dependencies": {
     "requirejs": "2.2.0",
     "connect": "3.4.1",
