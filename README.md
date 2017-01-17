@@ -15,7 +15,7 @@
 
     npm install
 
-Все файлы ниже должны создаваться в корневой папке вашего модуля.
+Все файлы в примерах ниже должны создаваться в корневой папке вашего модуля.
 
 ## Запуск под Node.js
 1. Создать файл, запускающий тесты `testing-node.js`:
@@ -111,7 +111,7 @@
 
 Доступные переменные окружения:
 
-`WEBDRIVER_remote_enabled` - запускать на удаленном Selenium grid (по умолчанию - `0`, если указать `1`, то в `testing-browser.js` следует указать реальное имя хоста вместо `localhost`)
+`WEBDRIVER_remote_enabled` - запускать на удаленном Selenium grid (по умолчанию - `0`; если заменить на `1`, то в `testing-browser.js` следует указать реальное имя хоста, на котором запущена сборка, вместо `localhost`)
 
 `WEBDRIVER_remote_host` - хост, на котором запущен Selenium grid (по умолчанию - `localhost`)
 
@@ -130,12 +130,14 @@
 +Выполнить команду Windows (для тестирования под Node.js + отчет о покрытии)
 
     call npm config set registry http://npmregistry.sbis.ru:81/
+    call npm install
     call node node_modules/ws-unit-testing/mocha -t 10000 -R xunit testing-node
     call node node_modules/ws-unit-testing/cover testing-node
 
 +Выполнить команду Windows (для тестирования через webdriver + отчет о покрытии)
 
     call npm config set registry http://npmregistry.sbis.ru:81/
+    call npm install
     call node node_modules/ws-unit-testing/queue testing-server testing-browser
     call node node_modules/ws-unit-testing/cover testing-node
 
