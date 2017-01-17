@@ -12,7 +12,3 @@ exports.run = function (url, report) {
    };
    require('./lib/browser').run(config);
 };
-
-process.on('exit', function(code) {
-   code = process.exitCode = 0;
-});
