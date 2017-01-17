@@ -1,18 +1,24 @@
 # UNIT-тесты в окружении WS
-Подключить модуль в виде зависимости в файле package.json вашего модуля:
+
+## Требования к вашему модулю
+1. В корне модуля должны находиться файлы `contents.js` и `contents.json`.
+2. Файлы тестов должны именоваться по маске `*.test.js`
+
+## Настройка
+Подключить модуль `ws-unit-testing` в виде зависимости в файле `package.json` вашего модуля:
 
     "dependencies": {
         "ws-unit-testing": "git+https://git.sbis.ru/ws/unit-testing.git#development"
     }
 
-И установить:
+И установить его:
 
     npm install
 
-В корне вашго модуля должен находиться файл contents.js.
+Все файлы ниже должны создаваться в корневой папке вашего модуля.
 
 ## Запуск под Node.js
-1. Создать файл, запускающий тесты (testing-node.js):
+1. Создать файл, запускающий тесты `testing-node.js`:
 
         var path = require('path'),
            app = require('ws-unit-testing/isolated');
@@ -21,7 +27,7 @@
            path.join(process.cwd(), 'WS.Core'),//Путь до ядра WS
            process.cwd(),//Путь к папке модуля
            //'test'//Можно указать путь к папке с тестами (относительно папки модуля)
-           //'artifacts/xunit-report.xml'//Можно задать файл, в который сбросить отчет
+           //'artifacts/xunit-report.xml'//Можно задать файл, в который следует сохранить отчет
         );
 
 2. Запустить тесты:
@@ -29,8 +35,11 @@
         node node_modules/ws-unit-testing/mocha -t 10000 testing-node
 
 ## Генерация отчета о покрытии под Node.js
-1. Скопировать в корневой каталог вашего модуля файл настроек .istanbul.yml (образец есть в корне этого модуля).
-2. В параметре reporting.dir указать папку, в которой будет сгенерирован отчет.
+1. Скопировать в корневой каталог вашего модуля файл настроек `.istanbul.yml` (образец есть в корне этого модуля).
+2. В параметре `reporting.dir` указать папку, в которой будет сгенерирован отчет. Например:
+
+        dir: ./artifacts/coverage
+
 3. Запустить генерацию отчета:
 
         node node_modules/ws-unit-testing/cover testing-node
@@ -38,7 +47,7 @@
 4. В указанной папке появится отчет в формате HTML.
 
 ## Запуск через браузер
-1. Создать файл, запускающий локальный http-сервер (testing-server.js):
+1. Создать файл, запускающий локальный http-сервер со страницей тестирования `testing-server.js`:
 
         var path = require('path'),
            app = require('ws-unit-testing/server');
@@ -54,17 +63,17 @@
 
         node testing-server
 
-3. Перейти на [страницу тестирования](http://localhost:777/) (номер порта заменить на указанный в testing-server.js).
+3. Перейти на [страницу тестирования](http://localhost:777/) (номер порта заменить на указанный в `testing-server.js`).
 
 ## Запуск через Selenium webdriver
-1. Создать файл, запускающий тесты через webdriver (testing-webdriver.js):
+1. Создать файл, запускающий тесты через webdriver `testing-browser.js`:
 
         var path = require('path'),
            app = require('ws-unit-testing/browser');
 
         app.run(
            'http://localhost:777/?reporter=XUnit',//URL страницы тестирования
-           'artifacts/xunit-report.xml'//Файл, в который сбросить отчет
+           'artifacts/xunit-report.xml'//Файл, в который следует сохранить отчет
         );
 
 
@@ -74,7 +83,7 @@
 
 3. Запустить тестирование:
 
-        node testing-webdriver
+        node testing-browser
 
 
 # Интеграция с Jenkins
@@ -102,13 +111,13 @@
 
 Доступные переменные окружения:
 
-`WEBDRIVER_remote_enabled` - запускать на удаленном Selenium grid (по умолчанию - 0)
+`WEBDRIVER_remote_enabled` - запускать на удаленном Selenium grid (по умолчанию - `0`, если указать `1`, то в `testing-browser.js` следует указать реальное имя хоста вместо `localhost`)
 
-`WEBDRIVER_remote_host` - хост, на котором запущен Selenium grid (по умолчанию - localhost)
+`WEBDRIVER_remote_host` - хост, на котором запущен Selenium grid (по умолчанию - `localhost`)
 
-`WEBDRIVER_remote_port` - порт, на котором запущен Selenium grid (по умолчанию - 4444)
+`WEBDRIVER_remote_port` - порт, на котором запущен Selenium grid (по умолчанию - `4444`)
 
-`WEBDRIVER_remote_desiredCapabilities_browserName` - браузер, в котором будут проводится тесты (по умолчанию - chrome)
+`WEBDRIVER_remote_desiredCapabilities_browserName` - браузер, в котором будут проводится тесты (по умолчанию - `chrome`)
 
 `WEBDRIVER_remote_desiredCapabilities_version` - версия бразузера, в которой будут проводится тесты
 
@@ -118,10 +127,16 @@
     Time-out actions: Abort the build
 
 ## Сборка
-+Выполнить команду Windows (для тестирования в браузере через Selenium вместо testing-node.js использовать testing-webdriver.js)
++Выполнить команду Windows (для тестирования под Node.js + отчет о покрытии)
 
     call npm config set registry http://npmregistry.sbis.ru:81/
     call node node_modules/ws-unit-testing/mocha -t 10000 -R xunit testing-node
+    call node node_modules/ws-unit-testing/cover testing-node
+
++Выполнить команду Windows (для тестирования через webdriver + отчет о покрытии)
+
+    call npm config set registry http://npmregistry.sbis.ru:81/
+    call node node_modules/ws-unit-testing/queue testing-server testing-browser
     call node node_modules/ws-unit-testing/cover testing-node
 
 ## Послесборочные операции
