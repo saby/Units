@@ -77,15 +77,11 @@
         );
 
 
-2. Установить и настроить webdriver:
-
-        npm run webdriver
-
-3. Запустить сервер:
+2. Запустить сервер:
 
         node testing-server
 
-4. Запустить тестирование:
+3. Запустить тестирование:
 
         node testing-browser
 
