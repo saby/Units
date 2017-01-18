@@ -14,11 +14,11 @@ var path = require('path'),
  * @param {Number} port Порт
  */
 exports.run = function (ws, resources, tests, port) {
-   console.info('Starting unit testing HTTP server at port ' + port + ' for "' + resources + '"');
+   console.log('Starting unit testing HTTP server at port ' + port + ' for "' + resources + '"');
 
    var shutDown = function() {
          if (server) {
-            console.info('Stopping unit testing HTTP server at port ' + port + ' for "' + resources + '"');
+            console.log('Stopping unit testing HTTP server at port ' + port + ' for "' + resources + '"');
             server.close();
          }
          server = null;
@@ -41,7 +41,7 @@ exports.run = function (ws, resources, tests, port) {
    server = http.createServer(app)
       .listen(port);
 
-   process.on('exit', function(code) {
+   process.on('exit', function() {
       shutDown();
    });
 
