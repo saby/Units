@@ -33,7 +33,7 @@ exports.run = function (ws, resources, tests, port) {
 
    server = http.createServer(app)
       .listen(port);
-   
+
    process.on('exit', function(code) {
       console.info('Stopping unit testing HTTP server at port ' + port + ' for "' + resources + '"');
       server.close();
