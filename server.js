@@ -16,7 +16,9 @@ var path = require('path'),
 exports.run = function (ws, resources, tests, port) {
    console.info('Starting unit testing HTTP server at port ' + port + ' for "' + resources + '"');
 
-   var app = connect();
+   var app = connect(),
+      server;
+
    app
       .use('/~test-list.js', function (req, res) {
          var list = testList.buildFile(
@@ -29,7 +31,16 @@ exports.run = function (ws, resources, tests, port) {
       .use('/~resources', serveStatic(resources))
       .use(serveStatic(__dirname));
 
-   http
-      .createServer(app)
+   server = http.createServer(app)
       .listen(port);
+   
+   process.on('exit', function(code) {
+      console.info('Stopping unit testing HTTP server at port ' + port + ' for "' + resources + '"');
+      server.close();
+      code = process.exitCode = 0;
+   });
+
+   process.on('SIGINT', function () {
+      process.exit(0);
+   });
 };
