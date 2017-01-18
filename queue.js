@@ -6,7 +6,6 @@
 
 var spawn = require('child_process').spawn,
    path = require('path'),
-   fs = require('fs'),
    scripts = process.argv.slice(2),
    processes = [],
    finished = [],

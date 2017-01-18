@@ -12,7 +12,8 @@
     "url": "git@git.sbis.ru:ws/unit-testing.git"
   },
   "scripts": {
-    "postinstall": "node node_modules/selenium-standalone/bin/selenium-standalone install"
+    "install-selenium": "npm install selenium-standalone@5.10.x && node node_modules/selenium-standalone/bin/selenium-standalone install",
+    "install-webdriver": "npm install webdriverio@3.4.x"
   },
   "dependencies": {
     "requirejs": "2.3.x",
@@ -20,9 +21,7 @@
     "serve-static": "1.11.x",
     "mocha": "3.2.x",
     "chai": "3.5.x",
-    "istanbul": "0.4.5",
-    "selenium-standalone": "5.10.x",
-    "webdriverio": "3.4.x"
+    "istanbul": "0.4.5"
   },
   "devDependencies": {
   }

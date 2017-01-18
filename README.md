@@ -77,11 +77,15 @@
         );
 
 
-2. Запустить сервер:
+2. Установить и настроить webdriver:
+
+        npm run webdriver
+
+3. Запустить сервер:
 
         node testing-server
 
-3. Запустить тестирование:
+4. Запустить тестирование:
 
         node testing-browser
 
@@ -138,6 +142,7 @@
 
     call npm config set registry http://npmregistry.sbis.ru:81/
     call npm install
+    call npm run webdriver
     call node node_modules/ws-unit-testing/queue testing-server testing-browser
     call node node_modules/ws-unit-testing/cover testing-node
 
