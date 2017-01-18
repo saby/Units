@@ -46,6 +46,7 @@ scripts.forEach(function(script, index) {
 // check latest finished child
 process.on('exit', function() {
    var last = finished.pop();
+   console.log(last);
    if (last) {
       if (last.signal) {
          process.kill(process.pid, last.signal);
@@ -58,6 +59,5 @@ process.on('exit', function() {
 // terminate children on exit.
 process.on('SIGINT', function () {
    finishEarly();
-   process.exit(0);
-   //process.kill(process.pid, 'SIGINT');
+   process.kill(process.pid, 'SIGINT');
 });

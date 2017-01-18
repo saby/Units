@@ -37,7 +37,6 @@ exports.run = function (ws, resources, tests, port) {
    process.on('exit', function(code) {
       console.info('Stopping unit testing HTTP server at port ' + port + ' for "' + resources + '"');
       server.close();
-      code = process.exitCode = 0;
    });
 
    process.on('SIGINT', function () {
