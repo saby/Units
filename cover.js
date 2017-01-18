@@ -24,17 +24,18 @@ var proc = spawn(
 );
 
 proc.on('exit', function (code, signal) {
-   process.on('exit', function(code) {
-      code = process.exitCode = 0;
-      if (signal) {
-         process.kill(process.pid, signal);
-      } else {
-         process.exit(0);
-      }
-   });
+   if (signal) {
+      process.kill(process.pid, signal);
+   } else {
+      process.exit(0);
+   }
 });
 
-// terminate children.
+process.on('exit', function(code) {
+   process.exitCode = 0;
+});
+
+// terminate children on force exit
 process.on('SIGINT', function () {
    proc.kill('SIGINT');
    proc.kill('SIGTERM');
