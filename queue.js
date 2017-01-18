@@ -48,15 +48,15 @@ process.on('exit', function() {
    var last = finished.pop();
    console.log(last);
    if (last) {
-      if (last.signal) {
+      process.exit(last.code);
+      /*if (last.signal) {
          process.kill(process.pid, last.signal);
       } else {
-         process.exit(last.code);
-      }
+      }*/
    }
 });
 
-// terminate children on exit.
+// terminate children on force exit
 process.on('SIGINT', function () {
    finishEarly();
    process.kill(process.pid, 'SIGINT');

@@ -16,7 +16,14 @@ var path = require('path'),
 exports.run = function (ws, resources, tests, port) {
    console.info('Starting unit testing HTTP server at port ' + port + ' for "' + resources + '"');
 
-   var app = connect(),
+   var shutDown = function() {
+         if (server) {
+            console.info('Stopping unit testing HTTP server at port ' + port + ' for "' + resources + '"');
+            server.close();
+         }
+         server = null;
+      },
+      app = connect(),
       server;
 
    app
@@ -35,11 +42,11 @@ exports.run = function (ws, resources, tests, port) {
       .listen(port);
 
    process.on('exit', function(code) {
-      console.info('Stopping unit testing HTTP server at port ' + port + ' for "' + resources + '"');
-      server.close();
+      shutDown();
    });
 
    process.on('SIGINT', function () {
-      process.exit(0);
+      shutDown();
+      process.kill(process.pid, 'SIGINT');
    });
 };
