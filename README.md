@@ -138,7 +138,6 @@
 
     call npm config set registry http://npmregistry.sbis.ru:81/
     call npm install
-    call npm run webdriver
     call node node_modules/ws-unit-testing/queue testing-server testing-browser
     call node node_modules/ws-unit-testing/cover testing-node
 
