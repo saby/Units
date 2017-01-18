@@ -45,15 +45,14 @@ scripts.forEach(function(script, index) {
 
 // check latest finished child
 process.on('exit', function() {
-   process.exit(0);
-   /*var last = finished.pop();
+   var last = finished.pop();
    if (last) {
       if (last.signal) {
          process.kill(process.pid, last.signal);
       } else {
          process.exit(last.code);
       }
-   }*/
+   }
 });
 
 // terminate children on exit.
