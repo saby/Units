@@ -31,7 +31,7 @@ proc.on('exit', function (code, signal) {
    }
 });
 
-process.on('exit', function(code) {
+process.on('exit', function() {
    process.exitCode = 0;
 });
 
