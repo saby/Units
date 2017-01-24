@@ -9,7 +9,6 @@
 var spawn = require('child_process').spawn,
    path = require('path'),
    pathTo = require('./lib/util').node.pathTo,
-   fs = require('fs'),
    args = [
       path.join(pathTo('mocha'), 'bin', 'mocha')
    ];
