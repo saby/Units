@@ -8,11 +8,11 @@
 
 var spawn = require('child_process').spawn,
    path = require('path'),
-   fs = require('fs'),
+   pathTo = require('./lib/util').node.pathTo,
    args = [
-      path.join(__dirname, 'node_modules/istanbul/lib/cli'),
+      path.join(pathTo('istanbul'), 'lib', 'cli'),
       'cover',
-      path.join(__dirname, 'node_modules/mocha/bin/_mocha')
+      path.join(pathTo('mocha'), 'bin', '_mocha')
    ];
 
 args.push.apply(args, process.argv.slice(2));
