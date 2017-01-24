@@ -36,7 +36,8 @@ exports.run = function (ws, resources, tests, port) {
       })
       .use('/~ws', serveStatic(ws))
       .use('/~resources', serveStatic(resources))
-      .use(serveStatic(__dirname));
+      .use(serveStatic(__dirname))
+      .use(serveStatic(process.cwd()));
 
    server = http.createServer(app)
       .listen(port);
