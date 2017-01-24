@@ -2,17 +2,28 @@
 
 /**
  * Запускает тестирование в Node.js
- * @param {String} ws Путь до WS
- * @param {String} resources Путь до ресурсов
- * @param {String} tests Путь до тестов (относительно каталога ресурсов)
- * @param {String} [report=''] Путь к файлу отчета
+ * @param {Object} config Конфигурация: {
+ *    ws: 'Путь до WS',
+ *    [resources]: 'Путь до ресурсов',
+ *    [tests] 'Путь до тестов (относительно каталога ресурсов)',
+ *    [reportFile]: 'Путь к файлу отчета'
+ * }
  */
-exports.run = function (ws, resources, tests, report) {
-   var config = {
-      ws: ws,
-      resources: resources,
-      tests: tests,
-      reportFile: report
-   };
+exports.run = function (config) {
+   if (arguments.length === 3 || arguments.length === 4) {
+      config = {
+         ws: arguments[0],
+         resources: arguments[1],
+         tests: arguments[2],
+         reportFile: arguments[3]
+      };
+   }
+
+   config = config || {};
+   config.ws = config.ws || '';
+   config.resources = config.resources || config.ws;
+   config.tests = config.tests || config.resources;
+   config.reportFile = config.reportFile || '';
+
    require('./lib/isolated').run(config);
 };

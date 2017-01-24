@@ -43,10 +43,15 @@
     var assert = chai.assert;
 </script>
 
+
+<!-- Custom setup -->
+<script src="~index.js"></script>
+
 <!-- WS setup -->
 <script>
-    window.wsConfig = {
+    window.wsConfig = wsInitializer.config ? wsInitializer.config() : {
         wsRoot: '~ws/ws/',
+        cdnRoot: '~ws/ws/lib/Ext/',
         resourceRoot: '~resources/',
         nostyle: true,
         globalConfigSupport: false
@@ -58,17 +63,14 @@
 <script src="~ws/ws/lib/core.js"></script>
 <script src="~ws/ws/res/js/bootup.js" data-pack-name="ws"></script>
 
-<!-- Run tests -->
+<!-- Mocha setup -->
 <script>
-    requirejs.config({
-        paths: {
-            Squire: 'node_modules/squirejs/src/Squire'
-        }
-    });
+    wsInitializer.mocha ? wsInitializer.mocha() : mocha.checkLeaks();
+</script>
 
-    mocha.checkLeaks();
-    
-    $ws.core.ready.addCallback(function () {
+<!-- Run testing -->
+<script>
+    wsInitializer.run ? wsInitializer.run() : $ws.core.ready.addCallback(function () {
         requirejs(['~test-list'], function () {
             mocha.run(function () {
                 $('body').addClass('tests-finished');

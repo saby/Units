@@ -8,17 +8,35 @@ var path = require('path'),
 
 /**
  * Запускает HTTP сервер для тестирования в браузере
- * @param {String} ws Путь до WS
- * @param {String} resources Путь до ресурсов
- * @param {String} tests Путь до тестов (относительно каталога ресурсов)
  * @param {Number} port Порт
+ * @param {Object} config Конфигурация: {
+ *    ws: 'Путь до WS',
+ *    [resources]: 'Путь до ресурсов',
+ *    [tests]: 'Путь до тестов (относительно каталога ресурсов)',
+ *    [initializer]: 'Путь до скрипта инициализации'
+ * }
  */
-exports.run = function (ws, resources, tests, port) {
-   console.log('Starting unit testing HTTP server at port ' + port + ' for "' + resources + '"');
+exports.run = function (port, config) {
+   if (arguments.length === 4) {
+      config = {
+         ws: arguments[0],
+         resources: arguments[1],
+         tests: arguments[2]
+      };
+      port = arguments[3];
+   }
+
+   config = config || {};
+   config.ws = config.ws || '';
+   config.resources = config.resources || config.ws;
+   config.tests = config.tests || config.resources;
+   config.initializer = config.initializer || 'testing-init.js';
+
+   console.log('Starting unit testing HTTP server at port ' + port + ' for "' + config.resources + '"');
 
    var shutDown = function() {
          if (server) {
-            console.log('Stopping unit testing HTTP server at port ' + port + ' for "' + resources + '"');
+            console.log('Stopping unit testing HTTP server at port ' + port + ' for "' + config.resources + '"');
             server.close();
          }
          server = null;
@@ -29,15 +47,17 @@ exports.run = function (ws, resources, tests, port) {
    app
       .use('/~test-list.js', function (req, res) {
          var list = testList.buildFile(
-            tests,
+            config.tests,
             '~resources/'
          );
          res.end(list);
       })
-      .use('/~ws', serveStatic(ws))
-      .use('/~resources', serveStatic(resources))
-      .use(serveStatic(__dirname))
-      .use(serveStatic(process.cwd()));
+      .use('/~index.js', serveStatic(path.join(process.cwd(), config.initializer)))
+      .use('/~index.js', serveStatic(path.join(__dirname, 'index.js')))
+      .use('/~ws/', serveStatic(config.ws))
+      .use('/~resources/', serveStatic(config.resources))
+      .use('/node_modules/', serveStatic(path.join(process.cwd(), 'node_modules')))
+      .use(serveStatic(__dirname));
 
    server = http.createServer(app)
       .listen(port);
