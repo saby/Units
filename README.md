@@ -23,12 +23,12 @@
         var path = require('path'),
            app = require('ws-unit-testing/isolated');
 
-        app.run(
-           path.join(process.cwd(), 'WS.Core'),//Путь до ядра WS
-           process.cwd(),//Путь к папке модуля
-           //'test'//Можно указать путь к папке с тестами (относительно папки модуля)
-           //'artifacts/xunit-report.xml'//Можно задать файл, в который следует сохранить отчет
-        );
+        app.run({
+           ws: path.join(process.cwd(), 'WS.Core'),//Путь до ядра WS
+           resources: process.cwd()//Путь к папке модуля
+           //tests: 'test'//Можно указать путь к папке с тестами (относительно папки модуля)
+           //reportFile: 'artifacts/xunit-report.xml'//Можно задать файл, в который следует сохранить отчет
+        });
 
 2. Запустить тесты:
 
@@ -53,10 +53,12 @@
            app = require('ws-unit-testing/server');
 
         app.run(
-           path.join(process.cwd(), 'WS.Core'),//Путь до ядра WS
-           process.cwd(),//Путь к папке модуля
-           'test',//Можно указать путь к папке с тестами (относительно папки модуля)
-           777//Порт, на котором запустить сервер
+            777,//Порт, на котором запустить сервер
+            {
+               ws: path.join(process.cwd(), 'WS.Core'),//Путь до ядра WS
+               resources: process.cwd()//Путь к папке модуля
+               //tests: 'test'//Можно указать путь к папке с тестами (относительно папки модуля)
+            }
         );
 
 2. Запустить сервер:
