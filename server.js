@@ -28,7 +28,7 @@ exports.run = function (port, config) {
 
    config = config || {};
    config.ws = config.ws || '';
-   config.resources = config.resources || config.ws;
+   config.resources = config.resources || '';
    config.tests = config.tests || config.resources;
    config.initializer = config.initializer || 'testing-init.js';
 
