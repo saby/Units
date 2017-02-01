@@ -20,14 +20,14 @@
 ## Запуск под Node.js
 1. Создать файл, запускающий тесты `testing-node.js`:
 
-        var path = require('path'),
-           app = require('ws-unit-testing/isolated');
+        var app = require('ws-unit-testing/isolated');
 
         app.run({
-           ws: path.join(process.cwd(), 'WS.Core'),//Путь до ядра WS
-           resources: process.cwd()//Путь к папке модуля
-           //tests: 'test'//Можно указать путь к папке с тестами (относительно папки модуля)
-           //reportFile: 'artifacts/xunit-report.xml'//Можно задать файл, в который следует сохранить отчет
+           root: './',//Путь до корневой папки модуля
+           ws: 'WS.Core',//Путь до ядра WS (относительно root)
+           resources: 'lib'//Путь к папке с бибилотекми модуля (относительно root)
+           //tests: 'test'//Можно указать путь к папке с тестами, если они лежат отдельно (относительно root)
+           //reportFile: 'artifacts/xunit-report.xml'//Можно задать файл, в который следует сохранить отчет (относительно root)
         });
 
 2. Запустить тесты:
@@ -49,15 +49,15 @@
 ## Запуск через браузер
 1. Создать файл, запускающий локальный http-сервер со страницей тестирования `testing-server.js`:
 
-        var path = require('path'),
-           app = require('ws-unit-testing/server');
+        var app = require('ws-unit-testing/server');
 
         app.run(
             777,//Порт, на котором запустить сервер
             {
-               ws: path.join(process.cwd(), 'WS.Core'),//Путь до ядра WS
-               resources: process.cwd()//Путь к папке модуля
-               //tests: 'test'//Можно указать путь к папке с тестами (относительно папки модуля)
+                root: './',//Путь до корневой папки модуля (относительно root)
+                ws: 'WS.Core',//Путь до ядра WS (относительно root)
+                resources: 'lib'//Путь к папке с бибилотекми модуля (относительно root)
+                //tests: 'test'//Можно указать путь к папке с тестами, если они лежат отдельно (относительно root)
             }
         );
 
@@ -70,8 +70,7 @@
 ## Запуск через Selenium webdriver
 1. Создать файл, запускающий тесты через webdriver `testing-browser.js`:
 
-        var path = require('path'),
-           app = require('ws-unit-testing/browser');
+        var app = require('ws-unit-testing/browser');
 
         app.run(
            'http://localhost:777/?reporter=XUnit',//URL страницы тестирования

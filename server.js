@@ -34,7 +34,8 @@ exports.run = function (port, config) {
    config.initializer = config.initializer || 'testing-init.js';
 
    var resourcesPath = path.join(config.root, config.resources),
-      wsPath = path.join(config.root, config.ws);
+      wsPath = path.join(config.root, config.ws),
+      testsPath = path.join(config.root, config.tests);
 
    console.log('Starting unit testing HTTP server at port ' + port + ' for "' + resourcesPath + '"');
 
@@ -52,13 +53,14 @@ exports.run = function (port, config) {
       .use('/~test-list.js', function (req, res) {
          var list = testList.buildFile(
             config.tests,
-            '~resources/'
+            '~tests/'
          );
          res.end(list);
       })
       .use('/~index.js', serveStatic(path.join(process.cwd(), config.initializer)))
       .use('/~index.js', serveStatic(path.join(__dirname, 'index.js')))
       .use('/~ws/', serveStatic(wsPath))
+      .use('/~tests/' + config.tests, serveStatic(testsPath))
       .use('/~resources/', serveStatic(resourcesPath))
       .use('/node_modules/', serveStatic(path.join(process.cwd(), 'node_modules')))
       .use(serveStatic(__dirname));
