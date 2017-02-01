@@ -27,16 +27,20 @@ exports.run = function (port, config) {
    }
 
    config = config || {};
+   config.root = config.root || '';
    config.ws = config.ws || '';
    config.resources = config.resources || '';
    config.tests = config.tests || config.resources;
    config.initializer = config.initializer || 'testing-init.js';
 
-   console.log('Starting unit testing HTTP server at port ' + port + ' for "' + config.resources + '"');
+   var resourcesPath = path.join(config.root, config.resources),
+      wsPath = path.join(config.root, config.ws);
+
+   console.log('Starting unit testing HTTP server at port ' + port + ' for "' + resourcesPath + '"');
 
    var shutDown = function() {
          if (server) {
-            console.log('Stopping unit testing HTTP server at port ' + port + ' for "' + config.resources + '"');
+            console.log('Stopping unit testing HTTP server at port ' + port + ' for "' + resourcesPath + '"');
             server.close();
          }
          server = null;
@@ -54,8 +58,8 @@ exports.run = function (port, config) {
       })
       .use('/~index.js', serveStatic(path.join(process.cwd(), config.initializer)))
       .use('/~index.js', serveStatic(path.join(__dirname, 'index.js')))
-      .use('/~ws/', serveStatic(config.ws))
-      .use('/~resources/', serveStatic(config.resources))
+      .use('/~ws/', serveStatic(wsPath))
+      .use('/~resources/', serveStatic(resourcesPath))
       .use('/node_modules/', serveStatic(path.join(process.cwd(), 'node_modules')))
       .use(serveStatic(__dirname));
 
