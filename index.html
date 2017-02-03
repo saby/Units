@@ -9,8 +9,8 @@
 <script src="~ws/ws/ext/jquery-cookie-min.js" data-pack-name="ws"></script>
 
 <!-- Mocha setup -->
-<link rel="stylesheet" href="node_modules/mocha/mocha.css"/>
 <div id="mocha"></div>
+<link rel="stylesheet" href="node_modules/mocha/mocha.css"/>
 <script src="node_modules/mocha/mocha.js"></script>
 <script src="node_modules/chai/chai.js"></script>
 <script>
@@ -45,6 +45,19 @@
 
 
 <!-- Custom setup -->
+<script>
+var testing = {
+    logException: function(exception) {
+        var node = $('#exception');
+        if (!node.length) {
+            node = $('<pre/>')
+                .attr('id', 'exception')
+                .appendTo('body');
+        }
+        node.html(node.html() + exception);
+    }
+};
+</script>
 <script src="~index.js"></script>
 
 <!-- WS setup -->
@@ -75,7 +88,7 @@
             mocha.run(function () {
                 $('body').addClass('tests-finished');
             });
-        });
+        }, testing.logException);
     });
 </script>
 </body>
