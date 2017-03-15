@@ -1,14 +1,14 @@
 # UNIT-тесты в окружении WS
 
-## Требования к вашему модулю
-1. В корне модуля должны находиться файлы `contents.js` и `contents.json`.
+## Требования к вашему пакету
+1. При подключении модулей (`*.module.js`) через плагин `js` для `requirejs`, в корне пакета должны находиться файлы `contents.js` и `contents.json` (в противном случае они будут искаться в каталоге ресурсов WS).
 2. Файлы тестов должны именоваться по маске `*.test.js`
 
 ## Настройка
 Подключить модуль `ws-unit-testing` в виде зависимости в файле `package.json` вашего модуля:
 
     "dependencies": {
-        "ws-unit-testing": "git+https://git.sbis.ru/ws/unit-testing.git#development"
+        "ws-unit-testing": "git+https://git.sbis.ru/ws/unit-testing.git#release-1.0"
     }
 
 И установить его:
@@ -73,7 +73,7 @@
         var app = require('ws-unit-testing/browser');
 
         app.run(
-           'http://localhost:777/?reporter=XUnit',//URL страницы тестирования
+           'http://localhost:777/?reporter=XUnit',//URL страницы тестирования, который будет доступен через запущенный testing-server.js
            'artifacts/xunit-report.xml'//Файл, в который следует сохранить отчет
         );
 
