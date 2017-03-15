@@ -6,7 +6,7 @@
     "testing",
     "ws"
   ],
-  "version": "1.0",
+  "version": "1.0.0",
   "repository": {
     "type": "git",
     "url": "git@git.sbis.ru:ws/unit-testing.git"
