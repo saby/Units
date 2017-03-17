@@ -5,8 +5,8 @@
 </head>
 <body>
 <!-- Libs -->
-<script src="~ws/ws/ext/jquery-full.js" data-pack-name="ws"></script>
-<script src="~ws/ws/ext/jquery-cookie-min.js" data-pack-name="ws"></script>
+<script src="~ws/ws/ext/jquery-full.js"></script>
+<script src="~ws/ws/ext/jquery-cookie-min.js"></script>
 
 <!-- Mocha setup -->
 <div id="mocha"></div>
@@ -70,11 +70,10 @@ var testing = {
         globalConfigSupport: false
     };
 </script>
-<script src="~resources/contents.js" data-pack-name="contents"></script>
+<script src="~resources/contents.js"></script>
 <script src="~ws/ws/ext/requirejs/require.js"></script>
 <script src="~ws/ws/ext/requirejs/config.js"></script>
 <script src="~ws/ws/lib/core.js"></script>
-<script src="~ws/ws/res/js/bootup.js" data-pack-name="ws"></script>
 
 <!-- Mocha setup -->
 <script>
@@ -83,13 +82,13 @@ var testing = {
 
 <!-- Run testing -->
 <script>
-    wsInitializer.run ? wsInitializer.run() : $ws.core.ready.addCallback(function () {
-        requirejs(['~test-list'], function () {
+    wsInitializer.run ? wsInitializer.run() : requirejs(['Core/core'], function () {
+        requirejs(['~test-list'], function() {
             mocha.run(function () {
                 $('body').addClass('tests-finished');
             });
         }, testing.logException);
-    });
+    }, testing.logException);
 </script>
 </body>
 </html>
