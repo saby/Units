@@ -54,7 +54,8 @@ var testing = {
                 .attr('id', 'exception')
                 .appendTo('body');
         }
-        node.html(node.html() + exception);
+        console.error(exception);
+        node.html(node.html() + (exception.stack || exception));
     }
 };
 </script>
