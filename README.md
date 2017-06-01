@@ -1,8 +1,40 @@
 # UNIT-тесты в окружении WS
 
 ## Требования к вашему пакету
-1. При подключении модулей (`*.module.js`) через плагин `js` для `requirejs`, пути до них будут разрешаться через файлы `contents.js` и `contents.json` в каталоге ресурсов. Вы должны позаботиться о его наличии.
-2. Файлы тестов должны именоваться по маске `*.test.js`
+При подключении модулей (`*.module.js`) через плагин `js` для `requirejs`, пути до них будут разрешаться через файлы `contents.js` и `contents.json` в каталоге ресурсов. Вы должны позаботиться о его наличии.
+
+## Тесты
+Все подробности доступны на сайтах фреймворка [Mocha](https://mochajs.org/) и бибилиотеки [Chai](http://chaijs.com/).
+
+Для организации моков и заглушек подключен пакет [Sinon](http://sinonjs.org/).
+
+В тестах доступны глобальные переменные: `requirejs`, `define`, `assert`, `sinon`.
+
+Файлы тестов должны именоваться по маске `*.test.js`. Пример теста `example.test.js`:
+
+```javascript
+   define(['MyPackage/MyModule'], function (MyModule) {
+      'use strict';
+
+      describe('MyPackage/MyModule', function () {
+         var myInstance;
+
+         beforeEach(function () {
+            myInstance = new MyModule();
+         });
+
+         afterEach(function () {
+            myInstance = undefined;
+         });
+
+         describe('.constructor()', function () {
+            it('should return instance of MyModule', function () {
+               assert.instanceOf(myInstance, MyModule);
+            });
+         });
+      });
+   });
+```
 
 ## Настройка
 Подключить модуль `ws-unit-testing` в виде зависимости в файле `package.json` вашего модуля:
@@ -20,15 +52,17 @@
 ## Запуск под Node.js
 1. Создать файл, запускающий тесты `testing-node.js`:
 
-        var app = require('ws-unit-testing/isolated');
+```javascript
+   var app = require('ws-unit-testing/isolated');
 
-        app.run({
-           root: './',//Путь до корневой папки модуля
-           ws: 'WS.Core',//Путь до ядра WS (относительно root)
-           resources: 'lib'//Путь к папке с библиотеками модуля (относительно root)
-           //tests: 'test'//Можно указать путь к папке с тестами, если они лежат отдельно (относительно root)
-           //reportFile: 'artifacts/xunit-report.xml'//Можно задать файл, в который следует сохранить отчет (относительно root)
-        });
+   app.run({
+      root: './',//Путь до корневой папки модуля
+      ws: 'WS.Core',//Путь до ядра WS (относительно root)
+      resources: 'lib'//Путь к папке с библиотеками модуля (относительно root)
+      //tests: 'test'//Можно указать путь к папке с тестами, если они лежат отдельно (относительно root)
+      //reportFile: 'artifacts/xunit-report.xml'//Можно задать файл, в который следует сохранить отчет (относительно root)
+   });
+```
 
 2. Запустить тесты:
 
@@ -49,17 +83,19 @@
 ## Запуск через браузер
 1. Создать файл, запускающий локальный http-сервер со страницей тестирования `testing-server.js`:
 
-        var app = require('ws-unit-testing/server');
+```javascript
+   var app = require('ws-unit-testing/server');
 
-        app.run(
-            777,//Порт, на котором запустить сервер
-            {
-                root: './',//Путь до корневой папки модуля (относительно root)
-                ws: 'WS.Core',//Путь до ядра WS (относительно root)
-                resources: 'lib'//Путь к папке с библиотеками модуля (относительно root)
-                //tests: 'test'//Можно указать путь к папке с тестами, если они лежат отдельно (относительно root)
-            }
-        );
+   app.run(
+       777,//Порт, на котором запустить сервер
+       {
+           root: './',//Путь до корневой папки модуля (относительно root)
+           ws: 'WS.Core',//Путь до ядра WS (относительно root)
+           resources: 'lib'//Путь к папке с библиотеками модуля (относительно root)
+           //tests: 'test'//Можно указать путь к папке с тестами, если они лежат отдельно (относительно root)
+       }
+   );
+```
 
 2. Запустить сервер:
 
@@ -70,12 +106,14 @@
 ## Запуск через Selenium webdriver
 1. Создать файл, запускающий тесты через webdriver `testing-browser.js`:
 
-        var app = require('ws-unit-testing/browser');
+```javascript
+   var app = require('ws-unit-testing/browser');
 
-        app.run(
-           'http://localhost:777/?reporter=XUnit',//URL страницы тестирования, который будет доступен через запущенный testing-server.js
-           'artifacts/xunit-report.xml'//Файл, в который следует сохранить отчет
-        );
+   app.run(
+      'http://localhost:777/?reporter=XUnit',//URL страницы тестирования, который будет доступен через запущенный testing-server.js
+      'artifacts/xunit-report.xml'//Файл, в который следует сохранить отчет
+   );
+```
 
 
 2. Запустить сервер:
