@@ -4,7 +4,7 @@
 При подключении модулей (`*.module.js`) через плагин `js` для `requirejs`, пути до них будут разрешаться через файлы `contents.js` и `contents.json` в каталоге ресурсов. Вы должны позаботиться об их наличии.
 
 ## Тесты
-Все подробности доступны на сайтах фреймворка [Mocha](https://mochajs.org/) и бибилиотеки [Chai](http://chaijs.com/).
+Все подробности доступны на сайтах фреймворка [Mocha](https://mochajs.org/) и библиотеки [Chai](http://chaijs.com/).
 
 Для организации моков и заглушек подключен пакет [Sinon](http://sinonjs.org/).
 
@@ -39,7 +39,7 @@
 ## Настройка
 Подключить модуль `ws-unit-testing` в виде зависимости в файле `package.json` вашего модуля:
 
-    "dependencies": {
+    "devDependencies": {
         "ws-unit-testing": "git+https://git.sbis.ru/ws/unit-testing.git#release-1.0"
     }
 
@@ -170,15 +170,14 @@
 
     call npm config set registry http://npmregistry.sbis.ru:81/
     call npm install
-    call node node_modules/ws-unit-testing/mocha -t 10000 -R xunit testing-node
     call node node_modules/ws-unit-testing/cover testing-node
+    call node node_modules/ws-unit-testing/mocha -t 10000 -R xunit testing-node
 
-+Выполнить команду Windows (для тестирования через webdriver + отчет о покрытии)
++Выполнить команду Windows (для тестирования через webdriver)
 
     call npm config set registry http://npmregistry.sbis.ru:81/
     call npm install
     call node node_modules/ws-unit-testing/queue testing-server testing-browser
-    call node node_modules/ws-unit-testing/cover testing-node
 
 ## Послесборочные операции
 Publish JUnit test result report
@@ -187,8 +186,12 @@ Publish JUnit test result report
 
     ✓ Retain long standard output/error
 
+Путь до отчета зависит от настроек в `testing-node.js`
+
 Publish documents
 
     Title: Отчет о покрытии
 
     Directory to archive: artifacts/coverage/lcov-report/
+
+Путь до отчета о покрытии зависит от настроек в `.istanbul.yml`
