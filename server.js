@@ -7,14 +7,17 @@ var path = require('path'),
    testList = require('./lib/unit').test;
 
 /**
- * Запускает HTTP сервер для тестирования в браузере
+ * Запускает HTTP сервер для тестирования в браузере.
+ *
+ * @typedef {Object} Config
+ * @property {String} ws Путь до WS (например, 'ws')
+ * @property {String} [resources] Путь до каталога ресурсов (например, 'resources')
+ * @property {String} [tests] Путь до тестов (например, 'tests')
+ * @property {Array.<String>} [shared] Дополнительные каталоги и файлы, содержимое которых должно быть доступно через сервер (например, ['doc'])
+ * @property {String} [initializer] Путь до скрипта инициализации (например, 'init.js')
+ *
  * @param {Number} port Порт
- * @param {Object} config Конфигурация: {
- *    ws: 'Путь до WS',
- *    [resources]: 'Путь до ресурсов',
- *    [tests]: 'Путь до тестов (относительно каталога ресурсов)',
- *    [initializer]: 'Путь до скрипта инициализации'
- * }
+ * @param {Config} config Конфигурация
  */
 exports.run = function (port, config) {
    if (arguments.length === 4) {
@@ -31,6 +34,7 @@ exports.run = function (port, config) {
    config.ws = config.ws || '';
    config.resources = config.resources || '';
    config.tests = config.tests || config.resources;
+   config.shared = config.shared || [];
    config.initializer = config.initializer || 'testing-init.js';
 
    var resourcesPath = path.join(config.root, config.resources),
@@ -62,8 +66,13 @@ exports.run = function (port, config) {
       .use('/~ws/', serveStatic(wsPath))
       .use('/~tests/' + config.tests, serveStatic(testsPath))
       .use('/~resources/', serveStatic(resourcesPath))
-      .use('/node_modules/', serveStatic(path.join(process.cwd(), 'node_modules')))
-      .use(serveStatic(__dirname));
+      .use('/node_modules/', serveStatic(path.join(process.cwd(), 'node_modules')));
+
+   config.shared.forEach(function(dir) {
+      app.use('/' + dir, serveStatic(path.join(config.root, dir)));
+   });
+
+   app.use(serveStatic(__dirname));
 
    server = http.createServer(app)
       .listen(port);
