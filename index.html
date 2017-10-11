@@ -1,96 +1,35 @@
 <html>
-<head>
-    <title>Unit testing</title>
-    <meta charset="utf-8"/>
-</head>
-<body>
-<!-- Libs -->
-<script src="~ws/ws/ext/jquery-full.js"></script>
-<script src="~ws/ws/ext/jquery-cookie-min.js"></script>
+    <head>
+        <title>Unit testing v.2.0</title>
+        <meta charset="utf-8"/>
+    </head>
+    <body>
+        <!-- Load libs -->
+        <script src="~ws/ws/ext/jquery-full.js"></script>
+        <script src="~ws/ws/ext/jquery-cookie-min.js"></script>
 
-<!-- Mocha setup -->
-<div id="mocha"></div>
-<link rel="stylesheet" href="node_modules/mocha/mocha.css"/>
-<script src="node_modules/mocha/mocha.js"></script>
-<script src="node_modules/chai/chai.js"></script>
-<script src="node_modules/sinon/pkg/sinon.js"></script>
-<script>
-    mocha.setup({
-        ui: 'bdd',
-        reporter: function (runner) {
-            var query = typeof window === 'undefined' ? '?reporter=XUnit' : window.location.search,
-                    result = query.match(new RegExp("[?&]reporter=([^&]*)&?$")),
-                    reporterCode = result ? result[1] : 'HTML';
+        <!-- Load Mocha -->
+        <div id="mocha"></div>
+        <link rel="stylesheet" href="node_modules/mocha/mocha.css"/>
+        <script src="node_modules/mocha/mocha.js"></script>
+        <script src="node_modules/chai/chai.js"></script>
+        <script src="node_modules/sinon/pkg/sinon.js"></script>
 
-            if (!(reporterCode in Mocha.reporters)) {
-                throw new Error('Reporter "' + reporterCode + '" is undefined.');
-            }
-            var reporter = new Mocha.reporters[reporterCode](runner, {});
+        <!-- Load setup -->
+        <script src="~setup.js"></script>
 
-            if (reporterCode == 'XUnit') {
-                //Change XUnit output stream
-                reporter.buffer = [];
-                reporter.domElement = $('<div/>')
-                        .attr('id', 'report')
-                        .appendTo('body');
-                reporter.write = function (line) {
-                    this.buffer.push(line);
-                    this.domElement.html(this.buffer.join("\n"));
-                };
-            }
-        }
-    });
+        <!-- Init testing -->
+        <script id="testing-init">
+           testing.init();
+        </script>
 
-    var assert = chai.assert;
-</script>
+        <!-- Load core -->
+        <script src="~ws/ws/ext/requirejs/require.js"></script>
+        <script src="~ws/ws/ext/requirejs/config.js"></script>
 
-
-<!-- Custom setup -->
-<script>
-var testing = {
-    logException: function(exception) {
-        var node = $('#exception');
-        if (!node.length) {
-            node = $('<pre/>')
-                .attr('id', 'exception')
-                .appendTo('body');
-        }
-        console.error(exception);
-        node.html(node.html() + (exception.stack || exception));
-    }
-};
-</script>
-<script src="~index.js"></script>
-
-<!-- WS setup -->
-<script>
-    window.wsConfig = wsInitializer.config ? wsInitializer.config() : {
-        wsRoot: '~ws/ws/',
-        cdnRoot: '~ws/ws/lib/Ext/',
-        resourceRoot: '~resources/',
-        nostyle: true,
-        globalConfigSupport: false
-    };
-</script>
-<script src="~resources/contents.js"></script>
-<script src="~ws/ws/ext/requirejs/require.js"></script>
-<script src="~ws/ws/ext/requirejs/config.js"></script>
-<script src="~ws/ws/lib/core.js"></script>
-
-<!-- Mocha setup -->
-<script>
-    wsInitializer.mocha ? wsInitializer.mocha() : mocha.checkLeaks();
-</script>
-
-<!-- Run testing -->
-<script>
-    wsInitializer.run ? wsInitializer.run() : requirejs(['Core/core'], function () {
-        requirejs(['~test-list'], function() {
-            mocha.run(function () {
-                $('body').addClass('tests-finished');
-            });
-        }, testing.logException);
-    }, testing.logException);
-</script>
-</body>
+        <!-- Run testing -->
+        <script>
+           testing.run();
+        </script>
+    </body>
 </html>

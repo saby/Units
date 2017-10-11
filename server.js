@@ -4,7 +4,7 @@ var path = require('path'),
    connect = require('connect'),
    http = require('http'),
    serveStatic = require('serve-static'),
-   testList = require('./lib/unit').test;
+   handlers = require('./lib/server-handlers');
 
 /**
  * Запускает HTTP сервер для тестирования в браузере.
@@ -54,15 +54,8 @@ exports.run = function (port, config) {
       server;
 
    app
-      .use('/~test-list.js', function (req, res) {
-         var list = testList.buildFile(
-            config.tests,
-            '~tests/'
-         );
-         res.end(list);
-      })
-      .use('/~index.js', serveStatic(path.join(process.cwd(), config.initializer)))
-      .use('/~index.js', serveStatic(path.join(__dirname, 'index.js')))
+      .use('/~setup.js', handlers.setup(config))
+      .use('/~test-list.js', handlers.testList(config))
       .use('/~ws/', serveStatic(wsPath))
       .use('/~tests/' + config.tests, serveStatic(testsPath))
       .use('/~resources/', serveStatic(resourcesPath))
@@ -76,8 +69,7 @@ exports.run = function (port, config) {
       .use(serveStatic(__dirname))
       .use(serveStatic(process.cwd()));
 
-   server = http.createServer(app)
-      .listen(port);
+   server = http.createServer(app).listen(port);
 
    process.on('exit', function() {
       shutDown();
