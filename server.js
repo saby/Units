@@ -72,7 +72,9 @@ exports.run = function (port, config) {
       app.use('/' + dir, serveStatic(path.join(config.root, dir)));
    });
 
-   app.use(serveStatic(__dirname));
+   app
+      .use(serveStatic(__dirname))
+      .use(serveStatic(process.cwd()));
 
    server = http.createServer(app)
       .listen(port);
