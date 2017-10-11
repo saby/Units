@@ -32,20 +32,19 @@ exports.run = function (port, config) {
    config = config || {};
    config.root = config.root || '';
    config.ws = config.ws || '';
+   config.wsPath = path.join(config.root, config.ws);
    config.resources = config.resources || '';
+   config.resourcesPath = path.join(config.root, config.resources);
    config.tests = config.tests || config.resources;
+   config.testsPath = path.join(config.root, config.tests);
    config.shared = config.shared || [];
    config.initializer = config.initializer || 'testing-init.js';
 
-   var resourcesPath = path.join(config.root, config.resources),
-      wsPath = path.join(config.root, config.ws),
-      testsPath = path.join(config.root, config.tests);
-
-   console.log('Starting unit testing HTTP server at port ' + port + ' for "' + resourcesPath + '"');
+   console.log('Starting unit testing HTTP server at port ' + port + ' for "' + config.resourcesPath + '"');
 
    var shutDown = function() {
          if (server) {
-            console.log('Stopping unit testing HTTP server at port ' + port + ' for "' + resourcesPath + '"');
+            console.log('Stopping unit testing HTTP server at port ' + port + ' for "' + config.resourcesPath + '"');
             server.close();
          }
          server = null;
@@ -56,9 +55,9 @@ exports.run = function (port, config) {
    app
       .use('/~setup.js', handlers.setup(config))
       .use('/~test-list.js', handlers.testList(config))
-      .use('/~ws/', serveStatic(wsPath))
-      .use('/~tests/' + config.tests, serveStatic(testsPath))
-      .use('/~resources/', serveStatic(resourcesPath))
+      .use('/~ws/', serveStatic(config.wsPath))
+      .use('/~tests/' + config.tests, serveStatic(config.testsPath))
+      .use('/~resources/', serveStatic(config.resourcesPath))
       .use('/node_modules/', serveStatic(path.join(process.cwd(), 'node_modules')));
 
    config.shared.forEach(function(dir) {
