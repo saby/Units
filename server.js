@@ -13,6 +13,8 @@ var path = require('path'),
  * @property {String} ws Путь до WS (например, 'ws')
  * @property {String} [resources] Путь до каталога ресурсов (например, 'resources')
  * @property {String} [tests] Путь до тестов (например, 'tests')
+ * @property {String} [coverageCommand] Команда, запускающая генерацию отчета о покрытии (например, 'node node_modules/ws-unit-testing/cover test-isolated')
+ * @property {String} [coverageReport] Команда, запускающая генерацию отчета о покрытии (например, '/artifacts/coverage/lcov-report/index.html')
  * @property {Array.<String>} [shared] Дополнительные каталоги и файлы, содержимое которых должно быть доступно через сервер (например, ['doc'])
  * @property {String} [initializer] Путь до скрипта инициализации (например, 'init.js')
  *
@@ -37,6 +39,8 @@ exports.run = function (port, config) {
    config.resourcesPath = path.join(config.root, config.resources);
    config.tests = config.tests || config.resources;
    config.testsPath = path.join(config.root, config.tests);
+   config.coverageCommand = config.coverageCommand || 'node node_modules/ws-unit-testing/cover test';
+   config.coverageReport = config.coverageReport || '/artifacts/coverage/';
    config.shared = config.shared || [];
    config.initializer = config.initializer || 'testing-init.js';
 
@@ -55,6 +59,7 @@ exports.run = function (port, config) {
    app
       .use('/~setup.js', handlers.setup(config))
       .use('/~test-list.js', handlers.testList(config))
+      .use('/~coverage/', handlers.coverage(config))
       .use('/~ws/', serveStatic(config.wsPath))
       .use('/~tests/' + config.tests, serveStatic(config.testsPath))
       .use('/~resources/', serveStatic(config.resourcesPath))
