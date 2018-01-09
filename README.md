@@ -40,7 +40,7 @@
 Подключить модуль `ws-unit-testing` в виде зависимости в файле `package.json` вашего модуля:
 
     "devDependencies": {
-        "ws-unit-testing": "git+https://git.sbis.ru/ws/unit-testing.git#release-1.0"
+        "ws-unit-testing": "git+https://git.sbis.ru/ws/unit-testing.git#release-2.0"
     }
 
 И установить его:
