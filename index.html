@@ -36,6 +36,12 @@
 
         <!-- Load core -->
         <script src="~ws/ws/ext/requirejs/require.js"></script>
+        <script>
+           if (testing.wsLoadContents) {
+               document.write('<scri' + 'pt ' + 'src="~resources/contents.js"></' + 'scr' + 'ipt>');
+           }
+        </script>
+        
         <script src="~ws/ws/ext/requirejs/config.js"></script>
 
         <!-- Run testing -->
