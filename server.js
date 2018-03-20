@@ -63,6 +63,7 @@ exports.run = function (port, config) {
       .use('/~ws/', serveStatic(config.wsPath))
       .use('/~tests/' + config.tests, serveStatic(config.testsPath))
       .use('/~resources/', serveStatic(config.resourcesPath))
+      .use('/cdn/', serveStatic(path.join(config.wsPath, 'ws/lib/Ext')))
       .use('/node_modules/', serveStatic(path.join(process.cwd(), 'node_modules')));
 
    config.shared.forEach(function(dir) {
