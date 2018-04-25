@@ -6,7 +6,7 @@
  * node node_modules/ws-unit-testing/mocha -t 10000 -R path/to/your/test/runner.js
  */
 
-var spawn = require('child_process').spawn,
+let spawn = require('child_process').spawn,
    path = require('path'),
    pathTo = require('./lib/util').node.pathTo,
    args = [
@@ -15,12 +15,12 @@ var spawn = require('child_process').spawn,
 
 args.push.apply(args, process.argv.slice(2));
 
-var proc = spawn(
+let proc = spawn(
    process.execPath,
    args,
    {stdio: 'inherit'}
 );
-proc.on('exit', function (code, signal) {
+proc.on('exit', (code, signal) => {
    process.on('exit', function() {
       if (signal) {
          process.kill(process.pid, signal);
@@ -31,7 +31,7 @@ proc.on('exit', function (code, signal) {
 });
 
 // terminate children.
-process.on('SIGINT', function () {
+process.on('SIGINT', () => {
    proc.kill('SIGINT');
    proc.kill('SIGTERM');
    process.kill(process.pid, 'SIGINT');

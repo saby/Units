@@ -4,25 +4,26 @@
  * Call scripts in queue
  */
 
-var spawn = require('child_process').spawn,
+let spawn = require('child_process').spawn,
    path = require('path'),
    scripts = process.argv.slice(2),
    processes = [],
-   finished = [],
-   finishEarly = function(index) {
-      if (index === undefined) {
-         index = processes.length;
-      }
-      processes.slice(0, index).forEach(function(proc) {
-         proc.kill('SIGINT');
-         proc.kill('SIGTERM');
-      });
-   };
+   finished = [];
+
+function finishEarly(index) {
+   if (index === undefined) {
+      index = processes.length;
+   }
+   processes.slice(0, index).forEach(proc => {
+      proc.kill('SIGINT');
+      proc.kill('SIGTERM');
+   });
+}
 
 // run children
-scripts.forEach(function(script, index) {
+scripts.forEach((script, index) => {
    script = path.resolve(script);
-   var proc = spawn(
+   let proc = spawn(
       process.execPath,
       [script],
       {stdio: 'inherit'}
@@ -30,28 +31,29 @@ scripts.forEach(function(script, index) {
 
    processes.push(proc);
 
-   proc.on('exit', function (code, signal) {
+   proc.on('exit', (code, signal) => {
       finished.push({
          script: script,
          index: index,
          code: code,
          signal: signal
       });
+
       // finish previous
       finishEarly(index);
    });
 });
 
 // check latest finished child
-process.on('exit', function() {
-   var last = finished.pop();
+process.on('exit', () => {
+   let last = finished.pop();
    if (last) {
       process.exitCode = last.code;
    }
 });
 
 // terminate children on force exit
-process.on('SIGINT', function () {
+process.on('SIGINT', () => {
    finishEarly();
    process.kill(process.pid, 'SIGINT');
 });

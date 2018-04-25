@@ -9,16 +9,7 @@
  *    [reportFile]: 'Путь к файлу отчета'
  * }
  */
-exports.run = function (config) {
-   if (arguments.length === 3 || arguments.length === 4) {
-      config = {
-         ws: arguments[0],
-         resources: arguments[1],
-         tests: arguments[2],
-         reportFile: arguments[3]
-      };
-   }
-
+exports.run = function(config) {
    config = config || {};
    config.root = config.root || '';
    config.ws = config.ws || '';

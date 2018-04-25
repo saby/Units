@@ -1,10 +1,12 @@
 #!/usr/bin/env node
 
-var path = require('path'),
+let path = require('path'),
    connect = require('connect'),
    http = require('http'),
    serveStatic = require('serve-static'),
    handlers = require('./lib/server-handlers');
+
+const logger = console;
 
 /**
  * Запускает HTTP сервер для тестирования в браузере.
@@ -21,16 +23,7 @@ var path = require('path'),
  * @param {Number} port Порт
  * @param {Config} config Конфигурация
  */
-exports.run = function (port, config) {
-   if (arguments.length === 4) {
-      config = {
-         ws: arguments[0],
-         resources: arguments[1],
-         tests: arguments[2]
-      };
-      port = arguments[3];
-   }
-
+exports.run = function(port, config) {
    config = config || {};
    config.root = config.root || '';
    config.ws = config.ws || '';
@@ -44,29 +37,29 @@ exports.run = function (port, config) {
    config.shared = config.shared || [];
    config.initializer = config.initializer || 'testing-init.js';
 
-   console.log('Starting unit testing HTTP server at port ' + port + ' for "' + config.resourcesPath + '"');
+   logger.log('Starting unit testing HTTP server at port ' + port + ' for "' + config.resourcesPath + '"');
 
-   var shutDown = function() {
-         if (server) {
-            console.log('Stopping unit testing HTTP server at port ' + port + ' for "' + config.resourcesPath + '"');
-            server.close();
-         }
-         server = null;
-      },
-      app = connect(),
+   let app = connect(),
       server;
+
+   let shutDown = function() {
+      if (server) {
+         logger.log('Stopping unit testing HTTP server at port ' + port + ' for "' + config.resourcesPath + '"');
+         server.close();
+      }
+      server = null;
+   };
 
    app
       .use('/~setup.js', handlers.setup(config))
       .use('/~test-list.js', handlers.testList(config))
       .use('/~coverage/', handlers.coverage(config))
       .use('/~ws/', serveStatic(config.wsPath))
-      .use('/~tests/' + config.tests, serveStatic(config.testsPath))
       .use('/~resources/', serveStatic(config.resourcesPath))
       .use('/cdn/', serveStatic(path.join(config.wsPath, 'ws/lib/Ext')))
       .use('/node_modules/', serveStatic(path.join(process.cwd(), 'node_modules')));
 
-   config.shared.forEach(function(dir) {
+   config.shared.forEach(dir => {
       app.use('/' + dir, serveStatic(path.join(config.root, dir)));
    });
 
@@ -76,11 +69,9 @@ exports.run = function (port, config) {
 
    server = http.createServer(app).listen(port);
 
-   process.on('exit', function() {
-      shutDown();
-   });
+   process.on('exit', shutDown);
 
-   process.on('SIGINT', function () {
+   process.on('SIGINT', () => {
       shutDown();
       process.kill(process.pid, 'SIGINT');
    });

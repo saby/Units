@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title>Unit testing v.2.0</title>
+        <title>Unit testing</title>
         <meta charset="utf-8"/>
         <style type="text/css">
             #report {
@@ -31,6 +31,9 @@
 
         <!-- Init testing -->
         <script id="testing-init">
+           if (testing.title) {
+              document.title = testing.title;
+           }
            testing.init();
         </script>
 

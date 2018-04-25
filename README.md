@@ -1,7 +1,7 @@
 # UNIT-тесты в окружении WS
 
 ## Требования к вашему пакету
-При подключении модулей (`*.module.js`) через плагин `js` для `requirejs`, пути до них будут разрешаться через файлы `contents.js` и `contents.json` в каталоге ресурсов. Вы должны позаботиться об их наличии.
+При подключении интерфейсных модулей не из корня, пути до AMD-модулей них будут разрешаться через файлы `contents.js` и `contents.json` в каталоге ресурсов (секция RequireJsPaths). Вы должны позаботиться об их наличии.
 
 ## Тесты
 Все подробности доступны на сайтах фреймворка [Mocha](https://mochajs.org/) и библиотеки [Chai](http://chaijs.com/).
@@ -40,7 +40,7 @@
 Подключить модуль `ws-unit-testing` в виде зависимости в файле `package.json` вашего модуля:
 
     "devDependencies": {
-        "ws-unit-testing": "git+https://git.sbis.ru/ws/unit-testing.git#release-2.0"
+        "ws-unit-testing": "git+https://git.sbis.ru/ws/unit-testing.git#rc-3.0.0"
     }
 
 И установить его:

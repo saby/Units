@@ -5,10 +5,9 @@
  * @param {String} url URL страницы с тестами
  * @param {String} [report=''] Путь к файлу отчета
  */
-exports.run = function (url, report) {
-   var config = {
+exports.run = function(url, report) {
+   require('./lib/browser').run({
       url: url,
       reportFile: report
-   };
-   require('./lib/browser').run(config);
+   });
 };
