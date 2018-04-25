@@ -15,41 +15,19 @@
         </style>
     </head>
     <body>
-        <!-- Load libs -->
-        <script src="~ws/ws/ext/jquery-full.js"></script>
-        <script src="~ws/ws/ext/jquery-cookie-min.js"></script>
-
-        <!-- Load Mocha -->
+        <!-- Load Mocha, Chai, Sinon -->
         <div id="mocha"></div>
         <link rel="stylesheet" href="node_modules/mocha/mocha.css"/>
         <script src="node_modules/mocha/mocha.js"></script>
         <script src="node_modules/chai/chai.js"></script>
         <script src="node_modules/sinon/pkg/sinon.js"></script>
 
-        <!-- Load setup -->
+        <!-- Load and run setup -->
         <script src="~setup.js"></script>
-
-        <!-- Init testing -->
         <script id="testing-init">
-           if (testing.title) {
-              document.title = testing.title;
-           }
-           testing.init();
-        </script>
-
-        <!-- Load core -->
-        <script src="~ws/ws/ext/requirejs/require.js"></script>
-        <script>
-           if (testing.wsLoadContents) {
-               document.write('<scri' + 'pt ' + 'src="~resources/contents.js"></' + 'scr' + 'ipt>');
-           }
-        </script>
-        
-        <script src="~ws/ws/ext/requirejs/config.js"></script>
-
-        <!-- Run testing -->
-        <script>
-           testing.run();
+           testing.init().then(
+              testing.run.bind(testing)
+           );
         </script>
     </body>
 </html>

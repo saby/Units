@@ -52,7 +52,8 @@ exports.run = function(port, config) {
 
    app
       .use('/~setup.js', handlers.setup(config))
-      .use('/~test-list.js', handlers.testList(config))
+      .use('/~test-list.js', handlers.testListAmd(config))
+      .use('/~test-list.json', handlers.testListJson(config))
       .use('/~coverage/', handlers.coverage(config))
       .use('/~ws/', serveStatic(config.wsPath))
       .use('/~resources/', serveStatic(config.resourcesPath))

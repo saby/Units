@@ -1,9 +1,10 @@
 {
   "name": "ws-unit-testing",
-  "description": "Unit testing environment for WS",
+  "description": "Unit testing for WS",
   "keywords": [
     "test",
     "testing",
+    "unit",
     "ws"
   ],
   "version": "3.0.0",
