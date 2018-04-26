@@ -4,6 +4,7 @@ let path = require('path'),
    connect = require('connect'),
    http = require('http'),
    serveStatic = require('serve-static'),
+   package = require('./package.json'),
    handlers = require('./lib/server-handlers');
 
 const logger = console;
@@ -37,14 +38,15 @@ exports.run = function(port, config) {
    config.shared = config.shared || [];
    config.initializer = config.initializer || 'testing-init.js';
 
-   logger.log('Starting unit testing HTTP server at port ' + port + ' for "' + config.resourcesPath + '"');
+   let serverSignature = `"${package.description}" HTTP server v.${package.version} at port ${port} for "${config.resourcesPath}"`;
+   logger.log(`Starting ${serverSignature}`);
 
    let app = connect(),
       server;
 
    let shutDown = function() {
       if (server) {
-         logger.log('Stopping unit testing HTTP server at port ' + port + ' for "' + config.resourcesPath + '"');
+         logger.log(`Stopping ${serverSignature}`);
          server.close();
       }
       server = null;

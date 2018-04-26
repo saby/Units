@@ -8,7 +8,7 @@
 
 let spawn = require('child_process').spawn,
    path = require('path'),
-   pathTo = require('./lib/util').node.pathTo,
+   pathTo = require('./lib/util').pathTo,
    args = [
       path.join(pathTo('istanbul'), 'lib', 'cli'),
       'cover',
