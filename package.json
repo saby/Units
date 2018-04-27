@@ -13,7 +13,7 @@
     "url": "git@git.sbis.ru:ws/unit-testing.git"
   },
   "scripts": {
-    "install-selenium": "npm install selenium-standalone@5.10.x && node node_modules/selenium-standalone/bin/selenium-standalone install",
+    "install-selenium": "npm install selenium-standalone@6.14.x && node node_modules/selenium-standalone/bin/selenium-standalone install",
     "install-webdriver": "npm install webdriverio@3.4.x"
   },
   "dependencies": {
