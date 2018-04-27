@@ -5,7 +5,7 @@ let path = require('path'),
    http = require('http'),
    serveStatic = require('serve-static'),
    package = require('./package.json'),
-   handlers = require('./lib/server-handlers');
+   handlers = require('./lib/handlers');
 
 const logger = console;
 
