@@ -35,7 +35,7 @@ process.on('exit', () => {
    process.exitCode = 0;
 });
 
-// terminate children on force exit
+// Terminate children on force exit
 process.on('SIGINT', () => {
    proc.kill('SIGINT');
    proc.kill('SIGTERM');

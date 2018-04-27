@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 
 /**
- * Запускает тестирование через Webdriver
- * @param {String} url URL страницы с тестами
- * @param {String} [report=''] Путь к файлу отчета
+ * Runs testing via Webdriver
+ * @param {String} url URL with testing
+ * @param {String} [report=''] Path to report file that's will be created
  */
 exports.run = function(url, report) {
    require('./lib/browser').run({

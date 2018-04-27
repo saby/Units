@@ -10,19 +10,17 @@ let path = require('path'),
 const logger = console;
 
 /**
- * Запускает HTTP сервер для тестирования в браузере.
+ * Runs HTTP server which generates HTML page with testing
  *
- * @typedef {Object} Config
- * @property {String} ws Путь до WS (например, 'ws')
- * @property {String} [resources] Путь до каталога ресурсов (например, 'resources')
- * @property {String} [tests] Путь до тестов (например, 'tests')
- * @property {String} [coverageCommand] Команда, запускающая генерацию отчета о покрытии (например, 'node node_modules/ws-unit-testing/cover test-isolated')
- * @property {String} [coverageReport] Команда, запускающая генерацию отчета о покрытии (например, '/artifacts/coverage/lcov-report/index.html')
- * @property {Array.<String>} [shared] Дополнительные каталоги и файлы, содержимое которых должно быть доступно через сервер (например, ['doc'])
- * @property {String} [initializer] Путь до скрипта инициализации (например, 'init.js')
- *
- * @param {Number} port Порт
- * @param {Config} config Конфигурация
+ * @param {Number} port Server port
+ * @param {Config} config Config
+ * @param {String} config.ws Path to WS (for example, 'ws')
+ * @param {String} [config.resources] Path to resources folder (for example, 'resources')
+ * @param {String} [config.tests] Path to tests folder (for example, 'tests')
+ * @param {String} [config.initializer] Path to initialzation script that calls before testing start (for example, 'init.js')
+ * @param {Array.<String>} [config.shared] Additional shared files and folders via HTTP (for example, ['doc'])
+ * @param {String} [config.coverageCommand] Command that runs coverage HTML report building (for example, 'node node_modules/ws-unit-testing/cover test-isolated')
+ * @param {String} [config.coverageReport] Coverage HTML report target path (например, '/artifacts/coverage/lcov-report/index.html')
  */
 exports.run = function(port, config) {
    config = config || {};

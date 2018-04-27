@@ -30,7 +30,7 @@ proc.on('exit', (code, signal) => {
    });
 });
 
-// terminate children.
+// Terminate children.
 process.on('SIGINT', () => {
    proc.kill('SIGINT');
    proc.kill('SIGTERM');

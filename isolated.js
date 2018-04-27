@@ -1,13 +1,12 @@
 #!/usr/bin/env node
 
 /**
- * Запускает тестирование в Node.js
- * @param {Object} config Конфигурация: {
- *    ws: 'Путь до WS',
- *    [resources]: 'Путь до ресурсов',
- *    [tests] 'Путь до тестов (относительно каталога ресурсов)',
- *    [reportFile]: 'Путь к файлу отчета'
- * }
+ * Runs testing via Node.js
+ * @param {Object} config Config
+ * @param {String} [config.ws=''] Path to WS core
+ * @param {String} [config.resources=''] Path to resources folder
+ * @param {String} [config.tests] Path to tests folder (relative to config.resources)
+ * @param {String} [config.reportFile=''] Path to report file
  */
 exports.run = function(config) {
    config = config || {};

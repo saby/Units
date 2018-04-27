@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * Call scripts in queue
+ * Call scripts in queue (one by one)
  */
 
 let spawn = require('child_process').spawn,
@@ -20,7 +20,7 @@ function finishEarly(index) {
    });
 }
 
-// run children
+// Run children
 scripts.forEach((script, index) => {
    script = path.resolve(script);
    let proc = spawn(
@@ -39,12 +39,12 @@ scripts.forEach((script, index) => {
          signal: signal
       });
 
-      // finish previous
+      // Finish previous
       finishEarly(index);
    });
 });
 
-// check latest finished child
+// Check latest finished child
 process.on('exit', () => {
    let last = finished.pop();
    if (last) {
@@ -52,7 +52,7 @@ process.on('exit', () => {
    }
 });
 
-// terminate children on force exit
+// Terminate children on force exit
 process.on('SIGINT', () => {
    finishEarly();
    process.kill(process.pid, 'SIGINT');
