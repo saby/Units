@@ -14,6 +14,7 @@ const logger = console;
  *
  * @param {Number} port Server port
  * @param {Config} config Config
+ * @param {String} [config.moduleType='esm'] Testing module type: 'esm' - ECMAScript Module, 'amd' - Asynchronous Module Definition
  * @param {String} config.ws Path to WS (for example, 'ws')
  * @param {String} [config.resources] Path to resources folder (for example, 'resources')
  * @param {String} [config.tests] Path to tests folder (for example, 'tests')
@@ -24,6 +25,7 @@ const logger = console;
  */
 exports.run = function(port, config) {
    config = config || {};
+   config.moduleType = config.moduleType || 'esm';
    config.root = config.root || '';
    config.ws = config.ws || '';
    config.wsPath = path.join(config.root, config.ws);
