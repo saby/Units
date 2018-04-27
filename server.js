@@ -36,11 +36,13 @@ exports.run = function(port, config) {
    config.shared = config.shared || [];
    config.initializer = config.initializer || 'testing-init.js';
 
-   let serverSignature = `"${package.description}" HTTP server v.${package.version} at port ${port} for "${config.resourcesPath}"`;
+   const mimeTypes = package.mimeTypes || {};
+   const serverSignature = `"${package.description}" HTTP server v.${package.version} at port ${port} for "${config.resourcesPath}"`;
+
    logger.log(`Starting ${serverSignature}`);
 
-   let app = connect(),
-      server;
+   let app = connect();
+   let server;
 
    let shutDown = function() {
       if (server) {
@@ -50,14 +52,26 @@ exports.run = function(port, config) {
       server = null;
    };
 
+   let staticConfig = {
+      setHeaders: function setHeaders(res, path) {
+         let dotPos = path.lastIndexOf('.');
+         if (dotPos > -1) {
+            let ext = path.substr(dotPos + 1);
+            if (ext in mimeTypes) {
+               res.setHeader('Content-Type', mimeTypes[ext]);
+            }
+         }
+      }
+   };
+
    app
       .use('/~setup.js', handlers.setup(config))
       .use('/~test-list.js', handlers.testListAmd(config))
       .use('/~test-list.json', handlers.testListJson(config))
       .use('/~coverage/', handlers.coverage(config))
-      .use('/~ws/', serveStatic(config.wsPath))
-      .use('/~resources/', serveStatic(config.resourcesPath))
-      .use('/cdn/', serveStatic(path.join(config.wsPath, 'ws/lib/Ext')))
+      .use('/~ws/', serveStatic(config.wsPath, staticConfig))
+      .use('/~resources/', serveStatic(config.resourcesPath, staticConfig))
+      .use('/cdn/', serveStatic(path.join(config.wsPath, 'ws/lib/Ext'), staticConfig))
       .use('/node_modules/', serveStatic(path.join(process.cwd(), 'node_modules')));
 
    config.shared.forEach(dir => {
@@ -65,8 +79,8 @@ exports.run = function(port, config) {
    });
 
    app
-      .use(serveStatic(__dirname))
-      .use(serveStatic(process.cwd()));
+      .use(serveStatic(__dirname, staticConfig))
+      .use(serveStatic(process.cwd(), staticConfig));
 
    server = http.createServer(app).listen(port);
 

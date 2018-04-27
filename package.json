@@ -26,5 +26,8 @@
     "sinon": "4.5.x"
   },
   "devDependencies": {
+  },
+  "mimeTypes": {
+    "jsm": "application/javascript"
   }
 }
