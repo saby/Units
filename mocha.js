@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+/* global require, process */
+
 /**
  * This wrapper runs mocha in valid environment.
  * Usage:

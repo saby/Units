@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+/* global require */
+
 /**
  * Runs testing via Webdriver
  * @param {String} url URL with testing

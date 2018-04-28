@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+/* global require */
+
 /**
  * Runs testing via Node.js
  * @param {Object} config Config

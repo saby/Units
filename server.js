@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+/* global require, process */
+
 let path = require('path'),
    connect = require('connect'),
    http = require('http'),
@@ -43,17 +45,6 @@ exports.run = function(port, config) {
 
    logger.log(`Starting ${serverSignature}`);
 
-   let app = connect();
-   let server;
-
-   let shutDown = function() {
-      if (server) {
-         logger.log(`Stopping ${serverSignature}`);
-         server.close();
-      }
-      server = null;
-   };
-
    let staticConfig = {
       setHeaders: function setHeaders(res, path) {
          let dotPos = path.lastIndexOf('.');
@@ -66,7 +57,7 @@ exports.run = function(port, config) {
       }
    };
 
-   app
+   let app = connect()
       .use('/~setup.js', handlers.setup(config))
       .use('/~test-list.js', handlers.testListAmd(config))
       .use('/~test-list.json', handlers.testListJson(config))
@@ -84,7 +75,15 @@ exports.run = function(port, config) {
       .use(serveStatic(__dirname, staticConfig))
       .use(serveStatic(process.cwd(), staticConfig));
 
-   server = http.createServer(app).listen(port);
+   let server = http.createServer(app).listen(port);
+
+   let shutDown = function() {
+      if (server) {
+         logger.log(`Stopping ${serverSignature}`);
+         server.close();
+      }
+      server = null;
+   };
 
    process.on('exit', shutDown);
 
