@@ -12,6 +12,9 @@ let spawn = require('child_process').spawn,
    path = require('path'),
    pathTo = require('./lib/util').pathTo,
    args = [
+//      '--experimental-modules',
+//      '--loader',
+//      './node_modules/ws-unit-testing/lib/nodeEsmLoader.mjs',
       path.join(pathTo('mocha'), 'bin', 'mocha')
    ];
 
