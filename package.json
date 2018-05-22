@@ -28,6 +28,7 @@
   "devDependencies": {
   },
   "mimeTypes": {
+    "esm": "application/javascript",
     "jsm": "application/javascript"
   }
 }
