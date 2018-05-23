@@ -25,7 +25,6 @@ if (esmFlagAt > -1) {
 
 args.push.apply(args, inheritedArgs);
 
-console.log('spawn', process.execPath, args);
 let proc = spawn(
    process.execPath,
    args,
