@@ -8,7 +8,7 @@
 
 let spawn = require('child_process').spawn,
    path = require('path'),
-   scripts = process.argv.slice(2),
+   args = process.argv.slice(2),
    processes = [],
    finished = [];
 
@@ -22,12 +22,30 @@ function finishEarly(index) {
    });
 }
 
+// Scripts and arguments
+let scriptsArgs = [];
+let scripts = args.filter((item) => {
+   let isArgument = item.startsWith('-');
+   if (isArgument) {
+      let scriptNum = scriptsArgs.length;
+      if (scriptsArgs[scriptNum - 1]) {
+         scriptsArgs[scriptNum - 1].push(item);
+      }
+   } else {
+      scriptsArgs.push([]);
+   }
+
+   return !isArgument;
+});
+
 // Run children
 scripts.forEach((script, index) => {
    script = path.resolve(script);
+   let args = scriptsArgs[index] || [];
+   args.unshift(script);
    let proc = spawn(
       process.execPath,
-      [script],
+      args,
       {stdio: 'inherit'}
    );
 

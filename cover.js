@@ -5,19 +5,26 @@
 /**
  * This wrapper runs coverage analysis in valid environment.
  * Usage:
- * node node_modules/ws-unit-testing/cover path/to/your/test/runner.js
+ * node node_modules/ws-unit-testing/cover[ --esm] path/to/your/test/runner.js
  */
 
 let spawn = require('child_process').spawn,
    path = require('path'),
    pathTo = require('./lib/util').pathTo,
+   inheritedArgs = process.argv.slice(2),
    args = [
       path.join(pathTo('istanbul'), 'lib', 'cli'),
       'cover',
       path.join(pathTo('mocha'), 'bin', '_mocha')
    ];
 
-args.push.apply(args, process.argv.slice(2));
+let esmFlagAt = inheritedArgs.indexOf('--esm');
+if (esmFlagAt > -1) {
+   inheritedArgs.splice(esmFlagAt, 1);
+   args.push('--compilers', 'js:babel-core/register');
+}
+
+args.push.apply(args, inheritedArgs);
 
 let proc = spawn(
    process.execPath,
