@@ -20,7 +20,7 @@ if (esmFlagAt > -1) {
    //'--experimental-modules',
    //'--loader',
    //'./node_modules/ws-unit-testing/lib/esmLoader.mjs',
-   args.push('--compilers', 'js:babel-core/register');
+   args.push('--compilers', 'esm:babel-core/register');
 }
 
 args.push.apply(args, inheritedArgs);
@@ -30,6 +30,7 @@ let proc = spawn(
    args,
    {stdio: 'inherit'}
 );
+
 proc.on('exit', (code, signal) => {
    process.on('exit', function() {
       if (signal) {
