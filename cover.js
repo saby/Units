@@ -13,9 +13,9 @@ let spawn = require('child_process').spawn,
    pathTo = require('./lib/util').pathTo,
    inheritedArgs = process.argv.slice(2),
    args = [
-      path.join(pathTo('istanbul'), 'lib', 'cli'),
-      'cover',
-      path.join(pathTo('mocha'), 'bin', '_mocha')
+      path.join(pathTo('nyc'), 'bin', 'nyc'),
+      path.join(pathTo('mocha'), 'bin', '_mocha'),
+      '--'
    ];
 
 let esmFlagAt = inheritedArgs.indexOf('--esm');
@@ -26,6 +26,7 @@ if (esmFlagAt > -1) {
 
 args.push.apply(args, inheritedArgs);
 
+console.log('spawn', process.execPath, args);
 let proc = spawn(
    process.execPath,
    args,
