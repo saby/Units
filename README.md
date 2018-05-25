@@ -101,7 +101,7 @@
 1. Создать файл, запускающий локальный http-сервер со страницей тестирования `testing-server.js`:
 
 ```javascript
-   var app = require('ws-unit-testing/server');
+   let app = require('ws-unit-testing/server');
 
    app.run(
        777,//Порт, на котором запустить сервер
@@ -122,7 +122,7 @@
 1. Создать файл, запускающий тесты через webdriver `testing-browser.js`:
 
 ```javascript
-   var app = require('ws-unit-testing/browser');
+   let app = require('ws-unit-testing/browser');
 
    app.run(
       'http://localhost:777/?reporter=XUnit',//URL страницы тестирования, который будет доступен через запущенный testing-server.js
