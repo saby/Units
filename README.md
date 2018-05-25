@@ -9,7 +9,7 @@
 
 Объект `assert` можно подключить, как как [указано в примере](assert.es).
 
-Файлы тестов должны именоваться по маске `*.test.es`. Пример теста `example.test.es`:
+Файлы тестов должны именоваться по маске `*.test.es`. Пример теста `test/example.test.es`:
 
 ```javascript
    /* global describe, context, it */
@@ -49,23 +49,15 @@
 Все файлы в примерах ниже должны создаваться в корневой папке вашего модуля.
 
 ## Запуск под Node.js
-1. Создать файл, запускающий тесты `testing-node.js`:
+Выполнить команду:
 
-```javascript
-   var app = require('ws-unit-testing/isolated');
+        node node_modules/ws-unit-testing/mocha -t 10000 test/**/*.test.*
 
-   app.run({
-      root: './',//Путь до корневой папки модуля
-      ws: 'WS.Core',//Путь до ядра WS (относительно root)
-      resources: 'lib'//Путь к папке с библиотеками модуля (относительно root)
-      //tests: 'test'//Можно указать путь к папке с тестами, если они лежат отдельно (относительно root)
-      //reportFile: 'artifacts/xunit-report.xml'//Можно задать файл, в который следует сохранить отчет (относительно root)
-   });
-```
+где `test/**/*.test.*` - шаблон пути до файлов с тестами
 
-2. Запустить тесты:
+Для генерации формализованного очета укажите его формат и путь до файла. Например:
 
-        node node_modules/ws-unit-testing/mocha -t 10000 testing-node
+        node node_modules/ws-unit-testing/mocha --timeout 10000 --reporter xunit --reporter-options output=artifacts/xunit-report.xml test/**/*.test.*
 
 ## Генерация отчета о покрытии под Node.js
 1. Скопировать в корневой каталог вашего модуля файл настроек [.babelrc](.babelrc).
@@ -93,16 +85,16 @@
 
 3. Запустить генерацию отчета:
 
-        node node_modules/ws-unit-testing/cover testing-node
+        node node_modules/ws-unit-testing/cover -t 10000 test/**/*.test.*
 
-4. Если вы указали `reportFile`, то в этой папке появится отчет.
-
-Описание используемых настроек раздела nyc:
+Описание настроек раздела nyc:
 
 - `include` - маски файлов, которые попадут в отчет о покрытии;
 - `reporter` - форматы выходных отчетов о покрытии;
 - `extension` - дополнительные расширения файлов, которые нужно проинструментировать;
 - `report-dir` - путь до папки, в которую попадет отчет о покрытии кода тестами.
+
+Больше информации о настройках можно узнать на сайте пакета [nyc](https://www.npmjs.com/package/nyc).
 
 ## Запуск через браузер
 1. Создать файл, запускающий локальный http-сервер со страницей тестирования `testing-server.js`:
@@ -113,10 +105,8 @@
    app.run(
        777,//Порт, на котором запустить сервер
        {
-           root: './',//Путь до корневой папки модуля (относительно root)
-           ws: 'WS.Core',//Путь до ядра WS (относительно root)
-           resources: 'lib'//Путь к папке с библиотеками модуля (относительно root)
-           //tests: 'test'//Можно указать путь к папке с тестами, если они лежат отдельно (относительно root)
+           root: './',//Путь до корневой папки, обрабатываемой сервером
+           tests: 'test'//Можно указать путь к папке с тестами, если они лежат отдельно (относительно root)
        }
    );
 ```
@@ -139,7 +129,6 @@
    );
 ```
 
-
 2. Запустить сервер:
 
         node testing-server
@@ -147,7 +136,6 @@
 3. Запустить тестирование:
 
         node testing-browser
-
 
 # Интеграция с Jenkins
 Настройки сборки в Jenkins.
@@ -194,8 +182,8 @@
 
     call npm config set registry http://npmregistry.sbis.ru:81/
     call npm install
-    call node node_modules/ws-unit-testing/cover testing-node
-    call node node_modules/ws-unit-testing/mocha -t 10000 -R xunit testing-node
+    call node node_modules/ws-unit-testing/cover test/**/*.test.*
+    call node node_modules/ws-unit-testing/mocha --reporter xunit --reporter-options output=artifacts/xunit-report.xml test/**/*.test.*
 
 +Выполнить команду Windows (для тестирования через webdriver)
 
@@ -210,7 +198,7 @@ Publish JUnit test result report
 
     ✓ Retain long standard output/error
 
-Путь до отчета зависит от настроек в `testing-node.js`
+Путь до отчета зависит от настроек.
 
 Publish documents
 
