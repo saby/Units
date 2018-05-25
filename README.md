@@ -49,7 +49,9 @@
 Все файлы в примерах ниже должны создаваться в корневой папке вашего модуля.
 
 ## Запуск под Node.js
-Выполнить команду:
+1. Скопировать в корневой каталог вашего модуля файл настроек [.babelrc](.babelrc).
+
+2. Выполнить команду:
 
         node node_modules/ws-unit-testing/mocha --timeout 10000 test/**/*.test.es
 
@@ -60,9 +62,8 @@
         node node_modules/ws-unit-testing/mocha --timeout 10000 --reporter xunit --reporter-options output=artifacts/xunit-report.xml test/**/*.test.es
 
 ## Генерация отчета о покрытии под Node.js
-1. Скопировать в корневой каталог вашего модуля файл настроек [.babelrc](.babelrc).
 
-2. Добавить в `package.json` вашего модуля раздел настроек пакета [nyc](https://www.npmjs.com/package/nyc):
+1. Добавить в `package.json` вашего модуля раздел настроек пакета [nyc](https://www.npmjs.com/package/nyc):
 
 ```javascript
   "nyc": {
@@ -83,7 +84,7 @@
   }
 ```
 
-3. Запустить генерацию отчета:
+2. Запустить генерацию отчета:
 
         node node_modules/ws-unit-testing/cover --timeout 10000 test/**/*.test.es
 
