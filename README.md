@@ -10,28 +10,28 @@
 
 В тестах доступны глобальные переменные: `requirejs`, `define`, `sinon`.
 
-Функцию `assert` можно подключить, как как (указано в примере)[./assert.es].
+Функцию `assert` можно подключить, как как [указано в примере](assert.es).
 
 Файлы тестов должны именоваться по маске `*.test.es`. Пример теста `example.test.es`:
 
 ```javascript
    /* global describe, context, it */
-   import {assert} from '../assert.es';
+   import {assert} from './assert.es';
    import {MyModule} from '../MyPackage/MyLibrary.es';
 
-   describe('MyPackage/MyLibrary#MyModule', function() {
+   describe('MyPackage/MyLibrary#MyModule', () => {
       var myInstance;
 
-      beforeEach(function () {
+      beforeEach(() => {
          myInstance = new MyModule();
       });
 
-      afterEach(function () {
+      afterEach(() => {
          myInstance = undefined;
       });
 
-      describe('.constructor()', function () {
-         it('should return instance of MyModule', function () {
+      describe('.constructor()', () => {
+         it('should return instance of MyModule', () => {
             assert.instanceOf(myInstance, MyModule);
          });
       });
@@ -71,7 +71,7 @@
         node node_modules/ws-unit-testing/mocha -t 10000 testing-node
 
 ## Генерация отчета о покрытии под Node.js
-1. Скопировать в корневой каталог вашего модуля файл настроек `(.babelrc)[./.babelrc]`.
+1. Скопировать в корневой каталог вашего модуля файл настроек [.babelrc](.babelrc).
 
 2. Добавить в `package.json` вашего модуля раздел настроек пакета [nyc](https://www.npmjs.com/package/nyc):
 
@@ -94,12 +94,12 @@
   }
 ```
 
-Описание разделов:
+    Описание разделов:
 
-- `include`: маски файлов, которые попадут в отчет о покрытии;
-- `reporter`: форматы выходных отчетов о покрытии;
-- `extension`: дополнительные расширения файлов, которые нужно проинструментировать;
-- `report-dir`: путь до папки, в которую попадет отчет о покрытии кода тестами;
+    - `include` - маски файлов, которые попадут в отчет о покрытии;
+    - `reporter` - форматы выходных отчетов о покрытии;
+    - `extension` - дополнительные расширения файлов, которые нужно проинструментировать;
+    - `report-dir` - путь до папки, в которую попадет отчет о покрытии кода тестами.
 
 3. Запустить генерацию отчета:
 
