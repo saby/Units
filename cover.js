@@ -13,18 +13,20 @@ let spawn = require('child_process').spawn,
    pathTo = require('./lib/util').pathTo,
    inheritedArgs = process.argv.slice(2),
    args = [
-      path.join(pathTo('nyc'), 'bin', 'nyc'),
-      path.join(pathTo('mocha'), 'bin', 'mocha')
+      path.join(pathTo('nyc'), 'bin', 'nyc')
    ];
 
 let esmFlagAt = inheritedArgs.indexOf('--esm');
 if (esmFlagAt > -1) {
    inheritedArgs.splice(esmFlagAt, 1);
-   args.push('--compilers', 'esm:babel-core/register');
+   args.push('--require', 'babel-register', '--sourceMap', 'false', '--instrument', 'false');
 }
+
+args.push(path.join(pathTo('mocha'), 'bin', 'mocha'));
 
 args.push.apply(args, inheritedArgs);
 
+//console.log('spawn', process.execPath, args);
 let proc = spawn(
    process.execPath,
    args,

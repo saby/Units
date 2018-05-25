@@ -1,4 +1,4 @@
-import run from './lib/isolated.esm';
+import run from './lib/isolated.es';
 
 /**
  * Runs testing via Node.js

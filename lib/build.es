@@ -6,7 +6,7 @@ import path from 'path';
 import fs from 'fs';
 import unit from './unit';
 
-const TEST_MODULE_FILENAME = './unit-testing.esm';
+const TEST_MODULE_FILENAME = './unit-testing.es';
 
 let unitTest = unit.test;
 

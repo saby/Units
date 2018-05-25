@@ -20,11 +20,12 @@ if (esmFlagAt > -1) {
    //'--experimental-modules',
    //'--loader',
    //'./node_modules/ws-unit-testing/lib/esmLoader.mjs',
-   args.push('--compilers', 'esm:babel-core/register');
+   args.push('--compilers', 'es:babel-core/register');
 }
 
 args.push.apply(args, inheritedArgs);
 
+//console.log('spawn', process.execPath, args);
 let proc = spawn(
    process.execPath,
    args,
