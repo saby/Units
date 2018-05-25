@@ -51,13 +51,13 @@
 ## Запуск под Node.js
 Выполнить команду:
 
-        node node_modules/ws-unit-testing/mocha -t 10000 test/**/*.test.*
+        node node_modules/ws-unit-testing/mocha --timeout 10000 test/**/*.test.es
 
-где `test/**/*.test.*` - шаблон пути до файлов с тестами
+где `test/**/*.test.es` - шаблон пути до файлов с тестами
 
-Для генерации формализованного очета укажите его формат и путь до файла. Например:
+Для генерации формализованного отчета укажите его формат и путь до файла. Например:
 
-        node node_modules/ws-unit-testing/mocha --timeout 10000 --reporter xunit --reporter-options output=artifacts/xunit-report.xml test/**/*.test.*
+        node node_modules/ws-unit-testing/mocha --timeout 10000 --reporter xunit --reporter-options output=artifacts/xunit-report.xml test/**/*.test.es
 
 ## Генерация отчета о покрытии под Node.js
 1. Скопировать в корневой каталог вашего модуля файл настроек [.babelrc](.babelrc).
@@ -85,7 +85,7 @@
 
 3. Запустить генерацию отчета:
 
-        node node_modules/ws-unit-testing/cover -t 10000 test/**/*.test.*
+        node node_modules/ws-unit-testing/cover --timeout 10000 test/**/*.test.es
 
 Описание настроек раздела nyc:
 
@@ -182,8 +182,8 @@
 
     call npm config set registry http://npmregistry.sbis.ru:81/
     call npm install
-    call node node_modules/ws-unit-testing/cover test/**/*.test.*
-    call node node_modules/ws-unit-testing/mocha --reporter xunit --reporter-options output=artifacts/xunit-report.xml test/**/*.test.*
+    call node node_modules/ws-unit-testing/cover test/**/*.test.es
+    call node node_modules/ws-unit-testing/mocha --reporter xunit --reporter-options output=artifacts/xunit-report.xml test/**/*.test.es
 
 +Выполнить команду Windows (для тестирования через webdriver)
 
