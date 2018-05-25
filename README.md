@@ -8,29 +8,31 @@
 
 Для организации моков и заглушек подключен пакет [Sinon](http://sinonjs.org/).
 
-В тестах доступны глобальные переменные: `requirejs`, `define`, `assert`, `sinon`.
+В тестах доступны глобальные переменные: `requirejs`, `define`, `sinon`.
 
-Файлы тестов должны именоваться по маске `*.test.js`. Пример теста `example.test.js`:
+Функцию `assert` можно подключить, как как (указано в примере)[assert.es].
+
+Файлы тестов должны именоваться по маске `*.test.es`. Пример теста `example.test.es`:
 
 ```javascript
-   define(['MyPackage/MyModule'], function (MyModule) {
-      'use strict';
+   /* global describe, context, it */
+   import {assert} from '../assert.es';
+   import {MyModule} from '../MyPackage/MyLibrary.es';
 
-      describe('MyPackage/MyModule', function () {
-         var myInstance;
+   describe('MyPackage/MyLibrary#MyModule', function() {
+      var myInstance;
 
-         beforeEach(function () {
-            myInstance = new MyModule();
-         });
+      beforeEach(function () {
+         myInstance = new MyModule();
+      });
 
-         afterEach(function () {
-            myInstance = undefined;
-         });
+      afterEach(function () {
+         myInstance = undefined;
+      });
 
-         describe('.constructor()', function () {
-            it('should return instance of MyModule', function () {
-               assert.instanceOf(myInstance, MyModule);
-            });
+      describe('.constructor()', function () {
+         it('should return instance of MyModule', function () {
+            assert.instanceOf(myInstance, MyModule);
          });
       });
    });
@@ -69,16 +71,41 @@
         node node_modules/ws-unit-testing/mocha -t 10000 testing-node
 
 ## Генерация отчета о покрытии под Node.js
-1. Скопировать в корневой каталог вашего модуля файл настроек `.istanbul.yml` (образец есть в корне этого модуля).
-2. В параметре `reporting.dir` указать папку, в которой будет сгенерирован отчет. Например:
+1. Скопировать в корневой каталог вашего модуля файл настроек `(.babelrc)[.babelrc]`.
 
-        dir: ./artifacts/coverage
+2. Добавить в `package.json` вашего модуля раздел настроек пакета [nyc](https://www.npmjs.com/package/nyc):
+
+```javascript
+  "nyc": {
+    "include": [
+      "Foo/**/*.es",
+      "Bar/**/*.js"
+    ],
+    "reporter": [
+      "text",
+      "html"
+    ],
+    "extension": [
+      ".es"
+    ],
+    "cache": false,
+    "eager": true,
+    "report-dir": "./artifacts/coverage"
+  }
+```
+
+Описание разделов:
+
+- `include`: маски файлов, которые попадут в отчет о покрытии;
+- `reporter`: форматы выходных отчетов о покрытии;
+- `extension`: дополнительные расширения файлов, которые нужно проинструментировать;
+- `report-dir`: путь до папки, в которую попадет отчет о покрытии кода тестами;
 
 3. Запустить генерацию отчета:
 
         node node_modules/ws-unit-testing/cover testing-node
 
-4. В указанной папке появится отчет в формате HTML.
+4. Если вы указали `reportFile`, то в этой папке появится отчет.
 
 ## Запуск через браузер
 1. Создать файл, запускающий локальный http-сервер со страницей тестирования `testing-server.js`:
@@ -194,4 +221,4 @@ Publish documents
 
     Directory to archive: artifacts/coverage/lcov-report/
 
-Путь до отчета о покрытии зависит от настроек в `.istanbul.yml`
+Путь до отчета о покрытии зависит от настроек в `package.json`.
