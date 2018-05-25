@@ -17,7 +17,7 @@
    import {MyModule} from '../MyPackage/MyLibrary.es';
 
    describe('MyPackage/MyLibrary#MyModule', () => {
-      var myInstance;
+      let myInstance;
 
       beforeEach(() => {
          myInstance = new MyModule();
