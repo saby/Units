@@ -8,7 +8,6 @@ import fs from 'fs';
 import unit from './unit';
 import saveReport from './saveReport';
 
-
 import describe from 'mocha';
 import assert from 'chai';
 import sinon from 'sinon';
@@ -18,10 +17,10 @@ global.describe = describe;
 global.assert = assert;
 global.sinon = sinon;
 
-import '../../../unit-testing.esm';
+import '../../../unit-testing.es';
 
 const logger = console;
-const TEST_MODULE_FILENAME = './unit-testing.esm';
+const TEST_MODULE_FILENAME = './unit-testing.es';
 
 let unitTest = unit.test;
 

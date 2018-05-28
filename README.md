@@ -1,36 +1,35 @@
 # UNIT-тесты в окружении WS
 
-## Требования к вашему пакету
-При подключении интерфейсных модулей не из корня, пути до AMD-модулей них будут разрешаться через файлы `contents.js` и `contents.json` в каталоге ресурсов (секция RequireJsPaths). Вы должны позаботиться об их наличии.
-
 ## Тесты
 Все подробности доступны на сайтах фреймворка [Mocha](https://mochajs.org/) и библиотеки [Chai](http://chaijs.com/).
 
 Для организации моков и заглушек подключен пакет [Sinon](http://sinonjs.org/).
 
-В тестах доступны глобальные переменные: `requirejs`, `define`, `assert`, `sinon`.
+В тестах доступны глобальные переменные: `describe`, `it` и прочие из [интерфейса BDD](https://mochajs.org/#-u---ui-name).
 
-Файлы тестов должны именоваться по маске `*.test.js`. Пример теста `example.test.js`:
+Объект `assert` можно подключить, как как [указано в примере](assert.es).
+
+Файлы тестов должны именоваться по маске `*.test.es`. Пример теста `test/example.test.es`:
 
 ```javascript
-   define(['MyPackage/MyModule'], function (MyModule) {
-      'use strict';
+   /* global describe, context, it */
+   import {assert} from './assert.es';
+   import {MyModule} from '../MyPackage/MyLibrary.es';
 
-      describe('MyPackage/MyModule', function () {
-         var myInstance;
+   describe('MyPackage/MyLibrary#MyModule', () => {
+      let myInstance;
 
-         beforeEach(function () {
-            myInstance = new MyModule();
-         });
+      beforeEach(() => {
+         myInstance = new MyModule();
+      });
 
-         afterEach(function () {
-            myInstance = undefined;
-         });
+      afterEach(() => {
+         myInstance = undefined;
+      });
 
-         describe('.constructor()', function () {
-            it('should return instance of MyModule', function () {
-               assert.instanceOf(myInstance, MyModule);
-            });
+      describe('.constructor()', () => {
+         it('should return instance of MyModule', () => {
+            assert.instanceOf(myInstance, MyModule);
          });
       });
    });
@@ -50,49 +49,65 @@
 Все файлы в примерах ниже должны создаваться в корневой папке вашего модуля.
 
 ## Запуск под Node.js
-1. Создать файл, запускающий тесты `testing-node.js`:
+1. Скопировать в корневой каталог вашего модуля файл настроек [.babelrc](.babelrc).
 
-```javascript
-   var app = require('ws-unit-testing/isolated');
+2. Выполнить команду:
 
-   app.run({
-      root: './',//Путь до корневой папки модуля
-      ws: 'WS.Core',//Путь до ядра WS (относительно root)
-      resources: 'lib'//Путь к папке с библиотеками модуля (относительно root)
-      //tests: 'test'//Можно указать путь к папке с тестами, если они лежат отдельно (относительно root)
-      //reportFile: 'artifacts/xunit-report.xml'//Можно задать файл, в который следует сохранить отчет (относительно root)
-   });
-```
+        node node_modules/ws-unit-testing/mocha --timeout 10000 test/**/*.test.es
 
-2. Запустить тесты:
+где `test/**/*.test.es` - шаблон пути до файлов с тестами
 
-        node node_modules/ws-unit-testing/mocha -t 10000 testing-node
+Для генерации формализованного отчета укажите его формат и путь до файла. Например:
+
+        node node_modules/ws-unit-testing/mocha --timeout 10000 --reporter xunit --reporter-options output=artifacts/xunit-report.xml test/**/*.test.es
 
 ## Генерация отчета о покрытии под Node.js
-1. Скопировать в корневой каталог вашего модуля файл настроек `.istanbul.yml` (образец есть в корне этого модуля).
-2. В параметре `reporting.dir` указать папку, в которой будет сгенерирован отчет. Например:
 
-        dir: ./artifacts/coverage
+1. Добавить в `package.json` вашего модуля раздел настроек пакета [nyc](https://www.npmjs.com/package/nyc):
 
-3. Запустить генерацию отчета:
+```javascript
+  "nyc": {
+    "include": [
+      "Foo/**/*.es",
+      "Bar/**/*.js"
+    ],
+    "reporter": [
+      "text",
+      "html"
+    ],
+    "extension": [
+      ".es"
+    ],
+    "cache": false,
+    "eager": true,
+    "report-dir": "./artifacts/coverage"
+  }
+```
 
-        node node_modules/ws-unit-testing/cover testing-node
+2. Запустить генерацию отчета:
 
-4. В указанной папке появится отчет в формате HTML.
+        node node_modules/ws-unit-testing/cover --timeout 10000 test/**/*.test.es
+
+Описание настроек раздела nyc:
+
+- `include` - маски файлов, которые попадут в отчет о покрытии;
+- `reporter` - форматы выходных отчетов о покрытии;
+- `extension` - дополнительные расширения файлов, которые нужно проинструментировать;
+- `report-dir` - путь до папки, в которую попадет отчет о покрытии кода тестами.
+
+Больше информации о настройках можно узнать на сайте пакета [nyc](https://www.npmjs.com/package/nyc).
 
 ## Запуск через браузер
 1. Создать файл, запускающий локальный http-сервер со страницей тестирования `testing-server.js`:
 
 ```javascript
-   var app = require('ws-unit-testing/server');
+   let app = require('ws-unit-testing/server');
 
    app.run(
        777,//Порт, на котором запустить сервер
        {
-           root: './',//Путь до корневой папки модуля (относительно root)
-           ws: 'WS.Core',//Путь до ядра WS (относительно root)
-           resources: 'lib'//Путь к папке с библиотеками модуля (относительно root)
-           //tests: 'test'//Можно указать путь к папке с тестами, если они лежат отдельно (относительно root)
+           root: './',//Путь до корневой папки, обрабатываемой сервером
+           tests: 'test'//Можно указать путь к папке с тестами, если они лежат отдельно (относительно root)
        }
    );
 ```
@@ -107,14 +122,13 @@
 1. Создать файл, запускающий тесты через webdriver `testing-browser.js`:
 
 ```javascript
-   var app = require('ws-unit-testing/browser');
+   let app = require('ws-unit-testing/browser');
 
    app.run(
       'http://localhost:777/?reporter=XUnit',//URL страницы тестирования, который будет доступен через запущенный testing-server.js
       'artifacts/xunit-report.xml'//Файл, в который следует сохранить отчет
    );
 ```
-
 
 2. Запустить сервер:
 
@@ -123,7 +137,6 @@
 3. Запустить тестирование:
 
         node testing-browser
-
 
 # Интеграция с Jenkins
 Настройки сборки в Jenkins.
@@ -170,8 +183,8 @@
 
     call npm config set registry http://npmregistry.sbis.ru:81/
     call npm install
-    call node node_modules/ws-unit-testing/cover testing-node
-    call node node_modules/ws-unit-testing/mocha -t 10000 -R xunit testing-node
+    call node node_modules/ws-unit-testing/cover test/**/*.test.es
+    call node node_modules/ws-unit-testing/mocha --reporter xunit --reporter-options output=artifacts/xunit-report.xml test/**/*.test.es
 
 +Выполнить команду Windows (для тестирования через webdriver)
 
@@ -186,7 +199,7 @@ Publish JUnit test result report
 
     ✓ Retain long standard output/error
 
-Путь до отчета зависит от настроек в `testing-node.js`
+Путь до отчета зависит от настроек.
 
 Publish documents
 
@@ -194,4 +207,4 @@ Publish documents
 
     Directory to archive: artifacts/coverage/lcov-report/
 
-Путь до отчета о покрытии зависит от настроек в `.istanbul.yml`
+Путь до отчета о покрытии зависит от настроек в `package.json`.
