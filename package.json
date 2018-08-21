@@ -20,7 +20,7 @@
     "connect": "3.5.x",
     "serve-static": "1.11.x",
     "mocha": "5.2.x",
-    "chai": "3.5.x",
+    "chai": "4.1.x",
     "istanbul": "0.4.x",
     "sinon": "2.3.x"
   },
