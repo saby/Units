@@ -4,7 +4,7 @@ sscsa
 deescscdsc
 dsdwcscsуцуdwdwdw
 dwwsdw
-sawe
+sawedw
 dsadвцвцdw
 свывцвцwdwdsadedfew
 fefewdwdw
