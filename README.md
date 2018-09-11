@@ -6,7 +6,5 @@ dsdwcscsуцуdwdwdw
 dwwsdw
 sawedw
 dsadвцвцdw
-свывцвцwdwdsadedfewdw
-fefewdwdw
-ауцаefweffe
+e
 wew
