@@ -6,8 +6,6 @@ dsdwcscsуцуdwdwdwdwdw
 dwwsdw
 sawedwedw
 dsadвцвцdwdwdwdcsdwddw
-e
-wew
-dewd
+edw
 xsxs
 vds
