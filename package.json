@@ -29,7 +29,7 @@
     "mocha": "5.2.x",
     "chai": "4.1.x",
     "nyc": "11.8.x",
-    "sinon": "4.5.x"
+    "sinon": "6.3.x"
   },
   "devDependencies": {
   }
