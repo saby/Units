@@ -7,7 +7,7 @@
     "unit",
     "ws"
   ],
-  "version": "3.0.0",
+  "version": "3.18.600",
   "repository": {
     "type": "git",
     "url": "git@git.sbis.ru:ws/unit-testing.git"
