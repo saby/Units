@@ -21,7 +21,6 @@ const logger = console;
  * @param {String} [config.root=''] Path to the project root
  * @param {String} [config.tests] Path to tests folder (relative to config.root)
  * @param {String} [config.initializer] Path to initialzation script that calls before testing start (for example, 'init.js')
- * @param {Array.<String>} [config.shared] Additional shared files and folders via HTTP (for example, ['doc'])
  * @param {String} [config.coverageCommand] Command that runs coverage HTML report building (for example, 'node node_modules/ws-unit-testing/cover test-isolated')
  * @param {String} [config.coverageReport] Coverage HTML report target path (например, '/artifacts/coverage/lcov-report/index.html')
  */
@@ -33,7 +32,6 @@ exports.run = function(port, config) {
    config.tests = config.tests || '';
    config.coverageCommand = config.coverageCommand || 'node node_modules/ws-unit-testing/cover test';
    config.coverageReport = config.coverageReport || '/artifacts/coverage/';
-   config.shared = config.shared || [];
    config.initializer = config.initializer || '';
 
    const mimeTypes = package.mimeTypes || {};
@@ -54,7 +52,7 @@ exports.run = function(port, config) {
    };
 
 
-   const CDN_PATH = path.join(path.join(config.root, config.ws), 'ws/lib/Ext');
+   const CDN_PATH = path.join(config.root, config.ws, 'lib/Ext');
 
    let app = connect()
       .use(serveStatic(__dirname, staticConfig))
@@ -65,10 +63,6 @@ exports.run = function(port, config) {
       .use('/~test-list.js', handlers.testListAmd(config))
       .use('/~test-list.json', handlers.testListJson(config))
       .use('/~coverage/', handlers.coverage(config));
-
-   config.shared.forEach(dir => {
-      app.use('/' + dir, serveStatic(path.join(config.root, dir)));
-   });
 
    let server = http.createServer(app).listen(port);
 
