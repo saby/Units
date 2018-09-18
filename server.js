@@ -29,6 +29,7 @@ exports.run = function(port, config) {
    config = config || {};
    config.moduleType = config.moduleType || 'esm';
    config.root = config.root || '';
+   config.ws = config.ws || WS_CORE_PATH
    config.tests = config.tests || '';
    config.coverageCommand = config.coverageCommand || 'node node_modules/ws-unit-testing/cover test';
    config.coverageReport = config.coverageReport || '/artifacts/coverage/';
@@ -52,7 +53,8 @@ exports.run = function(port, config) {
       }
    };
 
-   const CDN_PATH = path.join(path.join(config.root, WS_CORE_PATH), 'ws/lib/Ext');
+
+   const CDN_PATH = path.join(path.join(config.root, config.ws), 'ws/lib/Ext');
 
    let app = connect()
       .use(serveStatic(__dirname, staticConfig))
