@@ -36,7 +36,7 @@ exports.run = function(port, config) {
    config.initializer = config.initializer || '';
 
    const mimeTypes = package.mimeTypes || {};
-   const serverSignature = `"${package.description}" HTTP server v.${package.version} at port ${port} for "${config.root}"`;
+   const serverSignature = `"${package.description}" HTTP server v.${package.version} at port ${port} for "${path.resolve(config.root)}"`;
 
    logger.log(`Starting ${serverSignature}`);
 
