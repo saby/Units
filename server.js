@@ -2,12 +2,13 @@
 
 /* global require, process */
 
-let path = require('path'),
-   connect = require('connect'),
-   http = require('http'),
-   serveStatic = require('serve-static'),
-   package = require('./package.json'),
-   handlers = require('./lib/handlers');
+let path = require('path');
+let connect = require('connect');
+let http = require('http');
+let serveStatic = require('serve-static');
+let package = require('./package.json');
+let {WS_CORE_PATH} = require('./lib/constants');
+let handlers = require('./lib/handlers');
 
 const logger = console;
 
@@ -17,11 +18,9 @@ const logger = console;
  * @param {Number} port Server port
  * @param {Config} config Config
  * @param {String} [config.moduleType='esm'] Testing module type: 'esm' - ECMAScript Module, 'amd' - Asynchronous Module Definition
- * @param {String} config.ws Path to WS (for example, 'ws')
- * @param {String} [config.resources] Path to resources folder (for example, 'resources')
- * @param {String} [config.tests] Path to tests folder (for example, 'tests')
+ * @param {String} [config.root=''] Path to the project root
+ * @param {String} [config.tests] Path to tests folder (relative to config.root)
  * @param {String} [config.initializer] Path to initialzation script that calls before testing start (for example, 'init.js')
- * @param {Array.<String>} [config.shared] Additional shared files and folders via HTTP (for example, ['doc'])
  * @param {String} [config.coverageCommand] Command that runs coverage HTML report building (for example, 'node node_modules/ws-unit-testing/cover test-isolated')
  * @param {String} [config.coverageReport] Coverage HTML report target path (например, '/artifacts/coverage/lcov-report/index.html')
  */
@@ -29,19 +28,14 @@ exports.run = function(port, config) {
    config = config || {};
    config.moduleType = config.moduleType || 'esm';
    config.root = config.root || '';
-   config.ws = config.ws || '';
-   config.wsPath = path.join(config.root, config.ws);
-   config.resources = config.resources || '';
-   config.resourcesPath = path.join(config.root, config.resources);
-   config.tests = config.tests || config.resources;
-   config.testsPath = path.join(config.root, config.tests);
+   config.ws = config.ws || WS_CORE_PATH
+   config.tests = config.tests || '';
    config.coverageCommand = config.coverageCommand || 'node node_modules/ws-unit-testing/cover test';
    config.coverageReport = config.coverageReport || '/artifacts/coverage/';
-   config.shared = config.shared || [];
-   config.initializer = config.initializer || 'testing-init.js';
+   config.initializer = config.initializer || '';
 
    const mimeTypes = package.mimeTypes || {};
-   const serverSignature = `"${package.description}" HTTP server v.${package.version} at port ${port} for "${config.resourcesPath}"`;
+   const serverSignature = `"${package.description}" HTTP server v.${package.version} at port ${port} for "${path.resolve(config.root)}"`;
 
    logger.log(`Starting ${serverSignature}`);
 
@@ -57,23 +51,18 @@ exports.run = function(port, config) {
       }
    };
 
+
+   const CDN_PATH = path.join(config.root, config.ws, 'lib/Ext');
+
    let app = connect()
+      .use(serveStatic(__dirname, staticConfig))
+      .use(serveStatic(config.root ? config.root : process.cwd(), staticConfig))
+      .use('/node_modules/', serveStatic(path.join(process.cwd(), 'node_modules'), staticConfig))
+      .use('/cdn/', serveStatic(CDN_PATH, staticConfig))
       .use('/~setup.js', handlers.setup(config))
       .use('/~test-list.js', handlers.testListAmd(config))
       .use('/~test-list.json', handlers.testListJson(config))
-      .use('/~coverage/', handlers.coverage(config))
-      .use('/~ws/', serveStatic(config.wsPath, staticConfig))
-      .use('/~resources/', serveStatic(config.resourcesPath, staticConfig))
-      .use('/cdn/', serveStatic(path.join(config.wsPath, 'ws/lib/Ext'), staticConfig))
-      .use('/node_modules/', serveStatic(path.join(process.cwd(), 'node_modules'), staticConfig));
-
-   config.shared.forEach(dir => {
-      app.use('/' + dir, serveStatic(path.join(config.root, dir)));
-   });
-
-   app
-      .use(serveStatic(__dirname, staticConfig))
-      .use(serveStatic(process.cwd(), staticConfig));
+      .use('/~coverage/', handlers.coverage(config));
 
    let server = http.createServer(app).listen(port);
 

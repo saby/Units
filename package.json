@@ -7,7 +7,7 @@
     "unit",
     "ws"
   ],
-  "version": "3.0.0",
+  "version": "3.18.600",
   "repository": {
     "type": "git",
     "url": "git@git.sbis.ru:ws/unit-testing.git"
@@ -28,7 +28,7 @@
     "serve-static": "1.13.x",
     "mocha": "5.2.x",
     "chai": "4.1.x",
-    "nyc": "11.8.x",
+    "nyc": "13.0.x",
     "sinon": "6.3.x"
   },
   "devDependencies": {
