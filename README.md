@@ -1,12 +1,3 @@
 #Units
 
-sscsade
-deescscdsc
-dsdwcscsуцуdwdwdwdwdwdwdwqsq
-dwwsdwde
-sawedwedwdefe
-dsadвцвцdwdwdwdcsdwddwfedwdevd
-edwdedw
-xsxsdwdwdw
-vdsdwddxs
-fe
+1 sync
