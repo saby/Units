@@ -5,7 +5,7 @@
 /**
  * This wrapper runs coverage analysis in valid environment.
  * Usage:
- * node node_modules/ws-unit-testing/cover[ --amd] path/to/your/test/runner.js
+ * node node_modules/saby-units/cover[ --amd] path/to/your/test/runner.js
  */
 
 let spawn = require('child_process').spawn,

@@ -1,22 +1,20 @@
-# UNIT-тесты в окружении WS
+# Unit testing in WaSaby environment
 
-## Тесты
-Все подробности доступны на сайтах фреймворка [Mocha](https://mochajs.org/) и библиотеки [Chai](http://chaijs.com/).
+## Introduction
+It's based on [Mocha](https://mochajs.org/) and [Chai](http://chaijs.com/). [Sinon](http://sinonjs.org/) is also included.
 
-Для организации моков и заглушек подключен пакет [Sinon](http://sinonjs.org/).
+There are some global functions which available in test cases: `describe`, `it` and many more from Mocha's [BDD interface](https://mochajs.org/#-u---ui-name).
 
-В тестах доступны глобальные переменные: `describe`, `it` и прочие из [интерфейса BDD](https://mochajs.org/#-u---ui-name).
+You can include `assert` method like in [this example](assert.js).
 
-Объект `assert` можно подключить, как как [указано в примере](assert.es).
-
-Файлы тестов должны именоваться по маске `*.test.es`. Пример теста `test/example.test.es`:
+All test cases should be named by mask `*.test.js`. For example, `test/example.test.js`:
 
 ```javascript
    /* global describe, context, it */
-   import {assert} from './assert.es';
-   import {MyModule} from '../MyPackage/MyLibrary.es';
+   import {assert} from './assert.js';
+   import {MyModule} from '../MyPackage/MyLibrary.js';
 
-   describe('MyPackage/MyLibrary#MyModule', () => {
+   describe('MyPackage/MyLibrary:MyModule', () => {
       let myInstance;
 
       beforeEach(() => {
@@ -35,40 +33,40 @@
    });
 ```
 
-## Настройка
-Подключить модуль `ws-unit-testing` в виде зависимости в файле `package.json` вашего модуля:
+## The first thing
+Add `saby-units` as development dependency in `package.json`:
 
     "devDependencies": {
-        "ws-unit-testing": "git+https://git.sbis.ru/ws/unit-testing.git#rc-3.0.0"
+        "saby-units": "git+https://github.com:saby/Units.git#rc-3.18.700"
     }
 
-И установить его:
+And install it:
 
     npm install
 
-Все файлы в примерах ниже должны создаваться в корневой папке вашего модуля.
+All files in examples below should be created in the root directory of your package.
 
-## Запуск под Node.js
-1. Скопировать в корневой каталог вашего модуля файл настроек [.babelrc](.babelrc).
+## Run under Node.js
+1. Copy file [.babelrc](.babelrc) to the root of your package.
 
-2. Выполнить команду:
+2. Run shell command:
 
-        node node_modules/ws-unit-testing/mocha --timeout 10000 test/**/*.test.es
+        node node_modules/saby-units/mocha --timeout 10000 test/**/*.test.js
 
-где `test/**/*.test.es` - шаблон пути до файлов с тестами
+so `test/**/*.test.js` is the mask to search the files with test cases.
 
-Для генерации формализованного отчета укажите его формат и путь до файла. Например:
+You can save report in XML format like this:
 
-        node node_modules/ws-unit-testing/mocha --timeout 10000 --reporter xunit --reporter-options output=artifacts/xunit-report.xml test/**/*.test.es
+        node node_modules/saby-units/mocha --timeout 10000 --reporter xunit --reporter-options output=artifacts/xunit-report.xml test/**/*.test.js
 
-## Генерация отчета о покрытии под Node.js
+## Create coverage report under Node.js
 
-1. Добавить в `package.json` вашего модуля раздел настроек пакета [nyc](https://www.npmjs.com/package/nyc):
+1. Add to `package.json` section with setting for [nyc](https://www.npmjs.com/package/nyc) package, for example:
 
 ```javascript
   "nyc": {
     "include": [
-      "Foo/**/*.es",
+      "Foo/**/*.js",
       "Bar/**/*.js"
     ],
     "reporter": [
@@ -84,64 +82,64 @@
   }
 ```
 
-2. Запустить генерацию отчета:
+2. Run testing with coverage:
 
-        node node_modules/ws-unit-testing/cover --timeout 10000 test/**/*.test.es
+        node node_modules/saby-units/cover --timeout 10000 test/**/*.test.js
 
-Описание настроек раздела nyc:
+There are some important keys for nyc:
 
-- `include` - маски файлов, которые попадут в отчет о покрытии;
-- `reporter` - форматы выходных отчетов о покрытии;
-- `extension` - дополнительные расширения файлов, которые нужно проинструментировать;
-- `report-dir` - путь до папки, в которую попадет отчет о покрытии кода тестами.
+- `include` - mask for files to include in coverage;
+- `reporter` - format of the coverage report;
+- `extension` - additional files extensions to instrument;
+- `report-dir` - path to folder to put the report to.
 
-Больше информации о настройках можно узнать на сайте пакета [nyc](https://www.npmjs.com/package/nyc).
+You can find out more information about fine tune at [nyc's site](https://www.npmjs.com/package/nyc).
 
-## Запуск через браузер
-1. Создать файл, запускающий локальный http-сервер со страницей тестирования `testing-server.js`:
+## Run in browser
+1. Add file to run local testing HTTP server with name `testing-server.js`:
 
 ```javascript
-   let app = require('ws-unit-testing/server');
+   let app = require('saby-units/server');
 
    app.run(
-       777,//Порт, на котором запустить сервер
+       777,//Port to run server on
        {
-           root: './',//Путь до корневой папки, обрабатываемой сервером
-           tests: 'test'//Можно указать путь к папке с тестами, если они лежат отдельно (относительно root)
+           root: './', //Server's document root
+           tests: 'test' //Path to folder with test cases if there are placed separately (relative to 'root')
        }
    );
 ```
 
-2. Запустить сервер:
+2. Run your server:
 
         node testing-server
 
-3. Перейти на [страницу тестирования](http://localhost:777/) (номер порта заменить на указанный в `testing-server.js`).
+3. Open your web brower and navigate to [testing page](http://localhost:777/) (you have to change the port from 777 if you've changed it at `testing-server.js`).
 
-## Запуск через Selenium webdriver
-1. Создать файл, запускающий тесты через webdriver `testing-browser.js`:
+## Run via Selenium webdriver
+1. Add file to run your test cases via webdriver `testing-browser.js`:
 
 ```javascript
-   let app = require('ws-unit-testing/browser');
+   let app = require('saby-units/browser');
 
    app.run(
-      'http://localhost:777/?reporter=XUnit',//URL страницы тестирования, который будет доступен через запущенный testing-server.js
-      'artifacts/xunit-report.xml'//Файл, в который следует сохранить отчет
+      'http://localhost:777/?reporter=XUnit',//URL of page that runs the tests via testing-server.js
+      'artifacts/xunit-report.xml'//File name to save report to
    );
 ```
 
-2. Запустить сервер:
+2. Run the server:
 
         node testing-server
 
-3. Запустить тестирование:
+3. Run testing:
 
         node testing-browser
 
-# Интеграция с Jenkins
-Настройки сборки в Jenkins.
+# Integation with Jenkins
+There are some setting you have to define
 
-## Управление исходным кодом
+## 'Source code' section
 ✓ Multiple SCMs
 
     +GIT:
@@ -158,53 +156,52 @@
 
                 ✓ Shallow clone
 
-## Среда сборки
+## 'Environment' section
 ✓ Inject environment variables to the build process
 
-Доступные переменные окружения:
+There are available environment variables:
 
-`WEBDRIVER_remote_enabled` - запускать на удаленном Selenium grid (по умолчанию - `0`; если заменить на `1`, то в `testing-browser.js` следует указать реальное имя хоста, на котором запущена сборка, вместо `localhost`)
+`WEBDRIVER_remote_enabled` - run on remote Selenium grid (`0` by default; change to `1` if you want to use remote selenium grid. Also you have to change host name in URL at `testing-browser.js` instead of `localhost`)
 
-`WEBDRIVER_remote_host` - хост, на котором запущен Selenium grid (по умолчанию - `localhost`)
+`WEBDRIVER_remote_host` - host name where Selenium grid is available (`localhost` by default)
 
-`WEBDRIVER_remote_port` - порт, на котором запущен Selenium grid (по умолчанию - `4444`)
+`WEBDRIVER_remote_port` - port where Selenium grid is availbale (`4444` by default)
 
-`WEBDRIVER_remote_desiredCapabilities_browserName` - браузер, в котором будут проводится тесты (по умолчанию - `chrome`)
+`WEBDRIVER_remote_desiredCapabilities_browserName` - browser name to run test cases in (`chrome` by default)
 
-`WEBDRIVER_remote_desiredCapabilities_version` - версия бразузера, в которой будут проводится тесты
+`WEBDRIVER_remote_desiredCapabilities_version` - browser version to run test cases in
 
 ✓ Abort the build if it's stuck
 
     Timeout minutes: 10
     Time-out actions: Abort the build
 
-## Сборка
-+Выполнить команду Windows (для тестирования под Node.js + отчет о покрытии)
+## 'Build' section
++Run shell script (to run testing under Node.js and to generate the coverage report):
 
-    call npm config set registry http://npmregistry.sbis.ru:81/
-    call npm install
-    call node node_modules/ws-unit-testing/cover test/**/*.test.es
-    call node node_modules/ws-unit-testing/mocha --reporter xunit --reporter-options output=artifacts/xunit-report.xml test/**/*.test.es
+    #npm config set registry http://npmregistry.sbis.ru:81/
+    npm install
+    node node_modules/saby-units/cover test/**/*.test.js
+    node node_modules/saby-units/mocha --reporter xunit --reporter-options output=artifacts/xunit-report.xml test/**/*.test.js
 
-+Выполнить команду Windows (для тестирования через webdriver)
++Run shell script (to run testing via webdriver)
 
-    call npm config set registry http://npmregistry.sbis.ru:81/
-    call npm install
-    call node node_modules/ws-unit-testing/queue testing-server testing-browser
+    npm install
+    node node_modules/saby-units/queue testing-server testing-browser
 
-## Послесборочные операции
+## 'After build operations' section
 Publish JUnit test result report
 
-    XML файлы с отчетами о тестировании: artifacts/xunit-report.xml
+    Add path to the XML report: artifacts/xunit-report.xml
 
     ✓ Retain long standard output/error
 
-Путь до отчета зависит от настроек.
+The path depend on settings you set in files above.
 
 Publish documents
 
-    Title: Отчет о покрытии
+    Title: Coverage report
 
     Directory to archive: artifacts/coverage/lcov-report/
 
-Путь до отчета о покрытии зависит от настроек в `package.json`.
+THe path depend on settings you set in `package.json`.
