@@ -6,7 +6,7 @@ let path = require('path');
 let connect = require('connect');
 let http = require('http');
 let serveStatic = require('serve-static');
-let package = require('./package.json');
+let pckg = require('./package.json');
 let {WS_CORE_PATH} = require('./lib/constants');
 let handlers = require('./lib/handlers');
 
@@ -21,7 +21,7 @@ const logger = console;
  * @param {String} [config.root=''] Path to the project root
  * @param {String} [config.tests] Path to tests folder (relative to config.root)
  * @param {String} [config.initializer] Path to initialzation script that calls before testing start (for example, 'init.js')
- * @param {String} [config.coverageCommand] Command that runs coverage HTML report building (for example, 'node node_modules/ws-unit-testing/cover test-isolated')
+ * @param {String} [config.coverageCommand] Command that runs coverage HTML report building (for example, 'node node_modules/saby-units/cover test-isolated')
  * @param {String} [config.coverageReport] Coverage HTML report target path (например, '/artifacts/coverage/lcov-report/index.html')
  */
 exports.run = function(port, config) {
@@ -30,12 +30,12 @@ exports.run = function(port, config) {
    config.root = config.root || '';
    config.ws = config.ws || WS_CORE_PATH
    config.tests = config.tests || '';
-   config.coverageCommand = config.coverageCommand || 'node node_modules/ws-unit-testing/cover test';
+   config.coverageCommand = config.coverageCommand || 'node node_modules/saby-units/cover test';
    config.coverageReport = config.coverageReport || '/artifacts/coverage/';
    config.initializer = config.initializer || '';
 
-   const mimeTypes = package.mimeTypes || {};
-   const serverSignature = `"${package.description}" HTTP server v.${package.version} at port ${port} for "${path.resolve(config.root)}"`;
+   const mimeTypes = pckg.mimeTypes || {};
+   const serverSignature = `"${pckg.description}" HTTP server v.${pckg.version} at port ${port} for "${path.resolve(config.root)}"`;
 
    logger.log(`Starting ${serverSignature}`);
 

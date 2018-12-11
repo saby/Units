@@ -5,7 +5,7 @@
 /**
  * This wrapper runs mocha in valid environment.
  * Usage:
- * node node_modules/ws-unit-testing/mocha[ --amd] -t 10000 -R path/to/your/test/runner.js
+ * node node_modules/saby-units/mocha[ --amd] -t 10000 -R path/to/your/test/runner.js
  */
 
 let spawn = require('child_process').spawn,
@@ -18,7 +18,7 @@ let amdFlagAt = inheritedArgs.indexOf('--amd');
 if (amdFlagAt === -1) {
    //'--experimental-modules',
    //'--loader',
-   //'./node_modules/ws-unit-testing/lib/esmLoader.mjs',
+   //'./node_modules/saby-units/lib/esmLoader.mjs',
    args.push('--compilers', 'es:babel-core/register');
 } else {
    inheritedArgs.splice(amdFlagAt, 1);
