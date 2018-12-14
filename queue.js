@@ -64,12 +64,12 @@ scripts.forEach((script, index) => {
    });
 });
 
-// Check latest finished child
+// Check for max exit code for each finished child
 process.on('exit', () => {
-   let last = finished.pop();
-   if (last) {
-      process.exitCode = last.code;
-   }
+   process.exitCode = finished.reduce(
+      (code, proc) => Math.max(code, proc.code || 0),
+      0
+   );
 });
 
 // Terminate children on force exit
