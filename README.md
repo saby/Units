@@ -11,8 +11,8 @@ All test cases should be named by mask `*.test.js`. For example, `test/example.t
 
 ```javascript
    /* global describe, context, it */
-   import {assert} from './assert.js';
-   import {MyModule} from '../MyPackage/MyLibrary.js';
+   import {assert} from './assert';
+   import {MyModule} from '../MyPackage/MyLibrary';
 
    describe('MyPackage/MyLibrary:MyModule', () => {
       let myInstance;
@@ -36,9 +36,11 @@ All test cases should be named by mask `*.test.js`. For example, `test/example.t
 ## The first thing
 Add `saby-units` as development dependency in `package.json`:
 
-    "devDependencies": {
-        "saby-units": "git+https://github.com:saby/Units.git#rc-3.18.700"
-    }
+```json
+  "devDependencies": {
+    "saby-units": "git+https://github.com:saby/Units.git#rc-3.19.100"
+  }
+````
 
 And install it:
 
@@ -46,98 +48,142 @@ And install it:
 
 All files in examples below should be created in the root directory of your package.
 
+## Configure
+Add `saby-units` section to your `package.json` file, for example:
+
+```json
+  "saby-units": {
+    "root": "./src"
+  }
+```
+
+The default config looks like:
+```json
+  "saby-units": {
+    "moduleType": "esm",
+    "root": ".",
+    "tests": "",
+    "report": "artifacts/xunit-report.xml",
+    "htmlCoverageReport": "/artifacts/coverage/index.html",
+    "jsonCoverageReport": "artifacts/coverage.json",
+    "timeout": 10000,
+    "url": {
+      "scheme": "http",
+      "host": "localhost",
+      "port": 80,
+      "path": "",
+      "query": "reporter=XUnit"
+    }
+  }
+```
+
+Parameters explanation:
+
+- *moduleType*: type of module to test, 'esm' or 'amd';
+- *root*: document root for testing files;
+- *tests*: folder where tests are (if placed in separated folder);
+- *report*: location of report in XUnit format which will created during testing;
+- *htmlCoverageReport*: location of report in HTML format that created by nyc package;
+- *jsonCoverageReport*: location of report in JSON format that created by nyc package;
+- *timeout*: timeout to waiting for testing ends;
+- *url*: parts of URL of testing app to locate in browser.
+
+You don't need to copy all the parameters to your own, you should set only changed. Preferred server port, for example.
+
 ## Run under Node.js
 1. Copy file [.babelrc](.babelrc) to the root of your package.
 
-2. Run shell command:
+1. Add script to `scripts` section in your `package.json` file:
 
-        node node_modules/saby-units/mocha --timeout 10000 test/**/*.test.js
+    ```json
+    "test": "saby-units --isolated"
+    ```
 
-so `test/**/*.test.js` is the mask to search the files with test cases.
+1. And run it:
 
-You can save report in XML format like this:
+        npm run test
 
-        node node_modules/saby-units/mocha --timeout 10000 --reporter xunit --reporter-options output=artifacts/xunit-report.xml test/**/*.test.js
+You can save the report in XML format if you want to:
+
+```json
+"test:report": "saby-units --isolated --report"
+```
 
 ## Create coverage report under Node.js
 
 1. Add to `package.json` section with setting for [nyc](https://www.npmjs.com/package/nyc) package, for example:
 
-```javascript
-  "nyc": {
-    "include": [
-      "Foo/**/*.js",
-      "Bar/**/*.js"
-    ],
-    "reporter": [
-      "text",
-      "html"
-    ],
-    "extension": [
-      ".es"
-    ],
-    "cache": false,
-    "eager": true,
-    "report-dir": "./artifacts/coverage"
-  }
-```
+    ```json
+      "nyc": {
+        "include": [
+          "Foo/**/*.js",
+          "Bar/**/*.js"
+        ],
+        "reporter": [
+          "text",
+          "html"
+        ],
+        "extension": [
+          ".es"
+        ],
+        "cache": false,
+        "eager": true,
+        "report-dir": "./artifacts/coverage"
+      }
+    ```
 
-2. Run testing with coverage:
+1. Add script to `scripts` section in your `package.json` file:
 
-        node node_modules/saby-units/cover --timeout 10000 test/**/*.test.js
+    ```json
+    "test:coverage": "saby-units --isolated --coverage"
+    ```
+
+1. And run it:
+
+        npm run test:coverage
 
 There are some important keys for nyc:
 
-- `include` - mask for files to include in coverage;
-- `reporter` - format of the coverage report;
-- `extension` - additional files extensions to instrument;
-- `report-dir` - path to folder to put the report to.
+- *include*: mask for files to include in coverage;
+- *reporter*: format of the coverage report;
+- *extension*: additional files extensions to instrument;
+- *report-dir*: path to folder to put the report to.
 
 You can find out more information about fine tune at [nyc's site](https://www.npmjs.com/package/nyc).
 
-## Run in browser
-1. Add file to run local testing HTTP server with name `testing-server.js`:
-
-```javascript
-   let app = require('saby-units/server');
-
-   app.run(
-       777,//Port to run server on
-       {
-           root: './', //Server's document root
-           tests: 'test' //Path to folder with test cases if there are placed separately (relative to 'root')
-       }
-   );
-```
-
-2. Run your server:
-
-        node testing-server
-
-3. Open your web brower and navigate to [testing page](http://localhost:777/) (you have to change the port from 777 if you've changed it at `testing-server.js`).
-
 ## Run via Selenium webdriver
-1. Add file to run your test cases via webdriver `testing-browser.js`:
+1. Add script to `scripts` section in your `package.json` file:
 
-```javascript
-   let app = require('saby-units/browser');
+    ```json
+      {
+         "test:browser": "saby-units --browser"
+      }
+    ```
 
-   app.run(
-      'http://localhost:777/?reporter=XUnit',//URL of page that runs the tests via testing-server.js
-      'artifacts/xunit-report.xml'//File name to save report to
-   );
-```
+1. And run it:
 
-2. Run the server:
+        npm run test:browser
 
-        node testing-server
+## Run testing server only
+You can only run the testing server and check tests in browser manually.
 
-3. Run testing:
+1. Add script to `scripts` section in your `package.json` file:
 
-        node testing-browser
+    ```json
+      {
+         "test:app": "node node_modules/saby-units/cli/server"
+      }
+    ```
+
+1. And run it:
+
+        npm run test:app
+
+1. Open your web brower and navigate to [testing page](http://localhost:80/) (you should change the port number if you've changed it in `package.json` file).
 
 # Integation with Jenkins
-There are some setting you have to define
+There are some setting you have to define.
+In samples below we will use out npm scripts from above.
 
 ## 'Source code' section
 ✓ Multiple SCMs
@@ -181,13 +227,13 @@ There are available environment variables:
 
     #npm config set registry http://npmregistry.sbis.ru:81/
     npm install
-    node node_modules/saby-units/cover test/**/*.test.js
-    node node_modules/saby-units/mocha --reporter xunit --reporter-options output=artifacts/xunit-report.xml test/**/*.test.js
+    npm run test:coverage
+    npm run test:report
 
 +Run shell script (to run testing via webdriver)
 
     npm install
-    node node_modules/saby-units/queue testing-server testing-browser
+    npm run test:browser
 
 ## 'After build operations' section
 Publish JUnit test result report
@@ -204,4 +250,4 @@ Publish documents
 
     Directory to archive: artifacts/coverage/lcov-report/
 
-THe path depend on settings you set in `package.json`.
+The path depend on settings you set in `package.json`.

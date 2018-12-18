@@ -1,7 +1,3 @@
-#!/usr/bin/env node
-
-/* global require, process */
-
 let path = require('path');
 let connect = require('connect');
 let http = require('http');

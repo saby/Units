@@ -1,7 +1,5 @@
 #!/usr/bin/env node
 
-/* global require, process */
-
 /**
  * Call scripts in queue (one by one)
  */

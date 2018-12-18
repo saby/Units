@@ -1,24 +1,22 @@
 #!/usr/bin/env node
 
-/* global require, process */
-
 /**
  * This wrapper runs coverage analysis in valid environment.
  * Usage:
  * node node_modules/saby-units/cover[ --amd] path/to/your/test/runner.js
  */
 
-let spawn = require('child_process').spawn,
-   path = require('path'),
-   pathTo = require('./lib/util').pathTo,
-   inheritedArgs = process.argv.slice(2),
-   args = [
-      path.join(pathTo('nyc'), 'bin', 'nyc')
-   ];
+const spawn = require('child_process').spawn;
+const path = require('path');
+const pathTo = require('./lib/util').pathTo;
+const inheritedArgs = process.argv.slice(2);
+const args = [
+   path.join(pathTo('nyc'), 'bin', 'nyc')
+];
 
-let amdFlagAt = inheritedArgs.indexOf('--amd');
+const amdFlagAt = inheritedArgs.indexOf('--amd');
 if (amdFlagAt === -1) {
-   args.push('--require', 'babel-register', '--sourceMap', 'false', '--instrument', 'false');
+   //args.push('--require', 'babel-register', '--sourceMap', 'false', '--instrument', 'false');
 } else {
    inheritedArgs.splice(amdFlagAt, 1);
 }
@@ -27,8 +25,7 @@ args.push(path.join(pathTo('mocha'), 'bin', 'mocha'));
 
 args.push.apply(args, inheritedArgs);
 
-//console.log('spawn', process.execPath, args);
-let proc = spawn(
+const proc = spawn(
    process.execPath,
    args,
    {stdio: 'inherit'}
