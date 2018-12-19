@@ -87,11 +87,14 @@ if (options.browser) {
          pathToScript('./queue'),
          pathToScript('./cli/server')
       );
+      if (options.coverage) {
+         browserArgs.push('--coverage');
+      }
    }
 
    browserArgs.push(pathToScript('./cli/browser'));
    if (options.report) {
-      browserArgs.push('--report=xunit');
+      browserArgs.push('--report');
    }
    if (options.coverage) {
       browserArgs.push('--coverage');
@@ -114,7 +117,7 @@ if (options.isolated) {
    if (isAmd) {
       isolatedArgs.push(pathToScript('./cli/isolated'));
       if (options.report) {
-         isolatedArgs.push('--report=xunit');
+         isolatedArgs.push('--report');
       }
    } else {
       isolatedArgs.push(config.tests + '/**/*.test.*');
