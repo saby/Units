@@ -13,6 +13,22 @@
     "type": "git",
     "url": "git@github.com:saby/Units.git"
   },
+  "config": {
+    "moduleType": "esm",
+    "root": ".",
+    "tests": "",
+    "report": "artifacts/xunit-report.xml",
+    "htmlCoverageReport": "/artifacts/coverage/index.html",
+    "jsonCoverageReport": "artifacts/coverage.json",
+    "timeout": 10000,
+    "url": {
+      "scheme": "http",
+      "host": "localhost",
+      "port": 80,
+      "path": "",
+      "query": "reporter=XUnit"
+    }
+  },
   "mimeTypes": {
     "es": "application/javascript"
   },
