@@ -24,10 +24,11 @@ exports.run = function(port, config) {
    config = config || {};
    config.moduleType = config.moduleType || 'esm';
    config.root = config.root || '';
-   config.ws = config.ws || WS_CORE_PATH
+   config.ws = config.ws || WS_CORE_PATH;
    config.tests = config.tests || '';
-   config.coverageCommand = config.coverageCommand || 'node node_modules/saby-units/cover test';
-   config.coverageReport = config.coverageReport || '/artifacts/coverage/';
+   config.coverage = config.coverage || false;
+   config.coverageCommand = config.coverageCommand || '';
+   config.coverageReport = config.coverageReport || '';
    config.initializer = config.initializer || '';
 
    const mimeTypes = pckg.mimeTypes || {};
@@ -49,10 +50,9 @@ exports.run = function(port, config) {
 
 
    const CDN_PATH = path.join(config.root, config.ws, 'lib/Ext');
-
    let app = connect()
       .use(serveStatic(__dirname, staticConfig))
-      .use(serveStatic(config.root ? config.root : process.cwd(), staticConfig))
+      .use(handlers.staticFiles(config, staticConfig))
       .use('/node_modules/', serveStatic(path.join(process.cwd(), 'node_modules'), staticConfig))
       .use('/cdn/', serveStatic(CDN_PATH, staticConfig))
       .use('/~setup.js', handlers.setup(config))

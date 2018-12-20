@@ -8,9 +8,9 @@ if (process.argv.indexOf('--report') > -1) {
    report = process.env['test_report'] || config.report;
 }
 
+let coverageReport = '';
 if (process.argv.indexOf('--coverage') > -1) {
-   config.report = config.jsonCoverageReport;
-   config.url.query = 'reporter=JSCoverage';
+   coverageReport = config.jsonCoverageReport;
 }
 
 function buildUrl(parts) {
@@ -25,5 +25,6 @@ app.run(
       path: process.env['test_url_path'] || config.url.path,
       query: process.env['test_url_query'] || config.url.query
    }),
-   report
+   report,
+   coverageReport
 );
