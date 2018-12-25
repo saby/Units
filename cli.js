@@ -50,6 +50,7 @@ function pathToScript(name) {
 
 //Processing CLI arguments to options
 let options = {
+   install: false,
    server: false,
    browser: false,
    isolated: false,
@@ -60,6 +61,10 @@ process.argv.slice(2).forEach(arg => {
    const flag = arg.split('=')[0];
 
    switch (flag) {
+      case '--install':
+         options.install = true;
+         break;
+
       case '--browser':
          options.server = true;
          options.browser = true;
@@ -78,6 +83,12 @@ process.argv.slice(2).forEach(arg => {
          break;
    }
 });
+
+//Build install CLI arguments
+let installArgs = [];
+if (options.install) {
+   installArgs.push(pathToScript('./cli/install'));
+}
 
 //Build browser CLI arguments
 let browserArgs = [];
@@ -126,6 +137,9 @@ if (options.isolated) {
 
 //Run testing child processes
 let processes = [];
+if (installArgs.length) {
+   processes.push(runProcess(installArgs));
+}
 if (browserArgs.length) {
    processes.push(runProcess(browserArgs));
 }

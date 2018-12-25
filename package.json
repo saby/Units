@@ -24,6 +24,7 @@
     "htmlCoverageReport": "/artifacts/coverage/index.html",
     "jsonCoverageReport": "artifacts/coverage.json",
     "timeout": 10000,
+    "links": {},
     "url": {
       "scheme": "http",
       "host": "localhost",
