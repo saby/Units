@@ -49,6 +49,16 @@ And install it:
 All files in examples below should be created in the root directory of your package.
 
 ## Configure
+Add `build` script in `scripts` section of `package.json`:
+
+```json
+  "scripts": {
+    "build": "saby-units --install"
+  }
+````
+
+This script creates links defined in saby-units section below.
+
 Add `saby-units` section to your `package.json` file, for example:
 
 ```json
@@ -67,6 +77,7 @@ The default config looks like:
     "htmlCoverageReport": "/artifacts/coverage/index.html",
     "jsonCoverageReport": "artifacts/coverage.json",
     "timeout": 10000,
+    "links": {},
     "url": {
       "scheme": "http",
       "host": "localhost",
@@ -86,6 +97,12 @@ Parameters explanation:
 - *htmlCoverageReport*: location of report in HTML format that created by nyc package;
 - *jsonCoverageReport*: location of report in JSON format that created by nyc package;
 - *timeout*: timeout to waiting for testing ends;
+- *links*: create symbolic links to folders, a map looks like 'source folder' -> 'link'. Example:
+```json
+"links": {
+  "node_modules/saby-types/Types": "Types"
+}
+```
 - *url*: parts of URL of testing app to locate in browser.
 
 You don't need to copy all the parameters to your own, you should set only changed. Preferred server port, for example.
