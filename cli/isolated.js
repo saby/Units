@@ -12,5 +12,6 @@ app.run({
    moduleType: config.moduleType,
    root: config.root,
    tests: config.tests,
+   dependencies: config.dependencies,
    reportFile: report
 });

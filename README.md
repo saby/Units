@@ -78,6 +78,7 @@ The default config looks like:
     "jsonCoverageReport": "artifacts/coverage.json",
     "timeout": 10000,
     "links": {},
+    "dependencies": [],
     "url": {
       "scheme": "http",
       "host": "localhost",
@@ -102,6 +103,10 @@ Parameters explanation:
 "links": {
   "node_modules/saby-types/Types": "Types"
 }
+```
+- *dependencies*: AMD modules to load beore testing starts. Example:
+```json
+"dependencies": ["testing/init"]
 ```
 - *url*: parts of URL of testing app to locate in browser.
 
