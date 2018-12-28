@@ -25,6 +25,7 @@
     "jsonCoverageReport": "artifacts/coverage.json",
     "timeout": 10000,
     "links": {},
+    "dependencies": [],
     "url": {
       "scheme": "http",
       "host": "localhost",

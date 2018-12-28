@@ -10,6 +10,7 @@ if (process.argv.indexOf('--coverage') > -1) {
 app.run(process.env['test_server_port'] || config.url.port, {
    moduleType: config.moduleType,
    root: config.root,
+   dependencies: config.dependencies,
    tests: config.tests,
    initializer: config.initializer,
    coverage: config.coverage,
