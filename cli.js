@@ -51,36 +51,24 @@ function pathToScript(name) {
 //Processing CLI arguments to options
 let options = {
    install: false,
-   server: false,
    browser: false,
    isolated: false,
    report: false,
    coverage: false
 };
+let restArgs = [];
+
 process.argv.slice(2).forEach(arg => {
-   const flag = arg.split('=')[0];
-
-   switch (flag) {
-      case '--install':
-         options.install = true;
-         break;
-
-      case '--browser':
-         options.server = true;
-         options.browser = true;
-         break;
-
-      case '--isolated':
-         options.isolated = true;
-         break;
-
-      case '--report':
-         options.report = true;
-         break;
-
-      case '--coverage':
-         options.coverage = true;
-         break;
+   if (arg.startsWith('--')) {
+      let argName = arg.substr(2);
+      const [name, value] = argName.split('=', 2);
+      if (name in options) {
+         options[name] = value === undefined ? true : value;
+      } else {
+         restArgs.push(arg);
+      }
+   } else if (arg !== '%NODE_DEBUG_OPTION%') {
+      restArgs.push(arg);
    }
 });
 
@@ -88,19 +76,18 @@ process.argv.slice(2).forEach(arg => {
 let installArgs = [];
 if (options.install) {
    installArgs.push(pathToScript('./cli/install'));
+   installArgs.push(...restArgs);
 }
 
 //Build browser CLI arguments
 let browserArgs = [];
 if (options.browser) {
-   if (options.server) {
-      browserArgs.push(
-         pathToScript('./queue'),
-         pathToScript('./cli/server')
-      );
-      if (options.coverage) {
-         browserArgs.push('--coverage');
-      }
+   browserArgs.push(
+      pathToScript('./queue'),
+      pathToScript('./cli/server')
+   );
+   if (options.coverage) {
+      browserArgs.push('--coverage');
    }
 
    browserArgs.push(pathToScript('./cli/browser'));
@@ -110,6 +97,8 @@ if (options.browser) {
    if (options.coverage) {
       browserArgs.push('--coverage');
    }
+
+   browserArgs.push(...restArgs);
 }
 
 //Build isolated CLI arguments
@@ -133,6 +122,8 @@ if (options.isolated) {
    } else {
       isolatedArgs.push(config.tests + '/**/*.test.*');
    }
+
+   isolatedArgs.push(...restArgs);
 }
 
 //Run testing child processes
