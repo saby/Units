@@ -13,5 +13,6 @@ app.run({
    root: config.root,
    tests: config.tests,
    dependencies: config.dependencies,
+   patchedRequire: config.patchedRequire,
    reportFile: report
 });

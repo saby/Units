@@ -26,6 +26,7 @@
     "timeout": 10000,
     "links": {},
     "dependencies": [],
+    "patchedRequire": false,
     "url": {
       "scheme": "http",
       "host": "localhost",
