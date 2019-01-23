@@ -79,6 +79,7 @@ The default config looks like:
     "timeout": 10000,
     "links": {},
     "dependencies": [],
+    "patchedRequire": false,
     "url": {
       "scheme": "http",
       "host": "localhost",
@@ -108,6 +109,7 @@ Parameters explanation:
 ```json
 "dependencies": ["testing/init"]
 ```
+- *patchedRequire*: Use patched version of [RequireJS](https://github.com/requirejs/requirejs/issues/1655);
 - *url*: parts of URL of testing app to locate in browser.
 
 You don't need to copy all the parameters to your own, you should set only changed. Preferred server port, for example.
