@@ -25,6 +25,7 @@ exports.run = function(port, config) {
    config.moduleType = config.moduleType || 'esm';
    config.root = config.root || '';
    config.ws = config.ws || WS_CORE_PATH;
+   config.cdn = config.cdn || '/cdn';
    config.tests = config.tests || '';
    config.coverage = config.coverage || false;
    config.coverageCommand = config.coverageCommand || '';
@@ -54,6 +55,7 @@ exports.run = function(port, config) {
       .use(serveStatic(__dirname, staticConfig))
       .use(handlers.staticFiles(config, staticConfig))
       .use('/node_modules/', serveStatic(path.join(process.cwd(), 'node_modules'), staticConfig))
+      .use('/cdn/', serveStatic(path.join(process.cwd(), config.cdn), staticConfig))
       .use('/cdn/', serveStatic(CDN_PATH, staticConfig))
       .use('/~setup.js', handlers.setup(config))
       .use('/~test-list.js', handlers.testListAmd(config))
