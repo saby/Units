@@ -55,6 +55,7 @@ exports.run = function(port, config) {
       .use(serveStatic(__dirname, staticConfig))
       .use(handlers.staticFiles(config, staticConfig))
       .use('/node_modules/', serveStatic(path.join(process.cwd(), 'node_modules'), staticConfig))
+      .use('/cdn/jquery/3.3.1/jquery-min.js', serveStatic(path.join(process.cwd(), config.cdn, 'jquery/3.3.1/jquery-min.js'), staticConfig))
       .use('/cdn/', serveStatic(path.join(process.cwd(), config.cdn), staticConfig))
       .use('/cdn/', serveStatic(CDN_PATH, staticConfig))
       .use('/~setup.js', handlers.setup(config))
