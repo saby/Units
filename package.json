@@ -1,61 +1,60 @@
 {
-  "name": "saby-units",
-  "description": "Unit testing for WaSaby",
-  "keywords": [
-    "test",
-    "testing",
-    "unit",
-    "wasaby",
-    "saby"
-  ],
-  "version": "19.200.0",
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:saby/Units.git"
-  },
-  "bin": {
-    "saby-units": "./cli.js"
-  },
-  "config": {
-    "moduleType": "esm",
-    "root": ".",
-    "tests": "",
-    "report": "artifacts/xunit-report.xml",
-    "htmlCoverageReport": "/artifacts/coverage/index.html",
-    "jsonCoverageReport": "artifacts/coverage.json",
-    "timeout": 10000,
-    "links": {},
-    "dependencies": [],
-    "patchedRequire": false,
-    "url": {
-      "scheme": "http",
-      "host": "localhost",
-      "port": 80,
-      "path": "",
-      "query": "reporter=XUnit"
-    }
-  },
-  "mimeTypes": {
-    "es": "application/javascript"
-  },
-  "scripts": {
-    "install-selenium": "npm install selenium-standalone@6.14.x && node node_modules/selenium-standalone/bin/selenium-standalone install",
-    "install-webdriver": "npm install webdriverio@4.12.x"
-  },
-  "engines": {
-    "node": ">=8.0"
-  },
-  "dependencies": {
-    "chai": "4.1.x",
-    "connect": "3.6.x",
-    "mime": "^2.4.0",
-    "mocha": "5.2.x",
-    "nyc": "12.0.x",
-    "requirejs": "2.3.x",
-    "serve-static": "1.13.x",
-    "sinon": "6.3.x",
-    "url": "0.11.0"
-  },
-  "devDependencies": {
-  }
+   "name": "saby-units",
+   "description": "Unit testing for WaSaby",
+   "keywords": [
+      "test",
+      "testing",
+      "unit",
+      "wasaby",
+      "saby"
+   ],
+   "version": "19.210.0",
+   "repository": {
+      "type": "git",
+      "url": "git@github.com:saby/Units.git"
+   },
+   "bin": {
+      "saby-units": "./cli.js"
+   },
+   "config": {
+      "moduleType": "esm",
+      "root": ".",
+      "tests": "",
+      "report": "artifacts/xunit-report.xml",
+      "htmlCoverageReport": "/artifacts/coverage/index.html",
+      "jsonCoverageReport": "artifacts/coverage.json",
+      "timeout": 10000,
+      "links": {},
+      "dependencies": [],
+      "patchedRequire": false,
+      "url": {
+         "scheme": "http",
+         "host": "localhost",
+         "port": 80,
+         "path": "",
+         "query": "reporter=XUnit"
+      }
+   },
+   "mimeTypes": {
+      "es": "application/javascript"
+   },
+   "scripts": {
+      "install-selenium": "npm install selenium-standalone@6.14.x && node node_modules/selenium-standalone/bin/selenium-standalone install",
+      "install-webdriver": "npm install webdriverio@4.12.x"
+   },
+   "engines": {
+      "node": ">=8.0"
+   },
+   "dependencies": {
+      "chai": "4.1.x",
+      "connect": "3.6.x",
+      "mime": "^2.4.0",
+      "mocha": "5.2.x",
+      "nyc": "12.0.x",
+      "requirejs": "2.3.x",
+      "serve-static": "1.13.x",
+      "sinon": "6.3.x",
+      "url": "0.11.0"
+   },
+   "devDependencies": {}
 }
