@@ -8,6 +8,7 @@
   },
   "remote": {
     "enabled": false,
+    "logLevel": "error",
     "hostname": "localhost",
     "port": 4444,
     "capabilities": {
