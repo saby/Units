@@ -233,13 +233,13 @@ There are available environment variables:
 
 `WEBDRIVER_remote_enabled` - run on remote Selenium grid (`0` by default; change to `1` if you want to use remote selenium grid. Also you have to change host name in URL at `testing-browser.js` instead of `localhost`)
 
-`WEBDRIVER_remote_host` - host name where Selenium grid is available (`localhost` by default)
+`WEBDRIVER_remote_hostname` - host name where Selenium grid is available (`localhost` by default)
 
 `WEBDRIVER_remote_port` - port where Selenium grid is availbale (`4444` by default)
 
-`WEBDRIVER_remote_desiredCapabilities_browserName` - browser name to run test cases in (`chrome` by default)
+`WEBDRIVER_remote_capabilities_browserName` - browser name to run test cases in (`chrome` by default)
 
-`WEBDRIVER_remote_desiredCapabilities_version` - browser version to run test cases in
+`WEBDRIVER_remote_capabilities_version` - browser version to run test cases in
 
 ✓ Abort the build if it's stuck
 
