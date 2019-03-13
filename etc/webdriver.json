@@ -8,9 +8,10 @@
   },
   "remote": {
     "enabled": false,
-    "host": "localhost",
+    "logLevel": "error",
+    "hostname": "localhost",
     "port": 4444,
-    "desiredCapabilities": {
+    "capabilities": {
       "browserName": "chrome"
     }
   }
