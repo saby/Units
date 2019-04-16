@@ -135,7 +135,7 @@ You can save the report in XML format if you want to:
 
 ## Create coverage report under Node.js
 
-1. Add to `package.json` section with setting for [nyc](https://www.npmjs.com/package/nyc) package, for example:
+1. Add to `package.json` section with setting for [nyc](https://www.npmjs.com/package/nyc) package, here are recommended settings below (you just need to replace patterns in *include* section):
 
     ```json
       "nyc": {
@@ -147,15 +147,12 @@ You can save the report in XML format if you want to:
           "text",
           "html"
         ],
-        "extension": [
-          ".es"
-        ],
         "cache": false,
         "eager": true,
         "report-dir": "./artifacts/coverage"
       }
     ```
-
+ 
 1. Add script to `scripts` section in your `package.json` file:
 
     ```json
@@ -170,10 +167,17 @@ There are some important keys for nyc:
 
 - *include*: mask for files to include in coverage;
 - *reporter*: format of the coverage report;
-- *extension*: additional files extensions to instrument;
 - *report-dir*: path to folder to put the report to.
 
 You can find out more information about fine tune at [nyc's site](https://www.npmjs.com/package/nyc).
+
+### An important notice about symbolic links in instrumented code
+If you have symbolic links in folder included for instrumentation you must mind the [unexpected *nyc* behaviour](https://stackoverflow.com/questions/53399098/enabling-nyc-istanbul-code-coverage-for-files-outside-the-package-directory) which prevent these files and folders from being instrumented. As a result you don't see desired files in coverage report. To solve this problem you should use undeclared *cwd* key which sets the default working dir for *nyc*:
+   ```json
+      "nyc": {
+        "cwd": "./",
+   ```
+Also you probably have to revise *report-dir* value according to this change.
 
 ## Run via Selenium webdriver
 1. Add script to `scripts` section in your `package.json` file:
