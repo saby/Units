@@ -127,7 +127,7 @@ if (options.isolated) {
          isolatedArgs.push('--report');
       }
       if (options.config) {
-         browserArgs.push(`--config=${options.config}`);
+         isolatedArgs.push(`--config=${options.config}`);
       }
    } else {
       isolatedArgs.push(config.tests + '/**/*.test.*');
