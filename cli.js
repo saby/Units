@@ -54,7 +54,8 @@ let options = {
    browser: false,
    isolated: false,
    report: false,
-   coverage: false
+   coverage: false,
+   config: false
 };
 let restArgs = [];
 
