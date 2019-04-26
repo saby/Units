@@ -89,6 +89,9 @@ if (options.browser) {
    if (options.coverage) {
       browserArgs.push('--coverage');
    }
+   if (options.config) {
+      browserArgs.push(`--config=${options.config}`);
+   }
 
    browserArgs.push(pathToScript('./cli/browser'));
    if (options.report) {
@@ -96,6 +99,9 @@ if (options.browser) {
    }
    if (options.coverage) {
       browserArgs.push('--coverage');
+   }
+   if (options.config) {
+      browserArgs.push(`--config=${options.config}`);
    }
 
    browserArgs.push(...restArgs);
@@ -118,6 +124,9 @@ if (options.isolated) {
       isolatedArgs.push(pathToScript('./cli/isolated'));
       if (options.report) {
          isolatedArgs.push('--report');
+      }
+      if (options.config) {
+         browserArgs.push(`--config=${options.config}`);
       }
    } else {
       isolatedArgs.push(config.tests + '/**/*.test.*');
