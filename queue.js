@@ -4,15 +4,13 @@
  * Call scripts in queue (one by one)
  */
 
-let spawn = require('child_process').spawn;
-let path = require('path');
-let args = process.argv.slice(2);
-let processes = [];
-let finished = [];
-let logger = console;
-
+const spawn = require('child_process').spawn;
+const path = require('path');
+const logger = console;
 const DELAY = 10000; // Max delay between processes run
-const LOG_TAG = 'queue:';
+const LOG_TAG = '[queue]:';
+const processes = [];
+const finished = [];
 
 function finishEarly(index) {
    if (index === undefined) {
@@ -27,6 +25,7 @@ function finishEarly(index) {
 function runProcess(command, args, index) {
    return new Promise(function(resolve, reject) {
       args.unshift(command);
+      logger.log(LOG_TAG, `Running ${process.execPath} ${args}`);
       let proc = spawn(
          process.execPath,
          args
@@ -35,11 +34,11 @@ function runProcess(command, args, index) {
       processes.push(proc);
 
       proc.stdout.on('data', (data) => {
-         logger.log(LOG_TAG, data.toString());
+         logger.log(data.toString());
          resolve(proc);
       });
       proc.stderr.on('data', (data) => {
-         logger.error(LOG_TAG, data.toString());
+         logger.error(data.toString());
          reject(proc);
       });
 
@@ -76,6 +75,7 @@ function runOneByOne(scripts, scriptsArgs, index) {
 }
 
 // Scripts and arguments
+const args = process.argv.slice(2);
 let scriptsArgs = [];
 let scripts = args.filter((item) => {
    let isArgument = item.startsWith('-');
