@@ -4,11 +4,13 @@
  * Call scripts in queue (one by one)
  */
 
-let spawn = require('child_process').spawn,
-   path = require('path'),
-   args = process.argv.slice(2),
-   processes = [],
-   finished = [];
+const spawn = require('child_process').spawn;
+const path = require('path');
+const logger = console;
+const DELAY = 10000; // Max delay between processes run
+const LOG_TAG = '[queue]';
+const processes = [];
+const finished = [];
 
 function finishEarly(index) {
    if (index === undefined) {
@@ -20,7 +22,60 @@ function finishEarly(index) {
    });
 }
 
+function runProcess(command, args, index) {
+   return new Promise(function(resolve, reject) {
+      args.unshift(command);
+      logger.log(LOG_TAG, `Running: ${process.execPath} ${args.join(' ')}`);
+      let proc = spawn(
+         process.execPath,
+         args
+      );
+
+      processes.push(proc);
+
+      proc.stdout.on('data', (data) => {
+         logger.log(data.toString());
+         resolve(proc);
+      });
+      proc.stderr.on('data', (data) => {
+         logger.error(data.toString());
+         reject(proc);
+      });
+
+      proc.on('exit', (code, signal) => {
+         finished.push({
+            script: command,
+            index: index,
+            code: code,
+            signal: signal
+         });
+
+         // Finish previous
+         finishEarly(index);
+      });
+
+      setTimeout(() => {
+         resolve(proc);
+      }, DELAY);
+   });
+}
+
+function runOneByOne(scripts, scriptsArgs, index) {
+   let script = scripts[index];
+   if (!script) {
+      return;
+   }
+   let args = scriptsArgs[index] || [];
+   runProcess(path.resolve(script), args, index).then(() => {
+      runOneByOne(scripts, scriptsArgs, 1 + index);
+   }).catch((err) => {
+      logger.error(err);
+      process.exit(1);
+   });
+}
+
 // Scripts and arguments
+const args = process.argv.slice(2);
 let scriptsArgs = [];
 let scripts = args.filter((item) => {
    let isArgument = item.startsWith('-');
@@ -36,31 +91,8 @@ let scripts = args.filter((item) => {
    return !isArgument;
 });
 
-// Run children
-scripts.forEach((script, index) => {
-   script = path.resolve(script);
-   let args = scriptsArgs[index] || [];
-   args.unshift(script);
-   let proc = spawn(
-      process.execPath,
-      args,
-      {stdio: 'inherit'}
-   );
-
-   processes.push(proc);
-
-   proc.on('exit', (code, signal) => {
-      finished.push({
-         script: script,
-         index: index,
-         code: code,
-         signal: signal
-      });
-
-      // Finish previous
-      finishEarly(index);
-   });
-});
+// Run scripts one by one
+runOneByOne(scripts, scriptsArgs, 0);
 
 // Check for max exit code for each finished child
 process.on('exit', () => {
