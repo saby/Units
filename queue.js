@@ -25,7 +25,7 @@ function finishEarly(index) {
 function runProcess(command, args, index) {
    return new Promise(function(resolve, reject) {
       args.unshift(command);
-      logger.log(LOG_TAG, `Running ${process.execPath} ${args}`);
+      logger.log(LOG_TAG, `Running: ${process.execPath} ${args.join(' ')}`);
       let proc = spawn(
          process.execPath,
          args
