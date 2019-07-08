@@ -8,7 +8,7 @@ const spawn = require('child_process').spawn;
 const path = require('path');
 const logger = console;
 const DELAY = 10000; // Max delay between processes run
-const LOG_TAG = '[queue]:';
+const LOG_TAG = '[queue]';
 const processes = [];
 const finished = [];
 
