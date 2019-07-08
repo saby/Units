@@ -4,11 +4,13 @@
  * Call scripts in queue (one by one)
  */
 
-let spawn = require('child_process').spawn,
-   path = require('path'),
-   args = process.argv.slice(2),
-   processes = [],
-   finished = [];
+let spawn = require('child_process').spawn;
+let path = require('path');
+let args = process.argv.slice(2);
+let processes = [];
+let finished = [];
+
+const DELAY = 3000; // Delay between processes run
 
 function finishEarly(index) {
    if (index === undefined) {
@@ -18,6 +20,31 @@ function finishEarly(index) {
       proc.kill('SIGINT');
       proc.kill('SIGTERM');
    });
+}
+
+function runProcess(command, args, index) {
+   args.unshift(command);
+   let proc = spawn(
+      process.execPath,
+      args,
+      {stdio: 'inherit'}
+   );
+
+   processes.push(proc);
+
+   proc.on('exit', (code, signal) => {
+      finished.push({
+         script: command,
+         index: index,
+         code: code,
+         signal: signal
+      });
+
+      // Finish previous
+      finishEarly(index);
+   });
+
+   return proc;
 }
 
 // Scripts and arguments
@@ -36,30 +63,12 @@ let scripts = args.filter((item) => {
    return !isArgument;
 });
 
-// Run children
+// Run children through delay
 scripts.forEach((script, index) => {
-   script = path.resolve(script);
-   let args = scriptsArgs[index] || [];
-   args.unshift(script);
-   let proc = spawn(
-      process.execPath,
-      args,
-      {stdio: 'inherit'}
-   );
-
-   processes.push(proc);
-
-   proc.on('exit', (code, signal) => {
-      finished.push({
-         script: script,
-         index: index,
-         code: code,
-         signal: signal
-      });
-
-      // Finish previous
-      finishEarly(index);
-   });
+   setTimeout(() => {
+      let args = scriptsArgs[index] || [];
+      runProcess(path.resolve(script), args, index);
+   }, index * DELAY);
 });
 
 // Check for max exit code for each finished child
