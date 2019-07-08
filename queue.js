@@ -12,6 +12,7 @@ let finished = [];
 let logger = console;
 
 const DELAY = 10000; // Max delay between processes run
+const LOG_TAG = 'queue:';
 
 function finishEarly(index) {
    if (index === undefined) {
@@ -28,16 +29,17 @@ function runProcess(command, args, index) {
       args.unshift(command);
       let proc = spawn(
          process.execPath,
-         args,
-         {stdio: 'inherit'}
+         args
       );
 
       processes.push(proc);
 
-      proc.stdout.on('data', () => {
+      proc.stdout.on('data', (data) => {
+         logger.log(LOG_TAG, data.toString());
          resolve(proc);
       });
-      proc.stderr.on('data', () => {
+      proc.stderr.on('data', (data) => {
+         logger.error(LOG_TAG, data.toString());
          reject(proc);
       });
 
