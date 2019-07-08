@@ -9,6 +9,7 @@ let path = require('path');
 let args = process.argv.slice(2);
 let processes = [];
 let finished = [];
+let logger = console;
 
 const DELAY = 10000; // Max delay between processes run
 
@@ -66,6 +67,9 @@ function runOneByOne(scripts, scriptsArgs, index) {
    let args = scriptsArgs[index] || [];
    runProcess(path.resolve(script), args, index).then(() => {
       runOneByOne(scripts, scriptsArgs, 1 + index);
+   }).catch((err) => {
+      logger.error(err);
+      process.exit(1);
    });
 }
 
