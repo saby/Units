@@ -50,7 +50,6 @@ exports.run = function(port, config) {
    };
 
 
-   const CDN_PATH = path.join(config.root, config.ws, 'lib/Ext');
    let app = connect()
       .use(serveStatic(__dirname, staticConfig))
       .use(handlers.staticFiles(config, staticConfig))

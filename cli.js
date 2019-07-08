@@ -15,6 +15,7 @@ const util = require('./lib/util');
 const config = util.getConfig();
 const isAmd = config.moduleType === 'amd';
 const logger = console;
+const LOG_TAG = '[cli]';
 
 function runProcess(args) {
    let result,
@@ -22,7 +23,7 @@ function runProcess(args) {
 
    result = new Promise((resolve, reject) => {
       try {
-         logger.log('Running:', args.join(' '));
+         logger.log(LOG_TAG, `Running: ${args.join(' ')}`);
          proc = spawn(
             process.execPath,
             args,
