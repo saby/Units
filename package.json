@@ -46,6 +46,8 @@
       "node": ">=8.0"
    },
    "dependencies": {
+      "@types/chai": "^4.1.7",
+      "@types/mocha": "^5.2.7",
       "chai": "4.1.x",
       "connect": "3.6.x",
       "mime": "^2.4.0",
