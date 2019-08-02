@@ -15,7 +15,7 @@ const logger = console;
  * @param {Config} config Config
  * @param {String} [config.moduleType='esm'] Testing module type: 'esm' - ECMAScript Module, 'amd' - Asynchronous Module Definition
  * @param {String} [config.root=''] Path to the project root
- * @param {String} [config.tests] Path to tests folder (relative to config.root)
+ * @param {Array} [config.tests] Path to tests folder (relative to config.root)
  * @param {String} [config.initializer] Path to initialzation script that calls before testing start (for example, 'init.js')
  * @param {String} [config.coverageCommand] Command that runs coverage HTML report building (for example, 'node node_modules/saby-units/cover test-isolated')
  * @param {String} [config.coverageReport] Coverage HTML report target path (например, '/artifacts/coverage/lcov-report/index.html')
@@ -26,7 +26,7 @@ exports.run = function(port, config) {
    config.root = config.root || '';
    config.ws = config.ws || WS_CORE_PATH;
    config.cdn = config.cdn || '/cdn';
-   config.tests = config.tests || '';
+   config.tests = config.tests || [];
    config.coverage = config.coverage || false;
    config.coverageCommand = config.coverageCommand || '';
    config.coverageReport = config.coverageReport || '';
