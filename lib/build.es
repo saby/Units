@@ -37,7 +37,7 @@ function buildTestModule(testsList) {
    fs.writeFileSync(TEST_MODULE_FILENAME, testingCode);
 }
 
-let testsList = unitTest.getList(path.join(projectRootPath, config.tests));
+let testsList = unitTest.getList(projectRootPath, config.tests);
 buildTestModule(testsList);
 
 export TEST_MODULE_FILENAME;

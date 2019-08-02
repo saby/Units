@@ -71,7 +71,7 @@ function testEsmModules(testsList) {
  */
 export default function run(config) {
    let projectRootPath = config.root || '';
-   let testsList = unitTest.getList(path.join(projectRootPath, config.tests));
+   let testsList = unitTest.getList(projectRootPath, config.tests);
    let hasErrors;
 
    hasErrors = testEsmModules(testsList);

@@ -131,7 +131,7 @@ if (options.isolated) {
          isolatedArgs.push(`--config=${options.config}`);
       }
    } else {
-      isolatedArgs.push(config.tests + '/**/*.test.*');
+      isolatedArgs.push(config.tests instanceof Array ? config.tests[0] : config.tests + '/**/*.test.*');
    }
 
    isolatedArgs.push(...restArgs);
