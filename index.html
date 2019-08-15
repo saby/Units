@@ -1,32 +1,38 @@
 <html>
-    <head>
-        <title>Unit testing</title>
-        <meta charset="utf-8"/>
-        <style type="text/css">
-            #report,
-            #coverageReport {
-                min-height: 500px;
-                width: 100%;
-            }
-            #exception {
-                border: 1px solid red;
-                margin: 1em;
-                padding: 1em;
-            }
-        </style>
-    </head>
-    <body>
-        <!-- Load Mocha, Chai, Sinon -->
-        <div id="mocha"></div>
-        <link rel="stylesheet" href="node_modules/mocha/mocha.css"/>
-        <script src="node_modules/mocha/mocha.js"></script>
-        <script src="node_modules/chai/chai.js"></script>
-        <script src="node_modules/sinon/pkg/sinon.js"></script>
+<head>
+   <title>Unit testing</title>
+   <meta charset="utf-8"/>
+   <style type="text/css">
+      #report,
+      #coverageReport {
+         min-height: 500px;
+         width: 100%;
+      }
 
-        <!-- Load and run testing -->
-        <script src="~setup.js"></script>
-        <script id="testing-init">
-           testing.run();
-        </script>
-    </body>
+      #exception {
+         border: 1px solid red;
+         margin: 1em;
+         padding: 1em;
+      }
+   </style>
+</head>
+<body>
+<!-- Load Mocha, Chai, Sinon -->
+<div id="mocha"></div>
+<link rel="stylesheet" href="node_modules/mocha/mocha.css"/>
+<script key="ws-config" data-vdomignore="true">
+   window.wsConfig = {
+      showAlertOnTimeoutInBrowser: false
+   };
+</script>
+<script src="node_modules/mocha/mocha.js"></script>
+<script src="node_modules/chai/chai.js"></script>
+<script src="node_modules/sinon/pkg/sinon.js"></script>
+
+<!-- Load and run testing -->
+<script src="~setup.js"></script>
+<script id="testing-init">
+   testing.run();
+</script>
+</body>
 </html>
