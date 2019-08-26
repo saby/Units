@@ -56,7 +56,8 @@ let options = {
    isolated: false,
    report: false,
    coverage: false,
-   config: false
+   config: false,
+   emulateBrowser: false
 };
 let restArgs = [];
 
@@ -124,6 +125,9 @@ if (options.isolated) {
 
    if (isAmd) {
       isolatedArgs.push(pathToScript('./cli/isolated'));
+      if (options.emulateBrowser) {
+         isolatedArgs.push('--emulateBrowser');
+      }
       if (options.report) {
          isolatedArgs.push('--report');
       }

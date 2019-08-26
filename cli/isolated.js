@@ -8,11 +8,17 @@ if (process.argv.indexOf('--report') > -1) {
    report = process.env['test_report'] || config.report;
 }
 
+let emulateBrowser = false;
+if (process.argv.indexOf('--emulateBrowser') > -1) {
+   emulateBrowser = true;
+}
+
 app.run({
    moduleType: config.moduleType,
    root: config.root,
    tests: config.tests,
    dependencies: config.dependencies,
    patchedRequire: config.patchedRequire,
-   reportFile: report
+   reportFile: report,
+   emulateBrowser: emulateBrowser
 });
