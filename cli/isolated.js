@@ -7,6 +7,9 @@ let report = '';
 if (process.argv.indexOf('--report') > -1) {
    report = process.env['test_report'] || config.report;
 }
+if (process.argv.indexOf('--emulatorBrowser') > -1) {
+   config.emulatorBrowser = true;
+}
 
 app.run({
    moduleType: config.moduleType,
