@@ -7,8 +7,10 @@ let report = '';
 if (process.argv.indexOf('--report') > -1) {
    report = process.env['test_report'] || config.report;
 }
+
+let emulatorBrowser = false;
 if (process.argv.indexOf('--emulatorBrowser') > -1) {
-   config.emulatorBrowser = true;
+   emulatorBrowser = true;
 }
 
 app.run({
@@ -17,5 +19,6 @@ app.run({
    tests: config.tests,
    dependencies: config.dependencies,
    patchedRequire: config.patchedRequire,
-   reportFile: report
+   reportFile: report,
+   emulatorBrowser: emulatorBrowser
 });
