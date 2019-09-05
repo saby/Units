@@ -127,6 +127,7 @@ if (options.isolated) {
       isolatedArgs.push(pathToScript('./cli/isolated'));
       if (options.emulateBrowser) {
          isolatedArgs.push('--emulateBrowser');
+         isolatedArgs.push('--exit');
       }
       if (options.report) {
          isolatedArgs.push('--report');
