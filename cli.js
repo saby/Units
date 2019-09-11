@@ -186,6 +186,7 @@ function runProcesses() {
    });
 }
 
+//Install nyc if required
 if (!options.coverage || pathTo('nyc', false)) {
    runProcesses();
 } else {
