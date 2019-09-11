@@ -54,6 +54,7 @@ function pathToScript(name) {
 //Processing CLI arguments to options
 let options = {
    install: false,
+   server: false,
    browser: false,
    isolated: false,
    report: false,
@@ -82,6 +83,13 @@ let installArgs = [];
 if (options.install) {
    installArgs.push(pathToScript('./cli/install'));
    installArgs.push(...restArgs);
+}
+
+//Build server CLI arguments
+let serverArgs = [];
+if (options.server) {
+   serverArgs.push(pathToScript('./cli/server'));
+   serverArgs.push(...restArgs);
 }
 
 //Build browser CLI arguments
@@ -147,6 +155,9 @@ if (options.isolated) {
 //Runs testing child processes
 function runProcesses() {
    let processes = [];
+   if (serverArgs.length) {
+      processes.push(runProcess(serverArgs));
+   }
    if (installArgs.length) {
       processes.push(runProcess(installArgs));
    }
