@@ -16,6 +16,8 @@ const config = util.getConfig();
 const isAmd = config.moduleType === 'amd';
 const logger = console;
 const LOG_TAG = '[cli]';
+const npmScript = require('./lib/npmScript');
+const pathTo = require('./lib/util').pathTo;
 
 function runProcess(args) {
    let result,
@@ -142,42 +144,54 @@ if (options.isolated) {
    isolatedArgs.push(...restArgs);
 }
 
-//Run testing child processes
-let processes = [];
-if (installArgs.length) {
-   processes.push(runProcess(installArgs));
-}
-if (browserArgs.length) {
-   processes.push(runProcess(browserArgs));
-}
-if (isolatedArgs.length) {
-   processes.push(runProcess(isolatedArgs));
+//Runs testing child processes
+function runProcesses() {
+   let processes = [];
+   if (installArgs.length) {
+      processes.push(runProcess(installArgs));
+   }
+   if (browserArgs.length) {
+      processes.push(runProcess(browserArgs));
+   }
+   if (isolatedArgs.length) {
+      processes.push(runProcess(isolatedArgs));
+   }
+
+   //Translate exit codes
+   Promise.all(processes).then(results => {
+      let code, signal;
+      results.forEach(result => {
+         code = code || result.code;
+         signal = signal || result.signal;
+      });
+
+      process.on('exit', function() {
+         if (signal) {
+            process.kill(process.pid, signal);
+         } else {
+            process.exit(code);
+         }
+      });
+   }).catch(logger.error);
+
+   //Terminate children processes on exit
+   process.on('SIGINT', () => {
+      processes.forEach(item => {
+         if (item.process) {
+            item.process.kill('SIGINT');
+            item.process.kill('SIGTERM');
+         }
+      });
+      process.kill(process.pid, 'SIGINT');
+   });
 }
 
-//Translate exit codes
-Promise.all(processes).then(results => {
-   let code, signal;
-   results.forEach(result => {
-      code = code || result.code;
-      signal = signal || result.signal;
+if (!options.coverage || pathTo('nyc', false)) {
+   runProcesses();
+} else {
+   logger.log(LOG_TAG, 'Installing nyc');
+   npmScript('install-nyc').then(runProcesses).catch((err) => {
+      logger.error(LOG_TAG, err);
+      process.exit(1);
    });
-
-   process.on('exit', function() {
-      if (signal) {
-         process.kill(process.pid, signal);
-      } else {
-         process.exit(code);
-      }
-   });
-}).catch(logger.error);
-
-//Terminate children processes on exit
-process.on('SIGINT', () => {
-   processes.forEach(item => {
-      if (item.process) {
-         item.process.kill('SIGINT');
-         item.process.kill('SIGTERM');
-      }
-   });
-   process.kill(process.pid, 'SIGINT');
-});
+}
