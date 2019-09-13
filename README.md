@@ -199,7 +199,7 @@ You can only run the testing server and check tests in browser manually.
 
     ```json
       {
-         "test:app": "node node_modules/saby-units/cli/server"
+         "test:app": "saby-units --server"
       }
     ```
 
