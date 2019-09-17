@@ -56,7 +56,9 @@
       "requirejs": "2.3.x",
       "serve-static": "1.13.x",
       "sinon": "6.3.x",
-      "url": "0.11.0"
+      "url": "0.11.0",
+      "webdriverio": "5.7.2",
+      "webdriver": "5.7.2"
    },
    "devDependencies": {}
 }
