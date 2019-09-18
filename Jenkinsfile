@@ -31,7 +31,7 @@ def workspace = "/home/sbis/workspace/units_${version}/${BRANCH_NAME}"
 				echo "Время конца сборки: ${end_time}"
 				Duration duration = Duration.between(end_time, start_time);
 				diff_time = Math.abs(duration.toMillis());
-				helper.time_stages(diff_time, "${BUILD_URL}", version, "units")
+				helper.time_stages(currentBuild, diff_time, "${BUILD_URL}", version, "units")
 			}
         }
     }
