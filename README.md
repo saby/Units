@@ -132,7 +132,7 @@ You can save the report in XML format if you want to:
 ```
 
 ## Debugging in Visual Studio Code
-1. Create a new [launch configuaration](https://code.visualstudio.com/docs/editor/debugging#_launch-configurations) with [this config](./exports/launch.json).
+1. Create a new [launch configuration](https://code.visualstudio.com/docs/editor/debugging#_launch-configurations) with [this config](./exports/launch.json).
 
 ## Create coverage report under Node.js
 
