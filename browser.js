@@ -4,10 +4,12 @@
  * @param {String} [report=''] Path to report file that's will be created
  * @param {String} [coverageReport=''] Path to coverage report file
  */
-exports.run = function(url, report, coverageReport) {
+exports.run = function(url, report, coverageReport, provider, headless) {
    require('./lib/browser').run({
       url: url,
       reportFile: report,
       coverageReportFile: coverageReport,
+      provider: provider,
+      headless: headless
    });
 };

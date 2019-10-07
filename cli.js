@@ -60,7 +60,9 @@ let options = {
    report: false,
    coverage: false,
    config: false,
-   emulateBrowser: false
+   emulateBrowser: false,
+   selenium: false,
+   headless: false
 };
 let restArgs = [];
 
@@ -99,6 +101,15 @@ if (options.browser) {
       pathToScript('./queue'),
       pathToScript('./cli/server')
    );
+
+   if (options.selenium) {
+      browserArgs.push('--selenium')
+   }
+
+   if (options.headless) {
+      browserArgs.push('--headless')
+   }
+
    if (options.coverage) {
       browserArgs.push('--coverage');
    }
