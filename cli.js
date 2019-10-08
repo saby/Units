@@ -106,8 +106,8 @@ if (options.browser) {
       browserArgs.push('--selenium')
    }
 
-   if (options.headless) {
-      browserArgs.push('--headless')
+   if (!options.head) {
+      browserArgs.push('--head')
    }
 
    if (options.coverage) {

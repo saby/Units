@@ -18,9 +18,9 @@ if (process.argv.indexOf('--selenium') > -1) {
    provider = 'selenium';
 }
 
-let headless;
-if (process.argv.indexOf('--headless') > -1) {
-   headless = true;
+let head;
+if (process.argv.indexOf('--head') > -1) {
+   head = true;
 }
 
 function buildUrl(parts) {
@@ -32,5 +32,5 @@ app.run(
    report,
    coverageReport,
    provider,
-   headless
+   head
 );
