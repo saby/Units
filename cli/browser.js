@@ -28,7 +28,13 @@ function buildUrl(parts) {
 }
 
 app.run(
-  'http://localhost:1025/?reporter=XUnit',
+   buildUrl({
+      scheme: process.env['test_url_scheme'] || config.url.scheme,
+      host: process.env['test_url_host'] || config.url.host,
+      port: process.env['test_url_port'] || config.url.port,
+      path: process.env['test_url_path'] || config.url.path,
+      query: process.env['test_url_query'] || config.url.query
+   }),
    report,
    coverageReport,
    provider,
