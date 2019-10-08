@@ -106,7 +106,7 @@ if (options.browser) {
       browserArgs.push('--selenium')
    }
 
-   if (!options.head) {
+   if (options.head) {
       browserArgs.push('--head')
    }
 
