@@ -39,25 +39,26 @@
       "es": "application/javascript"
    },
    "scripts": {
-      "install-selenium": "npm install selenium-standalone@6.14.x && node node_modules/selenium-standalone/bin/selenium-standalone install",
-      "install-webdriver": "npm install webdriverio@5.7.2"
+      "install-selenium": "npm install selenium-standalone@6.14.1 && node node_modules/selenium-standalone/bin/selenium-standalone install",
+      "install-webdriver": "npm install webdriverio@5.7.2",
+      "install-nyc": "npm install nyc@12.0.2"
    },
    "engines": {
       "node": ">=8.0"
    },
    "dependencies": {
-      "@types/chai": "^4.1.7",
-      "@types/mocha": "^5.2.7",
-      "@types/sinon": "^7.0.13",
-      "chai": "4.1.x",
-      "jsdom": "^15.1.1",
-      "connect": "3.6.x",
-      "mime": "^2.4.0",
-      "mocha": "5.2.x",
-      "nyc": "12.0.x",
-      "requirejs": "2.3.x",
-      "serve-static": "1.13.x",
-      "sinon": "6.3.x",
+      "@types/chai": "4.2.0",
+      "@types/mocha": "5.2.7",
+      "@types/sinon": "7.0.13",
+      "chai": "4.2.0",
+      "connect": "3.7.0",
+      "jsdom": "15.1.1",
+      "jsdom-global": "3.0.2",
+      "mime": "2.4.4",
+      "mocha": "6.2.0",
+      "requirejs": "2.3.6",
+      "serve-static": "1.14.1",
+      "sinon": "7.4.2",
       "url": "0.11.0",
       "webdriverio": "5.7.2",
       "webdriver": "5.7.2"
