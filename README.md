@@ -1,5 +1,7 @@
 # Unit testing in WaSaby environment
 
+Just test
+
 ## Introduction
 It's based on [Mocha](https://mochajs.org/) and [Chai](http://chaijs.com/). [Sinon](http://sinonjs.org/) is also included.
 
