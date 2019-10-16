@@ -194,7 +194,7 @@ Also you probably have to revise *report-dir* value according to this change.
 
         npm run test:browser
         
-#### Headless Chrome
+#### Headed Chrome
 1. Add script to `scripts` section in your `package.json` file:
 
     ```json
