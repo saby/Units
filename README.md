@@ -180,7 +180,8 @@ If you have symbolic links in folder included for instrumentation you must mind 
    ```
 Also you probably have to revise *report-dir* value according to this change.
 
-## Run via Selenium webdriver
+## Run via chrome
+#### Headless Chrome
 1. Add script to `scripts` section in your `package.json` file:
 
     ```json
@@ -192,6 +193,32 @@ Also you probably have to revise *report-dir* value according to this change.
 1. And run it:
 
         npm run test:browser
+        
+#### Headed Chrome
+1. Add script to `scripts` section in your `package.json` file:
+
+    ```json
+      {
+         "test:chrome": "saby-units --browser --head"
+      }
+    ```
+
+1. And run it:
+
+        npm run test:chrome
+
+## Run via Selenium webdriver
+1. Add script to `scripts` section in your `package.json` file:
+
+    ```json
+      {
+         "test:selenium": "saby-units --browser --selenium"
+      }
+    ```
+
+1. And run it:
+
+        npm run test:selenium
 
 ## Run testing server only
 You can only run the testing server and check tests in browser manually.

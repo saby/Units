@@ -13,6 +13,16 @@ if (process.argv.indexOf('--coverage') > -1) {
    coverageReport = config.jsonCoverageReport;
 }
 
+let provider;
+if (process.argv.indexOf('--selenium') > -1) {
+   provider = 'selenium';
+}
+
+let head;
+if (process.argv.indexOf('--head') > -1) {
+   head = true;
+}
+
 function buildUrl(parts) {
    return parts.scheme + '://' + parts.host + ':' + parts.port + '/' + parts.path + '?' + parts.query;
 }
@@ -26,5 +36,7 @@ app.run(
       query: process.env['test_url_query'] || config.url.query
    }),
    report,
-   coverageReport
+   coverageReport,
+   provider,
+   head
 );
