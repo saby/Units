@@ -102,10 +102,6 @@ if (options.browser) {
       pathToScript('./cli/server')
    );
 
-   if (options.selenium) {
-      browserArgs.push('--selenium')
-   }
-
    if (options.head) {
       browserArgs.push('--head')
    }
@@ -118,6 +114,11 @@ if (options.browser) {
    }
 
    browserArgs.push(pathToScript('./cli/browser'));
+
+   if (options.selenium) {
+      browserArgs.push('--selenium')
+   }
+
    if (options.report) {
       browserArgs.push('--report');
    }
