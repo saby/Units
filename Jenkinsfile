@@ -7,7 +7,7 @@ def workspace = "/home/sbis/workspace/units_${version}/${BRANCH_NAME}"
     dir (workspace){
         deleteDir()
         checkout([$class: 'GitSCM',
-            branches: [[name: "rc-${version}"]],
+            branches: [[name: "19.700/feature/add-params"]],
             doGenerateSubmoduleConfigurations: false,
             extensions: [[
                 $class: 'RelativeTargetDirectory',
