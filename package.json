@@ -40,7 +40,7 @@
    },
    "scripts": {
       "install-selenium": "npm install selenium-standalone@6.14.1 && node node_modules/selenium-standalone/bin/selenium-standalone install",
-      "install-webdriver": "npm install webdriverio@5.7.2",
+      "install-webdriver": "npm install webdriverio@5.16.6",
       "install-nyc": "npm install nyc@12.0.2"
    },
    "engines": {
@@ -62,8 +62,8 @@
       "url": "0.11.0",
       "chrome-remote-interface": "0.28.0",
       "chrome-launcher": "0.11.2",
-      "webdriverio": "5.7.2",
-      "webdriver": "5.7.2"
+      "webdriverio": "5.16.6",
+      "webdriver": "5.16.6"
    },
    "devDependencies": {}
 }
