@@ -35,8 +35,6 @@ exports.run = function(port, config) {
    const mimeTypes = pckg.mimeTypes || {};
    const serverSignature = `"${pckg.description}" HTTP server v.${pckg.version} at port ${port} for "${path.resolve(config.root)}"`;
 
-   logger.log(`Starting ${serverSignature}`);
-
    let staticConfig = {
       setHeaders: function setHeaders(res, path) {
          let dotPos = path.lastIndexOf('.');
@@ -61,7 +59,9 @@ exports.run = function(port, config) {
       .use('/~test-list.json', handlers.testListJson(config))
       .use('/~coverage/', handlers.coverage(config));
 
-   let server = http.createServer(app).listen(port);
+   let server = http.createServer(app).listen(port, () => {
+      logger.log(`Starting ${serverSignature}`);
+   });
 
    let shutDown = function() {
       if (server) {
