@@ -63,8 +63,8 @@ exports.run = function(port, config) {
       logger.log(`Starting ${serverSignature}`);
    });
 
-   let shutDown = function() {
-      if (server) {
+   let shutDown = function(code) {
+      if (server && code === 0) {
          logger.log(`Stopping ${serverSignature}`);
          server.close();
       }
