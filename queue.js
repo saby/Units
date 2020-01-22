@@ -39,7 +39,6 @@ function runProcess(command, args, index) {
       });
       proc.stderr.on('data', (data) => {
          logger.error(data.toString());
-         reject(proc);
       });
 
       proc.on('exit', (code, signal) => {
@@ -52,6 +51,10 @@ function runProcess(command, args, index) {
 
          // Finish previous
          finishEarly(index);
+
+         if (code !== 0) {
+            reject(proc);
+         }
       });
 
       setTimeout(() => {
@@ -68,8 +71,7 @@ function runOneByOne(scripts, scriptsArgs, index) {
    let args = scriptsArgs[index] || [];
    runProcess(path.resolve(script), args, index).then(() => {
       runOneByOne(scripts, scriptsArgs, 1 + index);
-   }).catch((err) => {
-      logger.error(err);
+   }).catch(() => {
       process.exit(1);
    });
 }
