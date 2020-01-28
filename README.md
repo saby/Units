@@ -307,3 +307,4 @@ Publish documents
     Directory to archive: artifacts/coverage/lcov-report/
 
 The path depend on settings you set in `package.json`.
+
