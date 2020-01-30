@@ -8,17 +8,24 @@
 
 const spawn = require('child_process').spawn;
 const path = require('path');
-const pathTo = require('./lib/util').pathTo;
+const util = require('./lib/util');
+const pathTo = util.pathTo;
+const config = util.getConfig();
 const inheritedArgs = process.argv.slice(2);
 const args = [
    path.join(pathTo('nyc'), 'bin', 'nyc')
 ];
 
 const amdFlagAt = inheritedArgs.indexOf('--amd');
+
 if (amdFlagAt === -1) {
    //args.push('--require', 'babel-register', '--sourceMap', 'false', '--instrument', 'false');
 } else {
    inheritedArgs.splice(amdFlagAt, 1);
+}
+if (config.nyc) {
+   args.push(`-n=${config.nyc.include.join('|')}`);
+   args.push(`--report-dir=${config.nyc.reportDir}`);
 }
 
 args.push(path.join(pathTo('mocha'), 'bin', 'mocha'));
@@ -26,9 +33,9 @@ args.push(path.join(pathTo('mocha'), 'bin', 'mocha'));
 args.push.apply(args, inheritedArgs);
 
 const proc = spawn(
-   process.execPath,
-   args,
-   {stdio: 'inherit'}
+    process.execPath,
+    args,
+    {stdio: 'inherit'}
 );
 
 proc.on('exit', (code, signal) => {
