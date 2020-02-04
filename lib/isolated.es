@@ -11,11 +11,13 @@ import saveReport from './saveReport';
 import describe from 'mocha';
 import assert from 'chai';
 import sinon from 'sinon';
+import jsdom from 'jsdom';
 
 let global = (0, eval)('this');
 global.describe = describe;
 global.assert = assert;
 global.sinon = sinon;
+global.jsdom = jsdom;
 
 import '../../../unit-testing.es';
 
