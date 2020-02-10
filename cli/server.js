@@ -16,5 +16,5 @@ app.run(process.env['test_server_port'] || config.url.port, {
    coverage: config.coverage,
    coverageCommand: config.coverageCommand,
    coverageReport: config.htmlCoverageReport,
-   checkLeaks: config.checkLeaks
+   ignoreLeaks: config.ignoreLeaks
 });
