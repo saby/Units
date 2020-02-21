@@ -26,6 +26,7 @@ if (amdFlagAt === -1) {
 if (config.nyc) {
    args.push(`-n=${config.nyc.include.join('|')}`);
    args.push(`--report-dir=${config.nyc.reportDir}`);
+   args.push('--reporter=html');
 }
 
 args.push(path.join(pathTo('mocha'), 'bin', 'mocha'));
