@@ -26,7 +26,7 @@ if (amdFlagAt === -1) {
 if (config.nyc) {
    args.push(`-n=${config.nyc.include.join('|')}`);
    args.push(`--report-dir=${config.nyc.reportDir}`);
-   args.push('--reporter=html');
+   args.push(`--reporter=${config.nyc.report}`);
    args.push('--cache=false');
    args.push(`--cwd=${config.nyc.cwd}`);
 }
