@@ -60,8 +60,8 @@
       "serve-static": "1.14.1",
       "sinon": "7.4.2",
       "url": "0.11.0",
-      "chrome-remote-interface": "0.28.0",
-      "chrome-launcher": "0.11.2",
+      "chrome-remote-interface": "0.28.2",
+      "chrome-launcher": "0.13.2",
       "webdriverio": "5.16.6",
       "webdriver": "5.16.6"
    },
