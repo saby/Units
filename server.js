@@ -47,7 +47,6 @@ exports.run = function(port, config) {
       }
    };
 
-
    let app = connect()
       .use(serveStatic(__dirname, staticConfig))
       .use(handlers.staticFiles(config, staticConfig))
