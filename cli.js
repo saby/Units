@@ -104,7 +104,7 @@ if (options.browser) {
    );
 
    if (options.head) {
-      browserArgs.push('--head')
+      browserArgs.push('--head');
    }
 
    if (options.coverage) {
@@ -117,7 +117,7 @@ if (options.browser) {
    browserArgs.push(pathToScript('./cli/browser'));
 
    if (options.selenium) {
-      browserArgs.push('--selenium')
+      browserArgs.push('--selenium');
    }
 
    if (options.report) {
@@ -156,7 +156,7 @@ if (options.isolated) {
          isolatedArgs.push('--report');
       }
       if (options.config || options.configUnits) {
-         isolatedArgs.push(`--configUnits=${options.configUnits}`);
+         isolatedArgs.push(`--configUnits=${options.config || options.configUnits}`);
       }
    } else {
       isolatedArgs.push(config.tests instanceof Array ? config.tests[0] : config.tests + '/**/*.test.*');
