@@ -156,7 +156,7 @@ if (options.isolated) {
          isolatedArgs.push('--report');
       }
       if (options.config || options.configUnits) {
-         isolatedArgs.push(`--config=${options.configUnits}`);
+         isolatedArgs.push(`--configUnits=${options.configUnits}`);
       }
    } else {
       isolatedArgs.push(config.tests instanceof Array ? config.tests[0] : config.tests + '/**/*.test.*');
