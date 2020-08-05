@@ -60,6 +60,7 @@ let options = {
    report: false,
    coverage: false,
    config: false,
+   configUnits: false,
    emulateBrowser: false,
    selenium: false,
    headless: false
@@ -109,8 +110,8 @@ if (options.browser) {
    if (options.coverage) {
       browserArgs.push('--coverage');
    }
-   if (options.config) {
-      browserArgs.push(`--config=${options.config}`);
+   if (options.config || options.configUnits) {
+      browserArgs.push(`--configUnits=${options.config || options.configUnits}`);
    }
 
    browserArgs.push(pathToScript('./cli/browser'));
@@ -125,8 +126,8 @@ if (options.browser) {
    if (options.coverage) {
       browserArgs.push('--coverage');
    }
-   if (options.config) {
-      browserArgs.push(`--config=${options.config}`);
+   if (options.config || options.configUnits) {
+      browserArgs.push(`--configUnits=${options.config || options.configUnits}`);
    }
 
    browserArgs.push(...restArgs);
@@ -154,8 +155,8 @@ if (options.isolated) {
       if (options.report) {
          isolatedArgs.push('--report');
       }
-      if (options.config) {
-         isolatedArgs.push(`--config=${options.config}`);
+      if (options.config || options.configUnits) {
+         isolatedArgs.push(`--config=${options.configUnits}`);
       }
    } else {
       isolatedArgs.push(config.tests instanceof Array ? config.tests[0] : config.tests + '/**/*.test.*');
