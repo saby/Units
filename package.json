@@ -39,7 +39,7 @@
       "es": "application/javascript"
    },
    "scripts": {
-      "prepare": "node fix-sinon",
+      "postinstall": "node fix-sinon",
       "install-selenium": "npm install selenium-standalone@6.14.1 && node node_modules/selenium-standalone/bin/selenium-standalone install",
       "install-webdriver": "npm install webdriverio@5.16.6",
       "install-nyc": "npm install nyc@12.0.2"
