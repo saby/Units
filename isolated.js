@@ -10,7 +10,7 @@ exports.run = function(config) {
    config = config || {};
    config.moduleType = config.moduleType || 'esm';
    config.root = config.root || '';
-   config.tests = (config.tests && config.tests.length) ? config.tests : [config.resources];
+   config.tests = (config.tests && config.tests.length) ? config.tests : [config.root];
    config.reportFile = config.reportFile || '';
 
    require('./lib/isolated').run(config);
