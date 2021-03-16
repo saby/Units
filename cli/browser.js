@@ -38,5 +38,6 @@ app.run(
    report,
    coverageReport,
    provider,
-   head
+   head,
+   config.driverPort
 );
