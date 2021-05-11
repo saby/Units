@@ -53,6 +53,7 @@ function pathToScript(name) {
 
 //Processing CLI arguments to options
 let options = {
+   jest: false,
    install: false,
    server: false,
    browser: false,
@@ -80,6 +81,13 @@ process.argv.slice(2).forEach(arg => {
       restArgs.push(arg);
    }
 });
+
+//Build jest arguments
+let jestArguments = [];
+if (options.jest) {
+   jestArguments.push(pathToScript('./jest'));
+   jestArguments.push(...restArgs);
+}
 
 //Build install CLI arguments
 let installArgs = [];
@@ -168,6 +176,9 @@ if (options.isolated) {
 //Runs testing child processes
 function runProcesses() {
    let processes = [];
+   if (jestArguments.length) {
+      processes.push(runProcess(jestArguments));
+   }
    if (serverArgs.length) {
       processes.push(runProcess(serverArgs));
    }
