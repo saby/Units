@@ -5,20 +5,18 @@
  */
 
 const spawn = require('child_process').spawn;
-const { getArguments } = require('../lib/jest/command');
+const { parseArguments } = require('../lib/jest/command');
 
 const logger = console;
 const inputArguments = process.argv.slice(2);
-const jestArguments = getArguments(inputArguments);
+const jestArguments = parseArguments(inputArguments, process.env);
 
-logger.log(`[jest] Running: ${jestArguments.join(' ')}`);
+logger.log(`[jest] Running: ${jestArguments.args.join(' ')}`);
 
 const proc = spawn(
    process.execPath,
-   jestArguments,
-   {
-      stdio: 'inherit'
-   }
+   jestArguments.args,
+   jestArguments.options
 );
 
 proc.on('exit', (code, signal) => {
