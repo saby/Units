@@ -65,7 +65,8 @@
       "chrome-launcher": "0.13.4",
       "webdriverio": "5.16.6",
       "webdriver": "5.16.6",
-      "jest": "26.6.3"
+      "jest": "26.6.3",
+      "jest-junit": "12.1.0"
    },
    "devDependencies": {}
 }
