@@ -6,8 +6,10 @@ const fs = require('fs');
 const { join } = require('path');
 const logger = console;
 
-const path = join(__dirname, 'node_modules', 'jest-jasmine2', 'build', 'index.js');
-const backup = join(__dirname, 'node_modules', 'jest-jasmine2', 'build', 'index.backup.js');
+
+const root = path.dirname(require.resolve('jest-jasmine2/package.json'));
+const path = path.join(root, 'build', 'index.js');
+const backup = path.join(root, 'build', 'index.backup.js');
 const patch = join(__dirname, 'lib', 'jest', 'index.patch.js');
 
 fs.rename(path, backup, error => {
