@@ -11,15 +11,24 @@ const logger = console;
 const inputArguments = process.argv.slice(2);
 const jestArguments = parseArguments(inputArguments, process.env);
 
+
+// Максимально возможное время, которое отведено для 1 Jest-процесса.
+// Если процесс выходит за отведенное ему время, процесс принудительно завершится.
+const HARD_PROCESS_TIMEOUT = 180 * 1000;
+
 logger.log(`[jest] Running: ${jestArguments.args.join(' ')}`);
 
-const proc = spawn(
+const jestProcess = spawn(
    process.execPath,
    jestArguments.args,
    jestArguments.options
 );
 
-proc.on('exit', (code, signal) => {
+setTimeout(() => {
+   process.kill(jestProcess.pid, 'SIGKILL');
+}, HARD_PROCESS_TIMEOUT)
+
+jestProcess.on('exit', (code, signal) => {
    process.on('exit', function() {
       if (signal) {
          process.kill(process.pid, signal);
@@ -31,7 +40,7 @@ proc.on('exit', (code, signal) => {
 
 // Terminate children
 process.on('SIGINT', () => {
-   proc.kill('SIGINT');
-   proc.kill('SIGTERM');
+   jestProcess.kill('SIGINT');
+   jestProcess.kill('SIGTERM');
    process.kill(process.pid, 'SIGINT');
 });
