@@ -19,7 +19,7 @@ const HARD_PROCESS_TIMEOUT = 5 * 60 * 1000;
 
 if (jestArguments.parameters.isBrowser) {
    // Необходимо раздать статику
-   runStatics(jestArguments.parameters.port);
+   runStatics(jestArguments.parameters.port, jestArguments.parameters.root);
 }
 
 logger.log(`[jest] Running: ${jestArguments.args.join(' ')}`);
