@@ -26,13 +26,7 @@ const jestProcess = spawn(
 );
 
 jestProcess.on('exit', (code, signal) => {
-   process.on('exit', function() {
-      if (signal) {
-         process.kill(process.pid, signal);
-      } else {
-         process.exit(code);
-      }
-   });
+   process.exit(code);
 });
 
 // Terminate children
