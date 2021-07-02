@@ -82,115 +82,118 @@ process.argv.slice(2).forEach(arg => {
    }
 });
 
+//Build install CLI arguments
+let installArgs = [];
+//Build server CLI arguments
+let serverArgs = [];
+//Build browser CLI arguments
+let browserArgs = [];
+//Build isolated CLI arguments
+let isolatedArgs = [];
 //Build jest arguments
 let jestArguments = [];
+
 if (options.jest) {
    jestArguments.push(pathToScript('./cli/jest'));
    jestArguments.push(`--config=${options.config || options.configUnits}`);
    jestArguments.push(...restArgs);
-}
-
-//Build install CLI arguments
-let installArgs = [];
-if (options.install) {
-   installArgs.push(pathToScript('./cli/install'));
-   installArgs.push(...restArgs);
-}
-
-//Build server CLI arguments
-let serverArgs = [];
-if (options.server) {
-   serverArgs.push(pathToScript('./cli/server'));
-   serverArgs.push(...restArgs);
-}
-
-//Build browser CLI arguments
-let browserArgs = [];
-if (options.browser) {
-   browserArgs.push(
-      pathToScript('./queue'),
-      pathToScript('./cli/server')
-   );
-
-   if (options.head) {
-      browserArgs.push('--head');
+} else {
+   if (options.install) {
+      installArgs.push(pathToScript('./cli/install'));
+      installArgs.push(...restArgs);
    }
 
-   if (options.coverage) {
-      browserArgs.push('--coverage');
-   }
-   if (options.config || options.configUnits) {
-      browserArgs.push(`--configUnits=${options.config || options.configUnits}`);
+   if (options.server) {
+      serverArgs.push(pathToScript('./cli/server'));
+      serverArgs.push(...restArgs);
    }
 
-   browserArgs.push(pathToScript('./cli/browser'));
+   if (options.browser) {
+      browserArgs.push(
+         pathToScript('./queue'),
+         pathToScript('./cli/server')
+      );
 
-   if (options.selenium) {
-      browserArgs.push('--selenium');
-   }
-
-   if (options.report) {
-      browserArgs.push('--report');
-   }
-   if (options.coverage) {
-      browserArgs.push('--coverage');
-   }
-   if (options.config || options.configUnits) {
-      browserArgs.push(`--configUnits=${options.config || options.configUnits}`);
-   }
-
-   browserArgs.push(...restArgs);
-}
-
-//Build isolated CLI arguments
-let isolatedArgs = [];
-if (options.isolated) {
-   isolatedArgs.push(pathToScript(options.coverage ? './cover' : './mocha'));
-
-   if (config.timeout) {
-      isolatedArgs.push('-t', config.timeout);
-   }
-
-   if (options.report) {
-      isolatedArgs.push('-R', 'xunit');
-   }
-
-   if (isAmd) {
-      isolatedArgs.push(pathToScript('./cli/isolated'));
-      if (options.emulateBrowser) {
-         isolatedArgs.push('--emulateBrowser');
-         isolatedArgs.push('--exit');
+      if (options.head) {
+         browserArgs.push('--head');
       }
-      if (options.report) {
-         isolatedArgs.push('--report');
+
+      if (options.coverage) {
+         browserArgs.push('--coverage');
       }
       if (options.config || options.configUnits) {
-         isolatedArgs.push(`--configUnits=${options.config || options.configUnits}`);
+         browserArgs.push(`--configUnits=${options.config || options.configUnits}`);
       }
-   } else {
-      isolatedArgs.push(config.tests instanceof Array ? config.tests[0] : config.tests + '/**/*.test.*');
+
+      browserArgs.push(pathToScript('./cli/browser'));
+
+      if (options.selenium) {
+         browserArgs.push('--selenium');
+      }
+
+      if (options.report) {
+         browserArgs.push('--report');
+      }
+      if (options.coverage) {
+         browserArgs.push('--coverage');
+      }
+      if (options.config || options.configUnits) {
+         browserArgs.push(`--configUnits=${options.config || options.configUnits}`);
+      }
+
+      browserArgs.push(...restArgs);
    }
 
-   isolatedArgs.push(...restArgs);
+   if (options.isolated) {
+      isolatedArgs.push(pathToScript(options.coverage ? './cover' : './mocha'));
+
+      if (config.timeout) {
+         isolatedArgs.push('-t', config.timeout);
+      }
+
+      if (options.report) {
+         isolatedArgs.push('-R', 'xunit');
+      }
+
+      if (isAmd) {
+         isolatedArgs.push(pathToScript('./cli/isolated'));
+         if (options.emulateBrowser) {
+            isolatedArgs.push('--emulateBrowser');
+            isolatedArgs.push('--exit');
+         }
+         if (options.report) {
+            isolatedArgs.push('--report');
+         }
+         if (options.config || options.configUnits) {
+            isolatedArgs.push(`--configUnits=${options.config || options.configUnits}`);
+         }
+      } else {
+         isolatedArgs.push(config.tests instanceof Array ? config.tests[0] : config.tests + '/**/*.test.*');
+      }
+
+      isolatedArgs.push(...restArgs);
+   }
 }
 
 //Runs testing child processes
 function runProcesses() {
    let processes = [];
+
    if (jestArguments.length) {
       processes.push(runProcess(jestArguments));
-   }
-   if (serverArgs.length) {
-      processes.push(runProcess(serverArgs));
-   }
-   if (installArgs.length) {
-      processes.push(runProcess(installArgs));
-   }
-   if (browserArgs.length) {
-      processes.push(runProcess(browserArgs));
-   }
-   if (isolatedArgs.length) {
-      processes.push(runProcess(isolatedArgs));
+   } else {
+      if (serverArgs.length) {
+         processes.push(runProcess(serverArgs));
+      }
+      if (installArgs.length) {
+         processes.push(runProcess(installArgs));
+      }
+      if (browserArgs.length) {
+         processes.push(runProcess(browserArgs));
+      }
+      if (isolatedArgs.length) {
+         processes.push(runProcess(isolatedArgs));
+      }
    }
 
    //Translate exit codes
