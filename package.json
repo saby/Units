@@ -48,7 +48,9 @@
    "dependencies": {
       "@types/chai": "^4.1.7",
       "@types/mocha": "^5.2.7",
+      "@types/sinon": "^7.0.13",
       "chai": "4.1.x",
+      "jsdom": "^15.1.1",
       "connect": "3.6.x",
       "mime": "^2.4.0",
       "mocha": "5.2.x",
